@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ae9a6fc_84e30797",
+        "filename": "README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-12-12T01:02:42Z",
+      "side": 1,
+      "message": "There is only one extra setting in the example below.",
+      "range": {
+        "startLine": 20,
+        "startChar": 1,
+        "endLine": 20,
+        "endChar": 18
+      },
+      "revId": "7884f72909269b5dc055ddd030c27ff7da2279c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "39159f3e_c2f563a7",
+        "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/ForProjectWrapper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-12-12T01:02:42Z",
+      "side": 1,
+      "message": "Not needed if the code is adjusted for gerrit master as mentioned below.",
+      "range": {
+        "startLine": 54,
+        "startChar": 2,
+        "endLine": 54,
+        "endChar": 46
+      },
+      "revId": "7884f72909269b5dc055ddd030c27ff7da2279c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "42612d72_c17a3dc1",
+        "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/ForProjectWrapper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-12-12T01:02:42Z",
+      "side": 1,
+      "message": "The ReviewDb parameter was removed in [1].\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/207079/3/java/com/google/gerrit/server/notedb/ChangeNotes.java",
+      "range": {
+        "startLine": 124,
+        "startChar": 40,
+        "endLine": 124,
+        "endChar": 56
+      },
+      "revId": "7884f72909269b5dc055ddd030c27ff7da2279c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "53cd93aa_174b3524",
+        "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/RefsFilterPermissionBackend.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-12-12T01:02:42Z",
+      "side": 1,
+      "message": "Don\u0027t import Id directly.  Just import Account, and refer to Account.Id explicitly in the code below.",
+      "range": {
+        "startLine": 18,
+        "startChar": 41,
+        "endLine": 18,
+        "endChar": 52
+      },
+      "revId": "7884f72909269b5dc055ddd030c27ff7da2279c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0deb8138_665b7698",
+        "filename": "src/test/java/com/googlesource/gerrit/libmodule/plugins/test/GitRefsFislterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-12-12T01:02:42Z",
+      "side": 1,
+      "message": "Filter",
+      "range": {
+        "startLine": 28,
+        "startChar": 20,
+        "endLine": 28,
+        "endChar": 27
+      },
+      "revId": "7884f72909269b5dc055ddd030c27ff7da2279c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
