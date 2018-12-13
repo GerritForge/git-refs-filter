@@ -1,0 +1,153 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff717c42_a3e99d20",
+        "filename": "README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2018-12-13T09:52:03Z",
+      "side": 1,
+      "message": "\"as if it was\" ?",
+      "range": {
+        "startLine": 8,
+        "startChar": 18,
+        "endLine": 8,
+        "endChar": 27
+      },
+      "revId": "fb54e001d14495b53396da860b3b0d4b67bfe26d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "532d9b24_a8e1c1aa",
+        "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/ForProjectWrapper.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2018-12-13T09:52:03Z",
+      "side": 1,
+      "message": "We could use a Map instead of a Set to avoid scanning the Set every time at line 107.",
+      "range": {
+        "startLine": 94,
+        "startChar": 4,
+        "endLine": 94,
+        "endChar": 15
+      },
+      "revId": "fb54e001d14495b53396da860b3b0d4b67bfe26d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "09a8ff22_0824d9d4",
+        "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/ForProjectWrapper.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2018-12-13T09:52:03Z",
+      "side": 1,
+      "message": "Do we need to exclude the \"meta refs\" or they are meant to be included?",
+      "range": {
+        "startLine": 98,
+        "startChar": 8,
+        "endLine": 98,
+        "endChar": 20
+      },
+      "revId": "fb54e001d14495b53396da860b3b0d4b67bfe26d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6bac3171_7778cfcd",
+        "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/ForProjectWrapper.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2018-12-13T09:52:03Z",
+      "side": 1,
+      "message": "Might be worth adding a comment to show how changeKey looks like? And also what we are expecting in \"changeRefWithoutPatchset\"? I.e.:\n\nchangeKey: refs/changes/00/104500/1 -\u003e changeRefWithoutPatchset: refs/changes/00/104500/",
+      "revId": "fb54e001d14495b53396da860b3b0d4b67bfe26d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8646a12b_7d3905ab",
+        "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/ForProjectWrapper.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2018-12-13T09:52:03Z",
+      "side": 1,
+      "message": "Shall we handle or at least log exception different from IOException?",
+      "range": {
+        "startLine": 125,
+        "startChar": 6,
+        "endLine": 125,
+        "endChar": 27
+      },
+      "revId": "fb54e001d14495b53396da860b3b0d4b67bfe26d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f81a017e_743e6c5c",
+        "filename": "src/test/java/com/googlesource/gerrit/libmodule/plugins/test/AbstractGitDaemonTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2018-12-13T09:52:03Z",
+      "side": 1,
+      "message": "Do we always have something ?",
+      "range": {
+        "startLine": 41,
+        "startChar": 59,
+        "endLine": 41,
+        "endChar": 65
+      },
+      "revId": "fb54e001d14495b53396da860b3b0d4b67bfe26d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2eaca546_2f753b03",
+        "filename": "src/test/java/com/googlesource/gerrit/libmodule/plugins/test/GitRefsFilterTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2018-12-13T09:52:03Z",
+      "side": 1,
+      "message": "Seems like we are not testing the \"filter\" capability. Might be worthy unit testing it?",
+      "revId": "fb54e001d14495b53396da860b3b0d4b67bfe26d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
