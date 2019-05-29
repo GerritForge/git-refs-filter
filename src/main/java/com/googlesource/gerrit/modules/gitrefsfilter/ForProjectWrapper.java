@@ -23,7 +23,6 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.NameKey;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeNotes.Factory.ChangeNotesResult;
 import com.google.gerrit.server.permissions.PermissionBackend.ForProject;
@@ -51,7 +50,6 @@ public class ForProjectWrapper extends ForProject {
   private final ForProject defaultForProject;
   private final NameKey project;
   private final ChangeNotes.Factory changeNotesFactory;
-  private final Provider<ReviewDb> dbProvider;
 
   public interface Factory {
     ForProjectWrapper get(ForProject defaultForProject, Project.NameKey project);
@@ -60,13 +58,11 @@ public class ForProjectWrapper extends ForProject {
   @Inject
   public ForProjectWrapper(
       ChangeNotes.Factory changeNotesFactory,
-      Provider<ReviewDb> dbProvider,
       @Assisted ForProject defaultForProject,
       @Assisted Project.NameKey project) {
     this.defaultForProject = defaultForProject;
     this.project = project;
     this.changeNotesFactory = changeNotesFactory;
-    this.dbProvider = dbProvider;
   }
 
   @Override
@@ -131,7 +127,7 @@ public class ForProjectWrapper extends ForProject {
     Set<String> result = new HashSet<>();
     Stream<ChangeNotesResult> s;
     try {
-      s = changeNotesFactory.scan(repo, dbProvider.get(), project);
+      s = changeNotesFactory.scan(repo, project);
     } catch (IOException e) {
       logger.atSevere().withCause(e).log(
           "Cannot load changes for project %s, assuming no changes are visible", project);
