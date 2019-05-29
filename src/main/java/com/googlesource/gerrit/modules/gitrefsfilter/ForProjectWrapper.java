@@ -18,12 +18,13 @@ import static com.google.common.collect.ImmutableList.toImmutableList;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.extensions.api.GerritApi;
+import com.google.gerrit.extensions.api.access.CoreOrPluginProjectPermission;
 import com.google.gerrit.extensions.conditions.BooleanCondition;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.NameKey;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeNotes.Factory.ChangeNotesResult;
 import com.google.gerrit.server.permissions.PermissionBackend.ForProject;
@@ -32,15 +33,9 @@ import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Stream;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -51,7 +46,7 @@ public class ForProjectWrapper extends ForProject {
   private final ForProject defaultForProject;
   private final NameKey project;
   private final ChangeNotes.Factory changeNotesFactory;
-  private final Provider<ReviewDb> dbProvider;
+  private final GerritApi api;
 
   public interface Factory {
     ForProjectWrapper get(ForProject defaultForProject, Project.NameKey project);
@@ -60,13 +55,13 @@ public class ForProjectWrapper extends ForProject {
   @Inject
   public ForProjectWrapper(
       ChangeNotes.Factory changeNotesFactory,
-      Provider<ReviewDb> dbProvider,
+      GerritApi api,
       @Assisted ForProject defaultForProject,
       @Assisted Project.NameKey project) {
     this.defaultForProject = defaultForProject;
     this.project = project;
     this.changeNotesFactory = changeNotesFactory;
-    this.dbProvider = dbProvider;
+    this.api = api;
   }
 
   @Override
@@ -75,13 +70,12 @@ public class ForProjectWrapper extends ForProject {
   }
 
   @Override
-  public void check(ProjectPermission perm) throws AuthException, PermissionBackendException {
+  public void check(CoreOrPluginProjectPermission perm) throws AuthException, PermissionBackendException {
     defaultForProject.check(perm);
   }
 
   @Override
-  public Set<ProjectPermission> test(Collection<ProjectPermission> permSet)
-      throws PermissionBackendException {
+  public <T extends CoreOrPluginProjectPermission> Set<T> test(Collection<T> permSet) throws PermissionBackendException {
     return defaultForProject.test(permSet);
   }
 
@@ -118,7 +112,7 @@ public class ForProjectWrapper extends ForProject {
   }
 
   @Override
-  public BooleanCondition testCond(ProjectPermission perm) {
+  public BooleanCondition testCond(CoreOrPluginProjectPermission perm) {
     return defaultForProject.testCond(perm);
   }
 
@@ -131,7 +125,7 @@ public class ForProjectWrapper extends ForProject {
     Set<String> result = new HashSet<>();
     Stream<ChangeNotesResult> s;
     try {
-      s = changeNotesFactory.scan(repo, dbProvider.get(), project);
+      s = changeNotesFactory.scan(repo, project);
     } catch (IOException e) {
       logger.atSevere().withCause(e).log(
           "Cannot load changes for project %s, assuming no changes are visible", project);
