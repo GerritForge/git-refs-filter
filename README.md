@@ -10,6 +10,7 @@ Build this module as it was a Gerrit plugin:
 - Clone Gerrit source tree
 - Clone the git-refs-filter source tree
 - Link the ```git-refs-filter``` directory to Gerrit ```/plugins/git-refs-filter```
+- Add ```git-refs-filter``` in the ```CUSTOM_PLUGINS``` section of ```tools/bzl/plugins.bzl```
 - From Gerrit source tree run ```bazel build plugins/git-refs-filter```
 - And for running tests ```bazel test plugins/git-refs-filter:git_refs_filter_tests```
 - The ```git-refs-filter.jar``` module is generated under ```/bazel-genfiles/plugins/git-refs-filter/```
