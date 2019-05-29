@@ -41,20 +41,20 @@ public class GitRefsFilterTest extends AbstractGitDaemonTest {
   public void testUserWithFilterOutCapabilityShouldNotSeeAbandonedChangesRefs() throws Exception {
     createChangeAndAbandon();
 
-    assertThat(getRefs(cloneProjectChangesRefs(user))).hasSize(0);
+    assertThat(getRefs(cloneProjectChangesRefs(user))).isEmpty();
   }
 
   @Test
   public void testUserWithFilterOutCapabilityShouldSeeOpenChangesRefs() throws Exception {
     createChange();
 
-    assertThat(getRefs(cloneProjectChangesRefs(user))).hasSize(1);
+    assertThat(getRefs(cloneProjectChangesRefs(user))).isNotEmpty();
   }
 
   @Test
   public void testAdminUserShouldSeeAbandonedChangesRefs() throws Exception {
     createChangeAndAbandon();
 
-    assertThat(getRefs(cloneProjectChangesRefs(admin))).hasSize(1);
+    assertThat(getRefs(cloneProjectChangesRefs(admin))).isNotEmpty();
   }
 }

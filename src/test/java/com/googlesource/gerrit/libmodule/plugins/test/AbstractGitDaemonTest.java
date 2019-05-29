@@ -17,10 +17,12 @@ package com.googlesource.gerrit.libmodule.plugins.test;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.extensions.api.groups.GroupApi;
 import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.inject.Inject;
 import com.googlesource.gerrit.modules.gitrefsfilter.FilterRefsCapability;
 import java.io.IOException;
 import java.util.List;
@@ -35,23 +37,25 @@ import org.eclipse.jgit.util.FS;
 abstract class AbstractGitDaemonTest extends AbstractDaemonTest {
   private static final String REFS_CHANGES = "+refs/changes/*:refs/remotes/origin/*";
 
+  @Inject private RequestScopeOperations requestScopeOperations;
+
   protected void createChangeAndAbandon() throws Exception, RestApiException {
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.id());
     createChange();
     int changeNum = changeNumOfRef(getChangesRefsAs(admin).get(0));
     gApi.changes().id(changeNum).abandon();
   }
 
   protected void createFilteredRefsGroup() throws Exception {
-    setApiUser(admin);
+    requestScopeOperations.setApiUser(admin.id());
     String group = name("filtered-refs-group");
     GroupInput in = new GroupInput();
     in.name = group;
     GroupApi groupApi = gApi.groups().create(in);
-    groupApi.addMembers(user.username);
+    groupApi.addMembers(user.username());
 
-    setApiUser(user);
-    groupApi.removeMembers(admin.username);
+    requestScopeOperations.setApiUser(user.id());
+    groupApi.removeMembers(admin.username());
     String groupId = groupApi.detail().id;
 
     allowGlobalCapabilities(
