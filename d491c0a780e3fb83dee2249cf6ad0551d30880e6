@@ -16,6 +16,24 @@
       "revId": "d491c0a780e3fb83dee2249cf6ad0551d30880e6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2eb0ac93_ff566fe4",
+        "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/ForProjectWrapper.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1049452
+      },
+      "writtenOn": "2019-05-30T00:21:19Z",
+      "side": 1,
+      "message": "Woops, thought it was running as a commit-hook but it was failing. Fixed and updated.",
+      "parentUuid": "df5442e4_a457a045",
+      "revId": "d491c0a780e3fb83dee2249cf6ad0551d30880e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
