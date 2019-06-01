@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "326d8c8f_9af04492",
+        "filename": "src/test/java/com/googlesource/gerrit/libmodule/plugins/test/AbstractGitDaemonTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-06-01T04:59:27Z",
+      "side": 1,
+      "message": "This could just be:\n\n  .allProjectsForUpdate()",
+      "range": {
+        "startLine": 66,
+        "startChar": 8,
+        "endLine": 67,
+        "endChar": 20
+      },
+      "revId": "b6caa0968123157f83be258ab33682fd93650986",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
