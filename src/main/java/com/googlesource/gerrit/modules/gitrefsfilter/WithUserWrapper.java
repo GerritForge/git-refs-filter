@@ -14,10 +14,10 @@
 
 package com.googlesource.gerrit.modules.gitrefsfilter;
 
+import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.extensions.api.access.GlobalOrPluginPermission;
 import com.google.gerrit.extensions.conditions.BooleanCondition;
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gerrit.server.permissions.PermissionBackend.ForProject;
 import com.google.gerrit.server.permissions.PermissionBackend.WithUser;
 import com.google.gerrit.server.permissions.PermissionBackendException;
