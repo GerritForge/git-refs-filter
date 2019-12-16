@@ -20,7 +20,6 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.extensions.api.access.CoreOrPluginProjectPermission;
 import com.google.gerrit.extensions.conditions.BooleanCondition;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -47,7 +46,7 @@ public class ForProjectWrapper extends ForProject {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final ForProject defaultForProject;
-  private final NameKey project;
+  private final Project.NameKey project;
   private final ChangeNotes.Factory changeNotesFactory;
 
   public interface Factory {

@@ -14,7 +14,7 @@
 
 package com.googlesource.gerrit.modules.gitrefsfilter;
 
-import com.google.gerrit.entities.Project.NameKey;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.access.GlobalOrPluginPermission;
 import com.google.gerrit.extensions.conditions.BooleanCondition;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -46,7 +46,7 @@ public class WithUserWrapper extends WithUser {
   }
 
   @Override
-  public ForProject project(NameKey project) {
+  public ForProject project(Project.NameKey project) {
     ForProject defaultWithProject = defaultWithUser.project(project);
     if (defaultWithUser.testOrFalse(filterRefsPermission)) {
       return forProjectFactory.get(defaultWithProject, project);
