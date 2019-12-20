@@ -57,4 +57,26 @@ public class GitRefsFilterTest extends AbstractGitDaemonTest {
 
     assertThat(getRefs(cloneProjectChangesRefs(admin))).hasSize(1);
   }
+
+  @Test
+  public void testUserWithFilterOutCapabilityShouldSeeClosedChangeThatIsRecentEnough()
+      throws Exception {
+    filterOnlyClosedChangesOlderThan("1 month");
+
+    createChangeAndAbandon();
+
+    assertThat(getRefs(cloneProjectChangesRefs(user))).hasSize(1);
+  }
+
+  @Test
+  public void testUserWithFilterOutCapabilityShouldNotSeeClosedChangeThatIsNotRecentEnough()
+      throws Exception {
+
+    filterOnlyClosedChangesOlderThan("500 milliseconds");
+
+    createChangeAndAbandon();
+    Thread.sleep(500);
+
+    assertThat(getRefs(cloneProjectChangesRefs(user))).hasSize(0);
+  }
 }
