@@ -35,11 +35,13 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
 import org.eclipse.jgit.lib.Ref;
@@ -48,6 +50,7 @@ import org.eclipse.jgit.lib.Repository;
 public class ForProjectWrapper extends ForProject {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  private GitRefsFilterConfig.Factory gitRefsFilterConfigFactory;
   private final ForProject defaultForProject;
   private final NameKey project;
   private final ChangeNotes.Factory changeNotesFactory;
@@ -61,8 +64,10 @@ public class ForProjectWrapper extends ForProject {
   public ForProjectWrapper(
       ChangeNotes.Factory changeNotesFactory,
       Provider<ReviewDb> dbProvider,
+      GitRefsFilterConfig.Factory gitRefsFilterConfigFactory,
       @Assisted ForProject defaultForProject,
       @Assisted Project.NameKey project) {
+    this.gitRefsFilterConfigFactory = gitRefsFilterConfigFactory;
     this.defaultForProject = defaultForProject;
     this.project = project;
     this.changeNotesFactory = changeNotesFactory;
@@ -88,14 +93,16 @@ public class ForProjectWrapper extends ForProject {
   @Override
   public Map<String, Ref> filter(Map<String, Ref> refs, Repository repo, RefFilterOptions opts)
       throws PermissionBackendException {
+    GitRefsFilterConfig gitRefsFilterConfig = gitRefsFilterConfigFactory.create(project);
     Map<String, Ref> filteredRefs = new HashMap<>();
     Map<String, Ref> defaultFilteredRefs =
         defaultForProject.filter(refs, repo, opts); // FIXME: can we filter the closed refs here?
-    Set<String> openChangesRefs = openChangesByScan(repo);
+    Set<String> wantedChangesRefs =
+        wantedChangesByScan(repo, gitRefsFilterConfig.maybeHideClosedChangesOlderThan());
 
     for (String changeKey : defaultFilteredRefs.keySet()) {
       if (!isChangeRef(changeKey)
-          || (isOpen(openChangesRefs, changeKey) && !isChangeMetaRef(changeKey))) {
+          || (isOpen(wantedChangesRefs, changeKey) && !isChangeMetaRef(changeKey))) {
         filteredRefs.put(changeKey, defaultFilteredRefs.get(changeKey));
       }
     }
@@ -127,7 +134,7 @@ public class ForProjectWrapper extends ForProject {
     return defaultForProject.resourcePath();
   }
 
-  private Set<String> openChangesByScan(Repository repo) {
+  private Set<String> wantedChangesByScan(Repository repo, Optional<Timestamp> maybeThreshold) {
     Set<String> result = new HashSet<>();
     Stream<ChangeNotesResult> s;
     try {
@@ -140,11 +147,19 @@ public class ForProjectWrapper extends ForProject {
 
     for (ChangeNotesResult notesResult : s.collect(toImmutableList())) {
       Change change = toNotes(notesResult).getChange();
-      if (change.getStatus().isOpen()) {
+      if (change.getStatus().isOpen() || newerThanThreshold(change, maybeThreshold)) {
         result.add(change.getId().toRefPrefix());
+      } else {
+        logger.atFine().log("Skipping change %s", change.getChangeId());
       }
     }
     return result;
+  }
+
+  private Boolean newerThanThreshold(Change change, Optional<Timestamp> maybeThreshold) {
+    return maybeThreshold
+        .map(threshold -> change.getLastUpdatedOn().after(threshold))
+        .orElse(false);
   }
 
   @Nullable
