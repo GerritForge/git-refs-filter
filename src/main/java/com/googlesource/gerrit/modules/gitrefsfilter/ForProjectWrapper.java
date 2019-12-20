@@ -24,6 +24,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeNotes.Factory.ChangeNotesResult;
 import com.google.gerrit.server.permissions.PermissionBackend.ForProject;
@@ -35,6 +36,8 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
+import java.sql.Date;
+import java.time.Instant;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -44,10 +47,14 @@ import java.util.Set;
 import java.util.stream.Stream;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 
 public class ForProjectWrapper extends ForProject {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  private GitRefsFilterConfig.Factory gitRefsFilterConfigFactory;
+  private Repository repository;
   private final ForProject defaultForProject;
   private final NameKey project;
   private final ChangeNotes.Factory changeNotesFactory;
@@ -61,8 +68,13 @@ public class ForProjectWrapper extends ForProject {
   public ForProjectWrapper(
       ChangeNotes.Factory changeNotesFactory,
       Provider<ReviewDb> dbProvider,
+      GitRefsFilterConfig.Factory gitRefsFilterConfigFactory,
+      GitRepositoryManager gitManager,
       @Assisted ForProject defaultForProject,
-      @Assisted Project.NameKey project) {
+      @Assisted Project.NameKey project)
+      throws IOException {
+    this.gitRefsFilterConfigFactory = gitRefsFilterConfigFactory;
+    this.repository = gitManager.openRepository(project);
     this.defaultForProject = defaultForProject;
     this.project = project;
     this.changeNotesFactory = changeNotesFactory;
@@ -88,14 +100,16 @@ public class ForProjectWrapper extends ForProject {
   @Override
   public Map<String, Ref> filter(Map<String, Ref> refs, Repository repo, RefFilterOptions opts)
       throws PermissionBackendException {
+    GitRefsFilterConfig gitRefsFilterConfig = gitRefsFilterConfigFactory.create(project);
     Map<String, Ref> filteredRefs = new HashMap<>();
     Map<String, Ref> defaultFilteredRefs =
         defaultForProject.filter(refs, repo, opts); // FIXME: can we filter the closed refs here?
-    Set<String> openChangesRefs = openChangesByScan(repo);
+    Set<String> wantedChangesRefs =
+        wantedChangesByScan(repo, gitRefsFilterConfig.hideClosedChangesAfterSecs());
 
     for (String changeKey : defaultFilteredRefs.keySet()) {
       if (!isChangeRef(changeKey)
-          || (isOpen(openChangesRefs, changeKey) && !isChangeMetaRef(changeKey))) {
+          || (isOpen(wantedChangesRefs, changeKey) && !isChangeMetaRef(changeKey))) {
         filteredRefs.put(changeKey, defaultFilteredRefs.get(changeKey));
       }
     }
@@ -127,7 +141,7 @@ public class ForProjectWrapper extends ForProject {
     return defaultForProject.resourcePath();
   }
 
-  private Set<String> openChangesByScan(Repository repo) {
+  private Set<String> wantedChangesByScan(Repository repo, long hideClosedChangesAfterSecs) {
     Set<String> result = new HashSet<>();
     Stream<ChangeNotesResult> s;
     try {
@@ -138,13 +152,39 @@ public class ForProjectWrapper extends ForProject {
       return Collections.emptySet();
     }
 
+    java.util.Date closedChangesThreshold =
+        Date.from(Instant.now().minusSeconds(hideClosedChangesAfterSecs));
     for (ChangeNotesResult notesResult : s.collect(toImmutableList())) {
       Change change = toNotes(notesResult).getChange();
-      if (change.getStatus().isOpen()) {
+      if (change.getStatus().isOpen()
+          || (hideClosedChangesAfterSecs > 0 // short-circuit timestamp evaluation, when not needed
+              && newerThanThreshold(change, closedChangesThreshold))) {
         result.add(change.getId().toRefPrefix());
+      } else {
+        logger.atFine().log("Skipping change %s", change.getChangeId());
       }
     }
     return result;
+  }
+
+  private boolean newerThanThreshold(Change change, java.util.Date closedChangesThreshold) {
+    boolean isNewer = false;
+    try (RevWalk walk = new RevWalk(repository)) {
+      String changeRef = change.currentPatchSetId().toRefName();
+      if (changeRef == null) {
+        throw new Exception(
+            String.format(
+                "Could not find ref name for cange %s, patchset %s",
+                change.getChangeId(), change.currentPatchSetId()));
+      }
+      RevCommit revCommit = walk.parseCommit(repository.exactRef(changeRef).getObjectId());
+      isNewer = revCommit.getCommitterIdent().getWhen().after(closedChangesThreshold);
+    } catch (Exception e) {
+      logger.atSevere().withCause(e).log(
+          "Error evaluating change %s time threshold. Assuming change should not be visible",
+          change.getChangeId());
+    }
+    return isNewer;
   }
 
   @Nullable
