@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.googlesource.gerrit.modules.gitrefsfilter.FilterRefsCapability;
+import com.googlesource.gerrit.modules.gitrefsfilter.GitRefsFilterConfigFactory;
 import java.io.IOException;
 import java.util.List;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
@@ -57,6 +58,16 @@ abstract class AbstractGitDaemonTest extends AbstractDaemonTest {
     allowGlobalCapabilities(
         AccountGroup.UUID.parse(groupId),
         "gerrit-" + FilterRefsCapability.HIDE_CLOSED_CHANGES_REFS);
+  }
+
+  protected void filterOnlyClosedChangesOlderThan(String timeUnit) throws Exception {
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig()
+          .getPluginConfig(GitRefsFilterConfigFactory.PLUGIN_NAME)
+          .setString(
+              GitRefsFilterConfigFactory.HIDE_ONLY_CLOSED_CHANGES_OLDER_THAN_FIELD, timeUnit);
+      u.save();
+    }
   }
 
   protected List<Ref> getChangesRefsAs(TestAccount testAccount) throws Exception {
