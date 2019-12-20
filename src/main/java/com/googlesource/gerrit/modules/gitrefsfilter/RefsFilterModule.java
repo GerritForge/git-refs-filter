@@ -16,12 +16,12 @@ package com.googlesource.gerrit.modules.gitrefsfilter;
 
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.config.CapabilityDefinition;
+import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.inject.AbstractModule;
 import com.google.inject.Scopes;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 
-public class RefsFilterModule extends AbstractModule {
+public class RefsFilterModule extends FactoryModule {
 
   @Override
   protected void configure() {
@@ -41,5 +41,7 @@ public class RefsFilterModule extends AbstractModule {
         .annotatedWith(Exports.named(FilterRefsCapability.HIDE_CLOSED_CHANGES_REFS))
         .to(FilterRefsCapability.class)
         .in(Scopes.SINGLETON);
+
+    factory(GitRefsFilterConfig.Factory.class);
   }
 }

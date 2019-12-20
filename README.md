@@ -26,6 +26,8 @@ one extra settings to ```gerrit.config```:
 
 ## How to configure filtering
 
+### Capabilities
+
 The refsfilter module defines a new global capability called "Filter out closed changes refs".
 By default the capability isn't assigned to any user or group, thus the module installation
 has no side effects.
@@ -39,3 +41,21 @@ To enable a group of users of getting a "filtered list" of refs (e.g. CI jobs):
 a READ rule to refs/*). To enable the closed changes filtering you need to disable any global read rule
 for the group that needs refs filtering.
 
+### Configuration
+
+Optionally, it can be configured per project whether closed changes should be hidden only
+when older than a specific threshold. Be aware that this might have an impact on
+performance as the commit date will need to be extracted from the latest patch-set, for every change.
+
+The project must have the following entry in its `project.config` file in
+the `refs/meta/config` branch:
+
+```
+  [plugin "@PLUGIN@"]
+    hideClosedChangesAfter = 2 months
+```
+
+By default `0`, hide all closed changes.
+
+This configuration is inherited as per project hierarchy: for example, if you set the value
+in `All-Projects`, then it will be applied to all child projects.
