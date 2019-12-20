@@ -24,6 +24,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeNotes.Factory.ChangeNotesResult;
 import com.google.gerrit.server.permissions.PermissionBackend.ForProject;
@@ -48,6 +49,7 @@ import org.eclipse.jgit.lib.Repository;
 public class ForProjectWrapper extends ForProject {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  private GitRefsFilterConfig gitRefsFilterConfig;
   private final ForProject defaultForProject;
   private final NameKey project;
   private final ChangeNotes.Factory changeNotesFactory;
@@ -61,8 +63,10 @@ public class ForProjectWrapper extends ForProject {
   public ForProjectWrapper(
       ChangeNotes.Factory changeNotesFactory,
       Provider<ReviewDb> dbProvider,
+      GitRefsFilterConfig gitRefsFilterConfig,
       @Assisted ForProject defaultForProject,
       @Assisted Project.NameKey project) {
+    this.gitRefsFilterConfig = gitRefsFilterConfig;
     this.defaultForProject = defaultForProject;
     this.project = project;
     this.changeNotesFactory = changeNotesFactory;
@@ -88,6 +92,8 @@ public class ForProjectWrapper extends ForProject {
   @Override
   public Map<String, Ref> filter(Map<String, Ref> refs, Repository repo, RefFilterOptions opts)
       throws PermissionBackendException {
+    PluginConfig pluginConfigFor = gitRefsFilterConfig.getPluginConfigFor(project);
+    logger.atWarning().log("**** GOT PluginConfig ***" + pluginConfigFor.getNames());
     Map<String, Ref> filteredRefs = new HashMap<>();
     Map<String, Ref> defaultFilteredRefs =
         defaultForProject.filter(refs, repo, opts); // FIXME: can we filter the closed refs here?
