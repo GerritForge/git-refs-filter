@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b6b495de_03644f8a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2019-12-24T09:18:43Z",
+      "side": 1,
+      "message": "before",
+      "range": {
+        "startLine": 10,
+        "startChar": 56,
+        "endLine": 10,
+        "endChar": 61
+      },
+      "revId": "317889cf67cd589be383d6f7eb83ca497ffb3484",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b610fc67_6d31fc22",
+        "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/ForProjectWrapper.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2019-12-24T09:18:43Z",
+      "side": 1,
+      "message": "What is this for?",
+      "range": {
+        "startLine": 98,
+        "startChar": 4,
+        "endLine": 98,
+        "endChar": 20
+      },
+      "revId": "317889cf67cd589be383d6f7eb83ca497ffb3484",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e9534322_9b0469ec",
+        "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/ForProjectWrapper.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2019-12-24T09:18:43Z",
+      "side": 1,
+      "message": "Shall we amend this to wantedChangesRefs as well?",
+      "range": {
+        "startLine": 102,
+        "startChar": 16,
+        "endLine": 102,
+        "endChar": 31
+      },
+      "revId": "317889cf67cd589be383d6f7eb83ca497ffb3484",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "780ce45a_8b9c59bb",
+        "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/ForProjectWrapper.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2019-12-24T09:18:43Z",
+      "side": 1,
+      "message": "I am a bit confused since we are doing some filtering here and some in the \"wantedChangesByScan\". Why are we filtering in 2 places?",
+      "range": {
+        "startLine": 105,
+        "startChar": 4,
+        "endLine": 110,
+        "endChar": 5
+      },
+      "revId": "317889cf67cd589be383d6f7eb83ca497ffb3484",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3a32db7_82b140bc",
+        "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/GitRefsFilterConfigFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2019-12-24T09:18:43Z",
+      "side": 1,
+      "message": "Isn\u0027t this more an info? We are just printing out a config value",
+      "range": {
+        "startLine": 53,
+        "startChar": 12,
+        "endLine": 53,
+        "endChar": 16
+      },
+      "revId": "317889cf67cd589be383d6f7eb83ca497ffb3484",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7169846_0f31283e",
+        "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/GitRefsFilterConfigFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2019-12-24T09:18:43Z",
+      "side": 1,
+      "message": "I would put a message like: \"Configuration for project not found, using default values\" or something like that, so the user understand that it might not be an issue if you intend to use the default parameters.",
+      "range": {
+        "startLine": 63,
+        "startChar": 11,
+        "endLine": 63,
+        "endChar": 78
+      },
+      "revId": "317889cf67cd589be383d6f7eb83ca497ffb3484",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
