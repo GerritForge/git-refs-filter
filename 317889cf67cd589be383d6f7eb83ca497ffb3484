@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "bb8ec8f9_3591d8dc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2019-12-27T18:56:41Z",
+      "side": 1,
+      "message": "I think \u0027after\u0027 is the right term here.\nChanges *after* the threshold will still be exposed during ref-advertisement.\nChanges *before* the threshold will be hidden.\n\nIs this not clear enough? Do you want me to re-word it?",
+      "parentUuid": "b6b495de_03644f8a",
+      "range": {
+        "startLine": 10,
+        "startChar": 56,
+        "endLine": 10,
+        "endChar": 61
+      },
+      "revId": "317889cf67cd589be383d6f7eb83ca497ffb3484",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b610fc67_6d31fc22",
         "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/ForProjectWrapper.java",
         "patchSetId": 3
@@ -45,6 +69,30 @@
       "revId": "317889cf67cd589be383d6f7eb83ca497ffb3484",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ee43b0c_073a2289",
+        "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/ForProjectWrapper.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2019-12-27T18:56:41Z",
+      "side": 1,
+      "message": "Ack\nWell spotted, I had removed this, but I forgot to push the amended commit.",
+      "parentUuid": "b610fc67_6d31fc22",
+      "range": {
+        "startLine": 98,
+        "startChar": 4,
+        "endLine": 98,
+        "endChar": 20
+      },
+      "revId": "317889cf67cd589be383d6f7eb83ca497ffb3484",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "d8dff7df_646f8160",
+        "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/ForProjectWrapper.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2019-12-27T18:56:41Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "e9534322_9b0469ec",
+      "range": {
+        "startLine": 102,
+        "startChar": 16,
+        "endLine": 102,
+        "endChar": 31
+      },
+      "revId": "317889cf67cd589be383d6f7eb83ca497ffb3484",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "780ce45a_8b9c59bb",
         "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/ForProjectWrapper.java",
         "patchSetId": 3
@@ -82,6 +154,30 @@
       "writtenOn": "2019-12-24T09:18:43Z",
       "side": 1,
       "message": "I am a bit confused since we are doing some filtering here and some in the \"wantedChangesByScan\". Why are we filtering in 2 places?",
+      "range": {
+        "startLine": 105,
+        "startChar": 4,
+        "endLine": 110,
+        "endChar": 5
+      },
+      "revId": "317889cf67cd589be383d6f7eb83ca497ffb3484",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76f32298_3cb012a3",
+        "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/ForProjectWrapper.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2019-12-27T18:56:41Z",
+      "side": 1,
+      "message": "Filtering was already done in two places: the former openChangesByScan() to get only open changes and this additional filtering to  further skip metaRefs.\nNow, in order to filter changes by `lastUpdatedDate()`, we need `Change` objects, which are already available in wantedChangesByScan(), so I thought that was the best place to do the filtering.\n\nIf we wanted to do it somewhere else for some reason, we\u0027d need to re-instantiate `Change` objects, but I think in general we should try to keep the filtering as fast as possible in order to justify the existence of this plugin: if filtering would take a sizeable amount of time, then perhaps clones might be faster by just exposing everything, if that makes sense.\n\nWDYT?",
+      "parentUuid": "780ce45a_8b9c59bb",
       "range": {
         "startLine": 105,
         "startChar": 4,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "6771a2d9_10c37d22",
+        "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/GitRefsFilterConfigFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2019-12-27T18:56:41Z",
+      "side": 1,
+      "message": "The configuration per project will be read only once, so I think having warn over info, allows better visibility in the error log (it is not going to spam the logs).\n\nI think this information is quite critical to have (to understand why some refs are not exposed) so I\u0027d like it to be printed reliably, not just if the loglevel is set to INFO.\n\nWDYT?",
+      "parentUuid": "c3a32db7_82b140bc",
+      "range": {
+        "startLine": 53,
+        "startChar": 12,
+        "endLine": 53,
+        "endChar": 16
+      },
+      "revId": "317889cf67cd589be383d6f7eb83ca497ffb3484",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b7169846_0f31283e",
         "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/GitRefsFilterConfigFactory.java",
         "patchSetId": 3
@@ -128,6 +248,30 @@
       "writtenOn": "2019-12-24T09:18:43Z",
       "side": 1,
       "message": "I would put a message like: \"Configuration for project not found, using default values\" or something like that, so the user understand that it might not be an issue if you intend to use the default parameters.",
+      "range": {
+        "startLine": 63,
+        "startChar": 11,
+        "endLine": 63,
+        "endChar": 78
+      },
+      "revId": "317889cf67cd589be383d6f7eb83ca497ffb3484",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "620808cf_89ed36e0",
+        "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/GitRefsFilterConfigFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2019-12-27T18:56:41Z",
+      "side": 1,
+      "message": "NoSuchProjectException will be raised when Project.NameKey passed in as argument points to a project that actually does not exist. It is an actual problem, it\u0027s not just about the defaults.\n\nIt should never happen, but we need to handle the exception.",
+      "parentUuid": "b7169846_0f31283e",
       "range": {
         "startLine": 63,
         "startChar": 11,
