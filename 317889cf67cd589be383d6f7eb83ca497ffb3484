@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "0aa6fd2e_cac9e989",
+        "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/ForProjectWrapper.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2019-12-27T19:02:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3ee43b0c_073a2289",
+      "range": {
+        "startLine": 98,
+        "startChar": 4,
+        "endLine": 98,
+        "endChar": 20
+      },
+      "revId": "317889cf67cd589be383d6f7eb83ca497ffb3484",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e9534322_9b0469ec",
         "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/ForProjectWrapper.java",
         "patchSetId": 3
@@ -131,6 +155,30 @@
       "side": 1,
       "message": "Ack",
       "parentUuid": "e9534322_9b0469ec",
+      "range": {
+        "startLine": 102,
+        "startChar": 16,
+        "endLine": 102,
+        "endChar": 31
+      },
+      "revId": "317889cf67cd589be383d6f7eb83ca497ffb3484",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "af6fb3d5_e28f4c2f",
+        "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/ForProjectWrapper.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2019-12-27T19:02:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d8dff7df_646f8160",
       "range": {
         "startLine": 102,
         "startChar": 16,
