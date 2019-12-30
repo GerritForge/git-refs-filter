@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "c14b4706_75fb6918",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2019-12-30T13:36:31Z",
+      "side": 1,
+      "message": "Sorry I am a bit confused :/\n\nThe parameter we are setting is: hide-only-closed-changes-older-than.\n\nIn my mind:\n- Before the threshold: X \u003e \"now - hide-only-closed-changes-older-than\" AND X \u003c\u003d \"now\"\n- After the threshold: X \u003c \"now - hide-only-closed-changes-older-than\"\n\nAm I misunderstanding something? 😕",
+      "parentUuid": "bb8ec8f9_3591d8dc",
+      "range": {
+        "startLine": 10,
+        "startChar": 56,
+        "endLine": 10,
+        "endChar": 61
+      },
+      "revId": "317889cf67cd589be383d6f7eb83ca497ffb3484",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b610fc67_6d31fc22",
         "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/ForProjectWrapper.java",
         "patchSetId": 3
@@ -238,6 +262,30 @@
     },
     {
       "key": {
+        "uuid": "28aeb423_3c27de4d",
+        "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/ForProjectWrapper.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2019-12-30T13:36:31Z",
+      "side": 1,
+      "message": "Makes sense. I still think we should centralise it somewhere (maybe in the wantedChangesByScan since as you said we already have the Change objects), but we can address it in a follow up change.",
+      "parentUuid": "76f32298_3cb012a3",
+      "range": {
+        "startLine": 105,
+        "startChar": 4,
+        "endLine": 110,
+        "endChar": 5
+      },
+      "revId": "317889cf67cd589be383d6f7eb83ca497ffb3484",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c3a32db7_82b140bc",
         "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/GitRefsFilterConfigFactory.java",
         "patchSetId": 3
@@ -285,6 +333,30 @@
     },
     {
       "key": {
+        "uuid": "bf700c1a_7456dc2d",
+        "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/GitRefsFilterConfigFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2019-12-30T13:36:31Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "6771a2d9_10c37d22",
+      "range": {
+        "startLine": 53,
+        "startChar": 12,
+        "endLine": 53,
+        "endChar": 16
+      },
+      "revId": "317889cf67cd589be383d6f7eb83ca497ffb3484",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b7169846_0f31283e",
         "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/GitRefsFilterConfigFactory.java",
         "patchSetId": 3
@@ -320,6 +392,30 @@
       "side": 1,
       "message": "NoSuchProjectException will be raised when Project.NameKey passed in as argument points to a project that actually does not exist. It is an actual problem, it\u0027s not just about the defaults.\n\nIt should never happen, but we need to handle the exception.",
       "parentUuid": "b7169846_0f31283e",
+      "range": {
+        "startLine": 63,
+        "startChar": 11,
+        "endLine": 63,
+        "endChar": 78
+      },
+      "revId": "317889cf67cd589be383d6f7eb83ca497ffb3484",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0cb00ee6_52269fe6",
+        "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/GitRefsFilterConfigFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2019-12-30T13:36:31Z",
+      "side": 1,
+      "message": "What is the expected behaviour in the unlucky case we end up here?\nDon\u0027t load the plugin at all or load the plugin?\n\nIf it is the latter I think we should make clear there was a problem in reading the configuration and the plugin might not behave as we wanted when we set it up.",
+      "parentUuid": "620808cf_89ed36e0",
       "range": {
         "startLine": 63,
         "startChar": 11,
