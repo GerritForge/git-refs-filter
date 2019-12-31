@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "b884b1b8_f451f9a1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2019-12-31T08:26:43Z",
+      "side": 1,
+      "message": "Sorry...it totally makes sense...my bad 😒",
+      "parentUuid": "d2f15fc8_79e8c322",
+      "range": {
+        "startLine": 10,
+        "startChar": 56,
+        "endLine": 10,
+        "endChar": 61
+      },
+      "revId": "317889cf67cd589be383d6f7eb83ca497ffb3484",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b610fc67_6d31fc22",
         "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/ForProjectWrapper.java",
         "patchSetId": 3
