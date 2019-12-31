@@ -15,17 +15,20 @@
 package com.googlesource.gerrit.libmodule.plugins.test;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage.NOTE_DB;
 
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.Sandboxed;
 import com.google.inject.Module;
 import com.googlesource.gerrit.modules.gitrefsfilter.RefsFilterModule;
+import java.util.Arrays;
+import java.util.Collections;
 import org.junit.Before;
 import org.junit.Test;
 
 @NoHttpd
 @Sandboxed
-public class GitRefsFilterTest extends AbstractGitDaemonTest {
+public class GitRefsFilterNoteDBTest extends AbstractGitDaemonTest {
 
   @Override
   public Module createModule() {
@@ -34,6 +37,10 @@ public class GitRefsFilterTest extends AbstractGitDaemonTest {
 
   @Before
   public void setup() throws Exception {
+    notesMigration.setChangePrimaryStorage(NOTE_DB);
+    notesMigration.setDisableChangeReviewDb(true);
+    notesMigration.setReadChanges(true);
+    notesMigration.setWriteChanges(true);
     createFilteredRefsGroup();
   }
 
@@ -45,17 +52,20 @@ public class GitRefsFilterTest extends AbstractGitDaemonTest {
   }
 
   @Test
-  public void testUserWithFilterOutCapabilityShouldSeeOpenChangesRefs() throws Exception {
+  public void testUserWithFilterOutCapabilityShouldSeeOpenChangesRefsButNoteMetaRefs()
+      throws Exception {
     createChange();
 
-    assertThat(getRefs(cloneProjectChangesRefs(user))).hasSize(1);
+    assertThat(getRefsString(user))
+        .containsExactlyElementsIn(Collections.singletonList(CHANGE_REF));
   }
 
   @Test
   public void testAdminUserShouldSeeAbandonedChangesRefs() throws Exception {
     createChangeAndAbandon();
 
-    assertThat(getRefs(cloneProjectChangesRefs(admin))).hasSize(1);
+    assertThat(getRefsString(admin))
+        .containsExactlyElementsIn(Arrays.asList(CHANGE_REF, CHANGE_REF_META));
   }
 
   @Test
@@ -65,7 +75,8 @@ public class GitRefsFilterTest extends AbstractGitDaemonTest {
 
     createChangeAndAbandon();
 
-    assertThat(getRefs(cloneProjectChangesRefs(user))).hasSize(1);
+    assertThat(getRefsString(user))
+        .containsExactlyElementsIn(Collections.singletonList(CHANGE_REF));
   }
 
   @Test
