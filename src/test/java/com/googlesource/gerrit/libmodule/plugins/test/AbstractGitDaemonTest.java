@@ -25,6 +25,8 @@ import com.googlesource.gerrit.modules.gitrefsfilter.FilterRefsCapability;
 import com.googlesource.gerrit.modules.gitrefsfilter.GitRefsFilterConfigFactory;
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
@@ -35,6 +37,9 @@ import org.eclipse.jgit.util.FS;
 
 abstract class AbstractGitDaemonTest extends AbstractDaemonTest {
   private static final String REFS_CHANGES = "+refs/changes/*:refs/remotes/origin/*";
+
+  protected static final String CHANGE_REF = "refs/remotes/origin/01/1/1";
+  protected static final String CHANGE_REF_META = "refs/remotes/origin/01/1/meta";
 
   protected void createChangeAndAbandon() throws Exception, RestApiException {
     setApiUser(admin);
@@ -106,6 +111,10 @@ abstract class AbstractGitDaemonTest extends AbstractDaemonTest {
 
   protected List<Ref> getRefs(TestRepository<InMemoryRepository> repo) throws IOException {
     return repo.getRepository().getRefDatabase().getRefs();
+  }
+
+  protected List<String> getRefsString(TestAccount account) throws Exception {
+    return getRefs(cloneProjectChangesRefs(account)).stream().map(Ref::getName).collect(Collectors.toList());
   }
 
   protected int changeNumOfRef(Ref ref) {

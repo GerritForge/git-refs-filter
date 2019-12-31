@@ -15,6 +15,7 @@
 package com.googlesource.gerrit.libmodule.plugins.test;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage.REVIEW_DB;
 
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.Sandboxed;
@@ -23,9 +24,11 @@ import com.googlesource.gerrit.modules.gitrefsfilter.RefsFilterModule;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Collections;
+
 @NoHttpd
 @Sandboxed
-public class GitRefsFilterTest extends AbstractGitDaemonTest {
+public class GitRefsFilterReviewDBTest extends AbstractGitDaemonTest {
 
   @Override
   public Module createModule() {
@@ -34,6 +37,7 @@ public class GitRefsFilterTest extends AbstractGitDaemonTest {
 
   @Before
   public void setup() throws Exception {
+    notesMigration.setChangePrimaryStorage(REVIEW_DB);
     createFilteredRefsGroup();
   }
 
@@ -48,14 +52,14 @@ public class GitRefsFilterTest extends AbstractGitDaemonTest {
   public void testUserWithFilterOutCapabilityShouldSeeOpenChangesRefs() throws Exception {
     createChange();
 
-    assertThat(getRefs(cloneProjectChangesRefs(user))).hasSize(1);
+    assertThat(getRefsString(user)).containsExactlyElementsIn(Collections.singletonList(CHANGE_REF));
   }
 
   @Test
   public void testAdminUserShouldSeeAbandonedChangesRefs() throws Exception {
     createChangeAndAbandon();
 
-    assertThat(getRefs(cloneProjectChangesRefs(admin))).hasSize(1);
+    assertThat(getRefsString(admin)).containsExactlyElementsIn(Collections.singletonList(CHANGE_REF));
   }
 
   @Test
@@ -65,7 +69,7 @@ public class GitRefsFilterTest extends AbstractGitDaemonTest {
 
     createChangeAndAbandon();
 
-    assertThat(getRefs(cloneProjectChangesRefs(user))).hasSize(1);
+    assertThat(getRefsString(user)).containsExactlyElementsIn(Collections.singletonList(CHANGE_REF));
   }
 
   @Test
