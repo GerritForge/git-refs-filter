@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4b2a17f1_55473af9",
+        "filename": "README.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2020-01-01T20:19:05Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "130d1fec_c797e8f0",
+      "revId": "e7f43f0f19c0a3f44d86dde128f965778daed4d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b33e4fd6_73985c8b",
         "filename": "README.md",
         "patchSetId": 6
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "e7203802_98a08a26",
+        "filename": "README.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2020-01-01T20:19:05Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b33e4fd6_73985c8b",
+      "range": {
+        "startLine": 54,
+        "startChar": 4,
+        "endLine": 54,
+        "endChar": 39
+      },
+      "revId": "e7f43f0f19c0a3f44d86dde128f965778daed4d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad12127c_bf15f220",
         "filename": "README.md",
         "patchSetId": 6
@@ -56,6 +98,24 @@
       "revId": "e7f43f0f19c0a3f44d86dde128f965778daed4d8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff175dca_2e0d37bc",
+        "filename": "README.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2020-01-01T20:19:05Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ad12127c_bf15f220",
+      "revId": "e7f43f0f19c0a3f44d86dde128f965778daed4d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -82,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "39a0bc53_9db90301",
+        "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/ForProjectWrapper.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2020-01-01T20:19:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "98ad31d0_dda76c98",
+      "range": {
+        "startLine": 154,
+        "startChar": 8,
+        "endLine": 154,
+        "endChar": 26
+      },
+      "revId": "e7f43f0f19c0a3f44d86dde128f965778daed4d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a749130c_01206a59",
         "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/GitRefsFilterConfigFactory.java",
         "patchSetId": 6
@@ -102,6 +186,30 @@
       "revId": "e7f43f0f19c0a3f44d86dde128f965778daed4d8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be3b215e_9c6a1743",
+        "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/GitRefsFilterConfigFactory.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2020-01-01T20:19:05Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a749130c_01206a59",
+      "range": {
+        "startLine": 32,
+        "startChar": 13,
+        "endLine": 32,
+        "endChar": 39
+      },
+      "revId": "e7f43f0f19c0a3f44d86dde128f965778daed4d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -128,6 +236,30 @@
     },
     {
       "key": {
+        "uuid": "429e33b1_e7965173",
+        "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/GitRefsFilterConfigFactory.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2020-01-01T20:19:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7d88dace_bc4a058b",
+      "range": {
+        "startLine": 45,
+        "startChar": 22,
+        "endLine": 45,
+        "endChar": 41
+      },
+      "revId": "e7f43f0f19c0a3f44d86dde128f965778daed4d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d5edd94d_e9a3a657",
         "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/GitRefsFilterConfigFactory.java",
         "patchSetId": 6
@@ -148,6 +280,30 @@
       "revId": "e7f43f0f19c0a3f44d86dde128f965778daed4d8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "139e4765_d1796398",
+        "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/GitRefsFilterConfigFactory.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2020-01-01T20:19:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d5edd94d_e9a3a657",
+      "range": {
+        "startLine": 53,
+        "startChar": 8,
+        "endLine": 53,
+        "endChar": 16
+      },
+      "revId": "e7f43f0f19c0a3f44d86dde128f965778daed4d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
