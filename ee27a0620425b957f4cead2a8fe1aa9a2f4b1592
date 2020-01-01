@@ -1,0 +1,211 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4748dad1_595a1b10",
+        "filename": "README.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-01-01T23:41:05Z",
+      "side": 1,
+      "message": "State explicitly what is the default: zero.",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 10
+      },
+      "revId": "ee27a0620425b957f4cead2a8fe1aa9a2f4b1592",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "082dbbb8_1ff5dcbb",
+        "filename": "README.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-01-01T23:41:05Z",
+      "side": 1,
+      "message": "What about \u0027hideClosedChangesAfter\u0027?\n(similar to https://gerrit-documentation.storage.googleapis.com/Documentation/3.1.2/config-gerrit.html#changeCleanup.abandonAfter)\n\nP.S. The time should be from the ref committer date, NOT the change last updated date. This libModule works at Git protocol level and thus is not interested in changes in meta-data.",
+      "range": {
+        "startLine": 54,
+        "startChar": 4,
+        "endLine": 54,
+        "endChar": 30
+      },
+      "revId": "ee27a0620425b957f4cead2a8fe1aa9a2f4b1592",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9cd61f34_c8139434",
+        "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/ForProjectWrapper.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-01-01T23:41:05Z",
+      "side": 1,
+      "message": "Optional isn\u0027t needed here.",
+      "range": {
+        "startLine": 137,
+        "startChar": 59,
+        "endLine": 137,
+        "endChar": 67
+      },
+      "revId": "ee27a0620425b957f4cead2a8fe1aa9a2f4b1592",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b597542_8a9b5d05",
+        "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/ForProjectWrapper.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-01-01T23:41:05Z",
+      "side": 1,
+      "message": "Nope, this should instead be the commit time of the latest PS of the change.\nYou could keep on updating a closed change (e.g. adding comments) but when doing build validation it would still be the same, as you build the code and not the meta-data.",
+      "range": {
+        "startLine": 161,
+        "startChar": 33,
+        "endLine": 161,
+        "endChar": 49
+      },
+      "revId": "ee27a0620425b957f4cead2a8fe1aa9a2f4b1592",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "52459f6d_2e23a5c0",
+        "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/GitRefsFilterConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-01-01T23:41:05Z",
+      "side": 1,
+      "message": "After ?",
+      "range": {
+        "startLine": 39,
+        "startChar": 86,
+        "endLine": 39,
+        "endChar": 95
+      },
+      "revId": "ee27a0620425b957f4cead2a8fe1aa9a2f4b1592",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "474fb58a_d34ece2d",
+        "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/GitRefsFilterConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-01-01T23:41:05Z",
+      "side": 1,
+      "message": "We don\u0027t need Optional\u003c\u003e as the default is zero anyway.",
+      "range": {
+        "startLine": 48,
+        "startChar": 6,
+        "endLine": 48,
+        "endChar": 25
+      },
+      "revId": "ee27a0620425b957f4cead2a8fe1aa9a2f4b1592",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "257480ce_a33aa85d",
+        "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/GitRefsFilterConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-01-01T23:41:05Z",
+      "side": 1,
+      "message": "Not sure we need an optional here. If not set, we can just assume the default when reading the configuration, which would be zero seconds (hide immediately closed changes).",
+      "range": {
+        "startLine": 74,
+        "startChar": 17,
+        "endLine": 74,
+        "endChar": 36
+      },
+      "revId": "ee27a0620425b957f4cead2a8fe1aa9a2f4b1592",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aed10d34_6bd0dabc",
+        "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/GitRefsFilterConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-01-01T23:41:05Z",
+      "side": 1,
+      "message": "Just use Strings.nullToEmpty",
+      "range": {
+        "startLine": 76,
+        "startChar": 11,
+        "endLine": 76,
+        "endChar": 30
+      },
+      "revId": "ee27a0620425b957f4cead2a8fe1aa9a2f4b1592",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c808485f_9ba284a4",
+        "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/GitRefsFilterConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-01-01T23:41:05Z",
+      "side": 1,
+      "message": "I\u0027d decouple this calculation from the mere parsing of the configuration, otherwise every time we need to calculate this value we need to re-parse the configuration continuously (the time unit thingy)",
+      "range": {
+        "startLine": 78,
+        "startChar": 13,
+        "endLine": 78,
+        "endChar": 46
+      },
+      "revId": "ee27a0620425b957f4cead2a8fe1aa9a2f4b1592",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
