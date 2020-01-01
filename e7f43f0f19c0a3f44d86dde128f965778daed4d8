@@ -1,0 +1,153 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "130d1fec_c797e8f0",
+        "filename": "README.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-01-01T19:06:55Z",
+      "side": 1,
+      "message": "nit: wrap long line.",
+      "revId": "e7f43f0f19c0a3f44d86dde128f965778daed4d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b33e4fd6_73985c8b",
+        "filename": "README.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-01-01T19:06:55Z",
+      "side": 1,
+      "message": "The name looks way too long. Also, Gerrit doesn\u0027t use kebab-style naming but rather camel-case.",
+      "range": {
+        "startLine": 54,
+        "startChar": 4,
+        "endLine": 54,
+        "endChar": 39
+      },
+      "revId": "e7f43f0f19c0a3f44d86dde128f965778daed4d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad12127c_bf15f220",
+        "filename": "README.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-01-01T19:06:55Z",
+      "side": 1,
+      "message": "nit: wrap long line.",
+      "revId": "e7f43f0f19c0a3f44d86dde128f965778daed4d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98ad31d0_dda76c98",
+        "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/ForProjectWrapper.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-01-01T19:06:55Z",
+      "side": 1,
+      "message": "Why is this a warning? Should the Gerrit admin do something to eliminate it? Or is it a normal and expected situation?",
+      "range": {
+        "startLine": 154,
+        "startChar": 8,
+        "endLine": 154,
+        "endChar": 26
+      },
+      "revId": "e7f43f0f19c0a3f44d86dde128f965778daed4d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a749130c_01206a59",
+        "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/GitRefsFilterConfigFactory.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-01-01T19:06:55Z",
+      "side": 1,
+      "message": "This should follow the Guice factory pattern with @Assisted injection, as the rest of Gerrit does.",
+      "range": {
+        "startLine": 32,
+        "startChar": 13,
+        "endLine": 32,
+        "endChar": 39
+      },
+      "revId": "e7f43f0f19c0a3f44d86dde128f965778daed4d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d88dace_bc4a058b",
+        "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/GitRefsFilterConfigFactory.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-01-01T19:06:55Z",
+      "side": 1,
+      "message": "create(Project.NameKey projectNameKey)",
+      "range": {
+        "startLine": 45,
+        "startChar": 22,
+        "endLine": 45,
+        "endChar": 41
+      },
+      "revId": "e7f43f0f19c0a3f44d86dde128f965778daed4d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d5edd94d_e9a3a657",
+        "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/GitRefsFilterConfigFactory.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-01-01T19:06:55Z",
+      "side": 1,
+      "message": "Is this really a warning?",
+      "range": {
+        "startLine": 53,
+        "startChar": 8,
+        "endLine": 53,
+        "endChar": 16
+      },
+      "revId": "e7f43f0f19c0a3f44d86dde128f965778daed4d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
