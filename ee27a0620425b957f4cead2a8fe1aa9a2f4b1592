@@ -378,6 +378,30 @@
     },
     {
       "key": {
+        "uuid": "d1fbbe66_e043ca5b",
+        "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/GitRefsFilterConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-01-06T07:02:00Z",
+      "side": 1,
+      "message": "It can be read, but is just redundant, because you don\u0027t need Optional\u003c\u003e whilst at L77 the getTimeUnit() returns \u00270\u0027 as default.",
+      "parentUuid": "63a3a04c_870588d7",
+      "range": {
+        "startLine": 76,
+        "startChar": 11,
+        "endLine": 76,
+        "endChar": 30
+      },
+      "revId": "ee27a0620425b957f4cead2a8fe1aa9a2f4b1592",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c808485f_9ba284a4",
         "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/GitRefsFilterConfig.java",
         "patchSetId": 7
@@ -422,6 +446,30 @@
       "revId": "ee27a0620425b957f4cead2a8fe1aa9a2f4b1592",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf11558c_ff9827dd",
+        "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/GitRefsFilterConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-01-06T07:02:00Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "beaf6ced_64c86bd2",
+      "range": {
+        "startLine": 78,
+        "startChar": 13,
+        "endLine": 78,
+        "endChar": 46
+      },
+      "revId": "ee27a0620425b957f4cead2a8fe1aa9a2f4b1592",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

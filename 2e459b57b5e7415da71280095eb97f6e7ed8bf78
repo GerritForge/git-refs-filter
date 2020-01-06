@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "58f798b2_d178dc89",
+        "filename": "README.md",
+        "patchSetId": 8
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-01-06T07:02:00Z",
+      "side": 1,
+      "message": "Add a note on the performance implications, as for every change you would need to parse it\u0027s latest patch-set.",
+      "revId": "2e459b57b5e7415da71280095eb97f6e7ed8bf78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4fd976a0_dcb78daa",
+        "filename": "README.md",
+        "patchSetId": 8
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-01-06T07:02:00Z",
+      "side": 1,
+      "message": "This is redundant: with any unit, zero is still zero ;-)",
+      "range": {
+        "startLine": 57,
+        "startChar": 15,
+        "endLine": 57,
+        "endChar": 22
+      },
+      "revId": "2e459b57b5e7415da71280095eb97f6e7ed8bf78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d9fc925c_3bf6dd8e",
+        "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/ForProjectWrapper.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-01-06T07:02:00Z",
+      "side": 1,
+      "message": "I\u0027d leave a commit on the right side, saying that this is done to short-circuit the expensive evaluation of \u0027newerThanThreshold\u0027.",
+      "range": {
+        "startLine": 160,
+        "startChar": 14,
+        "endLine": 160,
+        "endChar": 44
+      },
+      "revId": "2e459b57b5e7415da71280095eb97f6e7ed8bf78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ba8279d_d0872b19",
+        "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/GitRefsFilterConfig.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-01-06T07:02:00Z",
+      "side": 1,
+      "message": "What \u0027H\u0027 stands for?",
+      "range": {
+        "startLine": 63,
+        "startChar": 29,
+        "endLine": 63,
+        "endChar": 30
+      },
+      "revId": "2e459b57b5e7415da71280095eb97f6e7ed8bf78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
