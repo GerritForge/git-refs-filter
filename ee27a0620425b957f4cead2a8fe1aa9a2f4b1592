@@ -450,6 +450,30 @@
     },
     {
       "key": {
+        "uuid": "2362a852_751d6e92",
+        "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/GitRefsFilterConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2020-01-06T16:35:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39160c0a_e3e6f48b",
+      "range": {
+        "startLine": 76,
+        "startChar": 11,
+        "endLine": 76,
+        "endChar": 30
+      },
+      "revId": "ee27a0620425b957f4cead2a8fe1aa9a2f4b1592",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c808485f_9ba284a4",
         "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/GitRefsFilterConfig.java",
         "patchSetId": 7
