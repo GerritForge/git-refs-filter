@@ -278,6 +278,30 @@
     },
     {
       "key": {
+        "uuid": "07b35b29_3719b0dd",
+        "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/GitRefsFilterConfig.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-01-21T08:36:24Z",
+      "side": 1,
+      "message": "I believe it is good to catch and log to be clear you might have a different behaviour from the one you set in your configuration file",
+      "parentUuid": "2e95f413_fba63cd1",
+      "range": {
+        "startLine": 49,
+        "startChar": 6,
+        "endLine": 55,
+        "endChar": 79
+      },
+      "revId": "1b6cb284757b733bd5d870099ec95292b1a6dc8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "39bcbc36_99b50e3f",
         "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/GitRefsFilterConfig.java",
         "patchSetId": 11
