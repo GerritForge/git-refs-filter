@@ -32,11 +32,10 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 import java.util.stream.Stream;
 import org.eclipse.jgit.lib.Ref;
@@ -81,17 +80,18 @@ public class ForProjectWrapper extends ForProject {
   }
 
   @Override
-  public Map<String, Ref> filter(Map<String, Ref> refs, Repository repo, RefFilterOptions opts)
+  public Collection<Ref> filter(Collection<Ref> refs, Repository repo, RefFilterOptions opts)
       throws PermissionBackendException {
-    Map<String, Ref> filteredRefs = new HashMap<>();
-    Map<String, Ref> defaultFilteredRefs =
+    Collection<Ref> filteredRefs = new ArrayList<>();
+    Collection<Ref> defaultFilteredRefs =
         defaultForProject.filter(refs, repo, opts); // FIXME: can we filter the closed refs here?
     Set<String> openChangesRefs = openChangesByScan(repo);
 
-    for (String changeKey : defaultFilteredRefs.keySet()) {
-      if (!isChangeRef(changeKey)
-          || (isOpen(openChangesRefs, changeKey) && !isChangeMetaRef(changeKey))) {
-        filteredRefs.put(changeKey, defaultFilteredRefs.get(changeKey));
+    for (Ref ref : defaultFilteredRefs) {
+      String refName = ref.getName();
+      if (!isChangeRef(refName)
+          || (isOpen(openChangesRefs, refName) && !isChangeMetaRef(refName))) {
+        filteredRefs.add(ref);
       }
     }
 
