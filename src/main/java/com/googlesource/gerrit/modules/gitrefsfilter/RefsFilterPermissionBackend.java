@@ -14,8 +14,8 @@
 
 package com.googlesource.gerrit.modules.gitrefsfilter;
 
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.permissions.DefaultPermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackend;
