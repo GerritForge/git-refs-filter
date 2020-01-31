@@ -14,9 +14,12 @@
 
 package com.googlesource.gerrit.libmodule.plugins.test;
 
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowCapability;
+
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.extensions.api.groups.GroupApi;
@@ -38,6 +41,7 @@ abstract class AbstractGitDaemonTest extends AbstractDaemonTest {
   private static final String REFS_CHANGES = "+refs/changes/*:refs/remotes/origin/*";
 
   @Inject private RequestScopeOperations requestScopeOperations;
+  @Inject private ProjectOperations projectOperations;
 
   protected void createChangeAndAbandon() throws Exception, RestApiException {
     requestScopeOperations.setApiUser(admin.id());
@@ -58,9 +62,13 @@ abstract class AbstractGitDaemonTest extends AbstractDaemonTest {
     groupApi.removeMembers(admin.username());
     String groupId = groupApi.detail().id;
 
-    allowGlobalCapabilities(
-        AccountGroup.UUID.parse(groupId),
-        "gerrit-" + FilterRefsCapability.HIDE_CLOSED_CHANGES_REFS);
+    projectOperations
+        .project(allProjects)
+        .forUpdate()
+        .add(
+            allowCapability("gerrit-" + FilterRefsCapability.HIDE_CLOSED_CHANGES_REFS)
+                .group(AccountGroup.UUID.parse(groupId)))
+        .update();
   }
 
   protected List<Ref> getChangesRefsAs(TestAccount testAccount) throws Exception {
