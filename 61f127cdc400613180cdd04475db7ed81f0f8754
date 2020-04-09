@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "901de992_0f7c30b9",
+        "filename": "README.md",
+        "patchSetId": 13
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-09T02:02:40Z",
+      "side": 1,
+      "message": "Note that using the commit date might have unexpected side effects.  For example there might be a change that got committed some months ago, pushed for review, and only submitted recently.",
+      "range": {
+        "startLine": 48,
+        "startChar": 19,
+        "endLine": 48,
+        "endChar": 30
+      },
+      "revId": "61f127cdc400613180cdd04475db7ed81f0f8754",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
