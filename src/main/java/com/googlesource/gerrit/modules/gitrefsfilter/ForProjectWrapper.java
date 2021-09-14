@@ -14,10 +14,7 @@
 
 package com.googlesource.gerrit.modules.gitrefsfilter;
 
-import static com.google.common.collect.ImmutableList.toImmutableList;
-
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.conditions.BooleanCondition;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Change;
@@ -25,29 +22,24 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.notedb.ChangeNotes.Factory.ChangeNotesResult;
 import com.google.gerrit.server.permissions.PermissionBackend.ForProject;
 import com.google.gerrit.server.permissions.PermissionBackend.ForRef;
 import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
-import java.io.IOException;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Stream;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 
 public class ForProjectWrapper extends ForProject {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
   private final ForProject defaultForProject;
   private final NameKey project;
   private final ChangeNotes.Factory changeNotesFactory;
@@ -91,11 +83,10 @@ public class ForProjectWrapper extends ForProject {
     Map<String, Ref> filteredRefs = new HashMap<>();
     Map<String, Ref> defaultFilteredRefs =
         defaultForProject.filter(refs, repo, opts); // FIXME: can we filter the closed refs here?
-    Set<String> openChangesRefs = openChangesByScan(repo);
 
     for (String changeKey : defaultFilteredRefs.keySet()) {
-      if (!isChangeRef(changeKey)
-          || (isOpen(openChangesRefs, changeKey) && !isChangeMetaRef(changeKey))) {
+      String refName = defaultFilteredRefs.get(changeKey).getName();
+      if (!isChangeRef(changeKey) || (isOpen(refName) && !isChangeMetaRef(changeKey))) {
         filteredRefs.put(changeKey, defaultFilteredRefs.get(changeKey));
       }
     }
@@ -111,10 +102,17 @@ public class ForProjectWrapper extends ForProject {
     return isChangeRef(changeKey) && changeKey.endsWith("/meta");
   }
 
-  private boolean isOpen(Set<String> openChangesRefs, String changeKey) {
-    // Parse changeKey as refs/changes/NN/<change num>/PP
-    String changeRefWithoutPatchset = changeKey.substring(0, changeKey.lastIndexOf('/') + 1);
-    return openChangesRefs.contains(changeRefWithoutPatchset);
+  private boolean isOpen(String refName) {
+    Change.Id changeId = Change.Id.fromRef(refName);
+    ChangeNotes changeNotes;
+    try {
+      changeNotes = changeNotesFactory.create(dbProvider.get(), project, changeId);
+    } catch (OrmException e) {
+      logger.atSevere().withCause(e).log(
+          "Cannot create change notes for change {}, project {}", changeId, project);
+      return false;
+    }
+    return changeNotes.getChange().getStatus().isOpen();
   }
 
   @Override
@@ -125,35 +123,5 @@ public class ForProjectWrapper extends ForProject {
   @Override
   public String resourcePath() {
     return defaultForProject.resourcePath();
-  }
-
-  private Set<String> openChangesByScan(Repository repo) {
-    Set<String> result = new HashSet<>();
-    Stream<ChangeNotesResult> s;
-    try {
-      s = changeNotesFactory.scan(repo, dbProvider.get(), project);
-    } catch (IOException e) {
-      logger.atSevere().withCause(e).log(
-          "Cannot load changes for project %s, assuming no changes are visible", project);
-      return Collections.emptySet();
-    }
-
-    for (ChangeNotesResult notesResult : s.collect(toImmutableList())) {
-      Change change = toNotes(notesResult).getChange();
-      if (change.getStatus().isOpen()) {
-        result.add(change.getId().toRefPrefix());
-      }
-    }
-    return result;
-  }
-
-  @Nullable
-  private ChangeNotes toNotes(ChangeNotesResult r) {
-    if (r.error().isPresent()) {
-      logger.atWarning().withCause(r.error().get()).log(
-          "Failed to load change %s in %s", r.id(), project);
-      return null;
-    }
-    return r.notes();
   }
 }
