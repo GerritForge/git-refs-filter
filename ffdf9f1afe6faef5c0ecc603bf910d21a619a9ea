@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6b05c4e_325c39ae",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-09-15T14:49:15Z",
+      "side": 1,
+      "message": "Does this mean that when git-refs-filter is used, the \"change_notes\" cache would always ending up being populated with entire history of (opened and closed) changes?\n\nI think this is acceptable, but perhaps it would be worth noting (somewhere) that this is the case and that by using this lib module, change_notes cache might end-up being populated with an unusually high number of entries.\n\nSome installations might have set hard limits in how much this cache can grow, and thus using this lib module might lead to a higher number of evictions and memory (or disk) usage.",
+      "range": {
+        "startLine": 14,
+        "startChar": 36,
+        "endLine": 15,
+        "endChar": 46
+      },
+      "revId": "ffdf9f1afe6faef5c0ecc603bf910d21a619a9ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7506358b_deaef494",
+        "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/ForProjectWrapper.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-09-15T14:49:15Z",
+      "side": 1,
+      "message": "Do you think that using parallel streams lead to worse performance in this case?\n\nThe overhead of managing different threads and results might be more expensive than doing the actual sequential work, but if the goal of this change is performance and resources, perhaps it is something that should be benchmarked and assessed (even as a follow up change).",
+      "range": {
+        "startLine": 74,
+        "startChar": 54,
+        "endLine": 74,
+        "endChar": 62
+      },
+      "revId": "ffdf9f1afe6faef5c0ecc603bf910d21a619a9ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
