@@ -14,6 +14,7 @@
 
 package com.googlesource.gerrit.modules.gitrefsfilter;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.access.CoreOrPluginProjectPermission;
@@ -24,6 +25,7 @@ import com.google.gerrit.server.permissions.PermissionBackend.ForProject;
 import com.google.gerrit.server.permissions.PermissionBackend.ForRef;
 import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.util.Collection;
@@ -33,6 +35,8 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 
 public class ForProjectWrapper extends ForProject {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private final ForProject defaultForProject;
   private final Project.NameKey project;
   private final ChangeNotes.Factory changeNotesFactory;
@@ -89,9 +93,15 @@ public class ForProjectWrapper extends ForProject {
   }
 
   private boolean isOpen(String refName) {
-    Change.Id changeId = Change.Id.fromRef(refName);
-    ChangeNotes changeNotes = changeNotesFactory.create(project, changeId);
-    return changeNotes.getChange().getStatus().isOpen();
+    try {
+      Change.Id changeId = Change.Id.fromRef(refName);
+      ChangeNotes changeNotes = changeNotesFactory.create(project, changeId);
+      return changeNotes.getChange().getStatus().isOpen();
+    } catch (NoSuchChangeException e) {
+      logger.atWarning().withCause(e).log(
+          "Ref %s refers to a non-existent change: hiding from the advertised refs", refName);
+      return false;
+    }
   }
 
   @Override
