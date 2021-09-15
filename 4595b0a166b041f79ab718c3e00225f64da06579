@@ -52,6 +52,24 @@
       "parentUuid": "be60a63a_f107704a",
       "revId": "4595b0a166b041f79ab718c3e00225f64da06579",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "512648f8_7843610e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-09-15T07:49:44Z",
+      "side": 1,
+      "message": "Ok, so this is meant to be used in replica servers ?\nDo you have numbers (statistics, performance impact) from usage under real-world workload ?\n\nWith fetch using protocol v2 the client dynamically controls which refs it\u0027s interested in using ls-refs [1].\n\nThe commit message talks about \"refs not associated to any change possibly because of corruption\". Shouldn\u0027t those be cleaned up ?\n\n[1] https://git-scm.com/docs/protocol-v2/2.23.0#_ls_refs",
+      "parentUuid": "c47de039_dc8ef80c",
+      "revId": "4595b0a166b041f79ab718c3e00225f64da06579",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
