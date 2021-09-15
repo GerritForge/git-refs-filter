@@ -34,6 +34,24 @@
       "parentUuid": "c93abb5f_90b76570",
       "revId": "4595b0a166b041f79ab718c3e00225f64da06579",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c47de039_dc8ef80c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-09-15T07:29:35Z",
+      "side": 1,
+      "message": "The /meta refs aren’t corrupted and they have no value in a mirror used for builds. Also abandoned changes or cache-automerge refs aren’t useful.\n\ncutting the number of refs advertised reduces significantly the search-for-reuse phase as well.\n\nremoving those refs isn’t a solution as you would need them anyway for having a working Gerrit server.",
+      "parentUuid": "be60a63a_f107704a",
+      "revId": "4595b0a166b041f79ab718c3e00225f64da06579",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
