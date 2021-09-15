@@ -86,7 +86,7 @@ public class ForProjectWrapper extends ForProject {
 
     for (String changeKey : defaultFilteredRefs.keySet()) {
       String refName = defaultFilteredRefs.get(changeKey).getName();
-      if (!isChangeRef(changeKey) || (isOpen(refName) && !isChangeMetaRef(changeKey))) {
+      if (!isChangeRef(changeKey) || (isOpen(repo, refName) && !isChangeMetaRef(changeKey))) {
         filteredRefs.put(changeKey, defaultFilteredRefs.get(changeKey));
       }
     }
@@ -102,11 +102,11 @@ public class ForProjectWrapper extends ForProject {
     return isChangeRef(changeKey) && changeKey.endsWith("/meta");
   }
 
-  private boolean isOpen(String refName) {
+  private boolean isOpen(Repository repo, String refName) {
     Change.Id changeId = Change.Id.fromRef(refName);
     ChangeNotes changeNotes;
     try {
-      changeNotes = changeNotesFactory.create(dbProvider.get(), project, changeId);
+      changeNotes = changeNotesFactory.create(dbProvider.get(), repo, project, changeId);
     } catch (OrmException e) {
       logger.atSevere().withCause(e).log(
           "Cannot create change notes for change {}, project {}", changeId, project);
