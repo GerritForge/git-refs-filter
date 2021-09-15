@@ -16,6 +16,24 @@
       "message": "@Matthias have you tried this libModule? It hides all closed changes and \u0027/meta\u0027 refs, reducing massively the amount of advertised refs and therefore all the associated operations.",
       "revId": "4595b0a166b041f79ab718c3e00225f64da06579",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be60a63a_f107704a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-09-15T06:55:39Z",
+      "side": 1,
+      "message": "In which scenario do you think this would be beneficial ?\nWouldn\u0027t it be better to cleanup corrupt refs ?",
+      "parentUuid": "c93abb5f_90b76570",
+      "revId": "4595b0a166b041f79ab718c3e00225f64da06579",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
