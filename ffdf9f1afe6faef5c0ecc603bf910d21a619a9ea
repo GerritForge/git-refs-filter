@@ -45,6 +45,30 @@
       },
       "revId": "ffdf9f1afe6faef5c0ecc603bf910d21a619a9ea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "40204dc0_fe5e9e24",
+        "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/ForProjectWrapper.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-09-15T21:49:32Z",
+      "side": 1,
+      "message": "Let me try with parallelStream() and come back with results :-)",
+      "parentUuid": "7506358b_deaef494",
+      "range": {
+        "startLine": 74,
+        "startChar": 54,
+        "endLine": 74,
+        "endChar": 62
+      },
+      "revId": "ffdf9f1afe6faef5c0ecc603bf910d21a619a9ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
