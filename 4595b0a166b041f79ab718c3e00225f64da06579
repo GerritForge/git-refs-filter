@@ -70,6 +70,24 @@
       "parentUuid": "c47de039_dc8ef80c",
       "revId": "4595b0a166b041f79ab718c3e00225f64da06579",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "46c694e7_2432f25e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-09-15T07:57:39Z",
+      "side": 1,
+      "message": "\u003e Ok, so this is meant to be used in replica servers ?\n\u003e Do you have numbers (statistics, performance impact) from usage under real-world workload ?\n\nI should get some comparison today, with a large mono-repo. The clone --mirrror takes around 40 mins (the replicas have a local reference repo) and I\u0027ll compare today the improvement with this change.\n\n\u003e With fetch using protocol v2 the client dynamically controls which refs it\u0027s interested in using ls-refs [1].\n\nTrue, but I believe this isn\u0027t a protocol issue but more a Git server-side issue: when the client has tens of thousands of refs to request in the WANT phase, the server needs to look for the *best choice* of packfile for each one of them, causing billions of server-side computation cycles.\n\nOther than slowing down the clone, it also overloads the server, which is bad.\n\n\u003e The commit message talks about \"refs not associated to any change possibly because of corruption\". Shouldn\u0027t those be cleaned up ?\n\nAh, gotcha. In theory, yes, but in practice things are more complicated. Even old refs sometimes they need to be preserved for legal reasons.\n\n\u003e [1] https://git-scm.com/docs/protocol-v2/2.23.0#_ls_refs",
+      "parentUuid": "512648f8_7843610e",
+      "revId": "4595b0a166b041f79ab718c3e00225f64da06579",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
