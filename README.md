@@ -35,6 +35,7 @@ Filtering a closed change refs has the following meaning:
 - Abandoned changes and all their patch-sets
 - Corrupted changes and all their patch-sets
 - All '/meta' refs of all changes
+- All non-published edits of any changes
 
 To enable a group of users of getting a "filtered list" of refs (e.g. CI jobs):
 - Define a new group of users (e.g. Builders)

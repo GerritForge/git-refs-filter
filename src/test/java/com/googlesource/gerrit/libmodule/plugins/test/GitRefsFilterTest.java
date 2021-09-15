@@ -16,10 +16,22 @@ package com.googlesource.gerrit.libmodule.plugins.test;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.Sandboxed;
+import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.entities.RefNames;
 import com.google.inject.Module;
 import com.googlesource.gerrit.modules.gitrefsfilter.RefsFilterModule;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
+import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
+import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.transport.FetchResult;
+import org.eclipse.jgit.util.FS;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -45,6 +57,19 @@ public class GitRefsFilterTest extends AbstractGitDaemonTest {
   }
 
   @Test
+  public void testUserWithFilterOutCapabilityShouldNotSeeUserEdits() throws Exception {
+    createChange();
+    int changeNum = changeNumOfRef(getChangesRefsAs(admin).get(0));
+    gApi.changes().id(changeNum).edit().create();
+
+    assertThat(
+            fetchAllRefs(user)
+                .filter((ref) -> ref.startsWith(RefNames.REFS_USERS))
+                .collect(Collectors.toSet()))
+        .isEmpty();
+  }
+
+  @Test
   public void testUserWithFilterOutCapabilityShouldSeeOpenChangesRefs() throws Exception {
     createChange();
 
@@ -56,5 +81,22 @@ public class GitRefsFilterTest extends AbstractGitDaemonTest {
     createChangeAndAbandon();
 
     assertThat(getRefs(cloneProjectChangesRefs(admin))).isNotEmpty();
+  }
+
+  protected Stream<String> fetchAllRefs(TestAccount testAccount) throws Exception {
+    DfsRepositoryDescription desc = new DfsRepositoryDescription("clone of " + project.get());
+
+    FS fs = FS.detect();
+    fs.setUserHome(null);
+
+    InMemoryRepository dest =
+        new InMemoryRepository.Builder().setRepositoryDescription(desc).setFS(fs).build();
+    Config cfg = dest.getConfig();
+    String uri = registerRepoConnection(project, testAccount);
+    cfg.setString("remote", "origin", "url", uri);
+    cfg.setString("remote", "origin", "fetch", "+refs/*:refs/remotes/origin/*");
+    TestRepository<InMemoryRepository> testRepo = GitUtil.newTestRepository(dest);
+    FetchResult result = testRepo.git().fetch().setRemote("origin").call();
+    return result.getAdvertisedRefs().stream().map(Ref::getName);
   }
 }
