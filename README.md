@@ -30,6 +30,12 @@ The refsfilter module defines a new global capability called "Filter out closed 
 By default the capability isn't assigned to any user or group, thus the module installation
 has no side effects.
 
+Filtering a closed change refs has the following meaning:
+- Merged changes and all their patch-sets
+- Abandoned changes and all their patch-sets
+- Corrupted changes and all their patch-sets
+- All '/meta' refs of all changes
+
 To enable a group of users of getting a "filtered list" of refs (e.g. CI jobs):
 - Define a new group of users (e.g. Builders)
 - Add a user to that group (e.g. Add 'jenkins' to the Builders group)
