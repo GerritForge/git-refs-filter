@@ -79,7 +79,7 @@ public class ForProjectWrapper extends ForProject {
         .filter(
             (ref) -> {
               String refName = ref.getName();
-              return (!isChangeRef(refName) || (!isChangeMetaRef(refName) && isOpen(refName)));
+              return (!isChangeRef(refName) || (!isChangeMetaRef(refName) && isOpen(repo, refName)));
             })
         .collect(Collectors.toList());
   }
@@ -92,10 +92,10 @@ public class ForProjectWrapper extends ForProject {
     return isChangeRef(changeKey) && changeKey.endsWith("/meta");
   }
 
-  private boolean isOpen(String refName) {
+  private boolean isOpen(Repository repo, String refName) {
     try {
       Change.Id changeId = Change.Id.fromRef(refName);
-      ChangeNotes changeNotes = changeNotesFactory.create(project, changeId);
+      ChangeNotes changeNotes = changeNotesFactory.create(repo, project, changeId);
       return changeNotes.getChange().getStatus().isOpen();
     } catch (NoSuchChangeException e) {
       logger.atWarning().withCause(e).log(
