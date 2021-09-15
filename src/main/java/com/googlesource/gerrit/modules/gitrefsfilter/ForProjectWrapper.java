@@ -20,6 +20,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.NameKey;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.PermissionBackend.ForProject;
@@ -86,6 +87,9 @@ public class ForProjectWrapper extends ForProject {
 
     for (String changeKey : defaultFilteredRefs.keySet()) {
       String refName = defaultFilteredRefs.get(changeKey).getName();
+      if (refName.startsWith(RefNames.REFS_USERS)) {
+        continue;
+      }
       if (!isChangeRef(changeKey) || (isOpen(repo, refName) && !isChangeMetaRef(changeKey))) {
         filteredRefs.put(changeKey, defaultFilteredRefs.get(changeKey));
       }
