@@ -87,7 +87,8 @@ public class ForProjectWrapper extends ForProject {
 
     for (String changeKey : defaultFilteredRefs.keySet()) {
       String refName = defaultFilteredRefs.get(changeKey).getName();
-      if (refName.startsWith(RefNames.REFS_USERS)) {
+      if (refName.startsWith(RefNames.REFS_USERS)
+          || refName.startsWith(RefNames.REFS_CACHE_AUTOMERGE)) {
         continue;
       }
       if (!isChangeRef(changeKey) || (isOpen(repo, refName) && !isChangeMetaRef(changeKey))) {
