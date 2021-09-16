@@ -80,6 +80,7 @@ public class ForProjectWrapper extends ForProject {
         .filter(refs, repo, opts)
         .parallelStream()
         .filter((ref) -> !ref.getName().startsWith(RefNames.REFS_USERS))
+        .filter((ref) -> !ref.getName().startsWith(RefNames.REFS_CACHE_AUTOMERGE))
         .filter(
             (ref) -> {
               String refName = ref.getName();
