@@ -90,6 +90,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "79e7762e_f2aa1fac",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-09-22T22:14:16Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "46c694e7_2432f25e",
+      "revId": "4595b0a166b041f79ab718c3e00225f64da06579",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0158fef1_5afecb12",
@@ -113,6 +131,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "17923ec9_8ad8c86c",
+        "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/ForProjectWrapper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-09-22T22:14:16Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "0158fef1_5afecb12",
+      "range": {
+        "startLine": 101,
+        "startChar": 6,
+        "endLine": 102,
+        "endChar": 94
+      },
+      "revId": "4595b0a166b041f79ab718c3e00225f64da06579",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0123c4ae_75b29327",
@@ -126,6 +168,30 @@
       "writtenOn": "2021-09-15T10:09:07Z",
       "side": 1,
       "message": "Might be worth adding a test for this? Should be easy, something like:\n\n   createChange();\n   ... push random ref to repository ...\n   assertThat(getRefs(cloneProjectChangesRefs(user))).equals(1);",
+      "range": {
+        "startLine": 96,
+        "startChar": 0,
+        "endLine": 104,
+        "endChar": 5
+      },
+      "revId": "4595b0a166b041f79ab718c3e00225f64da06579",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "635a9888_a4ce9541",
+        "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/ForProjectWrapper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-09-22T22:14:16Z",
+      "side": 1,
+      "message": "That\u0027s not as easy as it seems: Gerrit doesn\u0027t allow to push directly the change refs. If you create a valid change, it would contain its \u0027/meta\u0027 ref and you cannot remove them from a Git client.",
+      "parentUuid": "0123c4ae_75b29327",
       "range": {
         "startLine": 96,
         "startChar": 0,
