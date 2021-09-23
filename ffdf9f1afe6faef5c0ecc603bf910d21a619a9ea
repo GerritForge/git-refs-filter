@@ -72,6 +72,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aaf7572e_8dd5777c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-09-23T18:57:26Z",
+      "side": 1,
+      "message": "\u003e \u003e \u003e Does this mean that when git-refs-filter is used, the \"change_notes\" cache would always ending up being populated with entire history of (opened and closed) changes?\n\u003e \u003e \n\u003e \u003e That would happen anyway, regardless of this plugin. It is actually a good thing because the cache would be then fully populated and speedup access to change notes.\n\u003e \n\u003e What\u0027s the value of keeping un-accessed, closed changes in the cache? by definition they are not accessed, so they should not be cached.\n\nBecause you would avoid overload the repository when you need to get their meta-data. The fact that an interactive user doesn\u0027t open it on the GUI doesn\u0027t mean that Gerrit won\u0027t refer to it.\n\nExample: the auto-reindex thread in the HA plugin.\n\n\u003e \u003e \u003e I think this is acceptable, but perhaps it would be worth noting (somewhere) that this is the case and that by using this lib module, change_notes cache might end-up being populated with an unusually high number of entries.\n\u003e \u003e \n\u003e \u003e Why \"unusually\"? The change_notes should be always full for being effective.\n\u003e \n\u003e \"Unusually\" because usually un-accessed changes would not be loaded in the cache.\n\nSure, but it is unsafe to have a cache that is potentially too small, as you may be triggering lots of evictions of data that could be useful to be loaded in memory.\n\n\u003e \u003e \u003e Some installations might have set hard limits in how much this cache can grow, and thus using this lib module might lead to a higher number of evictions and memory (or disk) usage.\n\u003e \u003e \n\u003e \u003e If you have 100k changes and allocate less than 100k entries in the persistent cache, then you have a problem, yes. That is regardless of this plugin: a cache should be big enough to hold the full population of entries, otherwise it would start evicting.\n\u003e \n\u003e What\u0027s the point of keepinh in cache a change_note entry for a change that was closed 3 years ago and it was never been accessed since?\n\nUnfortunately, Gerrit keeps accessing it during queries evaluations and also auto-reindexing in the HA plugin.\n\n\u003e If you have 100k changes and 90k of them are not being accessed, I think you only need a cache big enough to contain 10k, not 100k, right?\n\nNope, you should have a cache that is big enough to hold 100k changes, because it may happen that all of them are scanned, either by the git-refs-filter, or the query processor or the HA auto-reindex.\n\nToday, all those conditions end up reading and parsing all that data from the Git repository, which is *veeeery* expensive.\n\n\u003e The point I was making is that this approach will populate the cache with *all* changes, also changes that would have not otherwise been opened in years and thus (I think rightfully) not participating in populating the cache.\n\nI wish it would be year, but unfortunately they would all be referred multiple times a day already today.\n\n\u003e Installing this plugin will change this behavior and I was thinking it was worth mentioning.\n\nNot really, as that behaviour already exists today.",
+      "parentUuid": "6904f708_4fc0219e",
+      "range": {
+        "startLine": 14,
+        "startChar": 36,
+        "endLine": 15,
+        "endChar": 46
+      },
+      "revId": "ffdf9f1afe6faef5c0ecc603bf910d21a619a9ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7506358b_deaef494",
