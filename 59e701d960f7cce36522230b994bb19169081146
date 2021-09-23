@@ -16,6 +16,41 @@
       "message": "As I understand it, this change requires [1].\nShould we create a topic so that this change won\u0027t be merged before its dependency?\n\nhttps://gerrit-review.googlesource.com/c/gerrit/+/318136",
       "revId": "59e701d960f7cce36522230b994bb19169081146",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae42fb90_8449ebb7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-09-23T18:59:20Z",
+      "side": 1,
+      "message": "Blocking this merge, until the corresponding Gerrit dependency is merged. ",
+      "revId": "59e701d960f7cce36522230b994bb19169081146",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a594552_8b2a4ef8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-09-23T18:59:20Z",
+      "side": 1,
+      "message": "\u003e As I understand it, this change requires [1].\n\u003e Should we create a topic so that this change won\u0027t be merged before its dependency?\n\u003e \n\u003e https://gerrit-review.googlesource.com/c/gerrit/+/318136\n\nUnfortunately the topic isn\u0027t a dependency :-(\nI\u0027ll post a -2 until the [1] is merged.",
+      "parentUuid": "a0cf78f6_1b6d84d4",
+      "revId": "59e701d960f7cce36522230b994bb19169081146",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
