@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5b8a1be_ad0b0edf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-09-23T07:58:18Z",
+      "side": 1,
+      "message": "@luca I don\u0027t have +2 permissions on this repo",
+      "revId": "62e0be5127a2dd33e15dc954974ce95768498719",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
