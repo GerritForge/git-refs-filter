@@ -37,6 +37,21 @@ Filtering a closed change refs has the following meaning:
 - All '/meta' refs of all changes
 - All non-published edits of any changes
 
+Is is also possible to define additional refs prefixes to be hidden or explicitly shown,
+using a similar syntax to the [hideRefs](https://git-scm.com/docs/git-config/2.17.0#Documentation/git-config.txt-receivehideRefs)
+setting, adding a set of `git-refs-filter.hideRefs` configuration settings in
+`gerrit.config`.
+
+Example of how to hide all `refs/backup/*` and `refs/sandbox/*` from being advertised
+but still show `refs/sandbox/mines/`:
+
+````
+[git-refs-filter]
+  hideRefs = refs/backup/
+  hideRefs = refs/sandbox/
+  hideRefs = !refs/sandbox/mine/
+```
+
 To enable a group of users of getting a "filtered list" of refs (e.g. CI jobs):
 - Define a new group of users (e.g. Builders)
 - Add a user to that group (e.g. Add 'jenkins' to the Builders group)
