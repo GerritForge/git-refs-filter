@@ -17,7 +17,6 @@ package com.googlesource.gerrit.modules.gitrefsfilter;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.access.CoreOrPluginProjectPermission;
 import com.google.gerrit.extensions.conditions.BooleanCondition;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -41,6 +40,7 @@ public class ForProjectWrapper extends ForProject {
   private final ForProject defaultForProject;
   private final Project.NameKey project;
   private final ChangeNotes.Factory changeNotesFactory;
+  private final FilterRefsConfig config;
 
   public interface Factory {
     ForProjectWrapper get(ForProject defaultForProject, Project.NameKey project);
@@ -49,11 +49,13 @@ public class ForProjectWrapper extends ForProject {
   @Inject
   public ForProjectWrapper(
       ChangeNotes.Factory changeNotesFactory,
+      FilterRefsConfig config,
       @Assisted ForProject defaultForProject,
       @Assisted Project.NameKey project) {
     this.defaultForProject = defaultForProject;
     this.project = project;
     this.changeNotesFactory = changeNotesFactory;
+    this.config = config;
   }
 
   @Override
@@ -79,8 +81,7 @@ public class ForProjectWrapper extends ForProject {
     return defaultForProject
         .filter(refs, repo, opts)
         .parallelStream()
-        .filter((ref) -> !ref.getName().startsWith(RefNames.REFS_USERS))
-        .filter((ref) -> !ref.getName().startsWith(RefNames.REFS_CACHE_AUTOMERGE))
+        .filter(config::isRefToShow)
         .filter(
             (ref) -> {
               String refName = ref.getName();
