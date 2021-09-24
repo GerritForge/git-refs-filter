@@ -51,6 +51,23 @@
       "parentUuid": "a0cf78f6_1b6d84d4",
       "revId": "59e701d960f7cce36522230b994bb19169081146",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "22c7150a_561aafd3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-09-24T00:12:42Z",
+      "side": 1,
+      "message": "This requires a stable branch creation for all releases \u003c v3.3.",
+      "revId": "59e701d960f7cce36522230b994bb19169081146",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
