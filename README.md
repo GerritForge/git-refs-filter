@@ -3,6 +3,38 @@
 Gerrit lib module to allow filtering out refs in the Git advertizing
 protocol phase.
 
+## When to use git-refs-filter vs. Git's hideRefs or Gerrit's ACLs
+
+Gerrit ACLs, Git's hideRefs and git-refs-filter are all tools for hiding refs from being visible
+to a remote Git client. However, the three tools have different scope and performance implications.
+
+### Git's hideRefs: the fastest
+
+Use the [Git's hideRefs](https://git-scm.com/docs/git-config/2.17.0#Documentation/git-config.txt-receivehideRefs)
+when *all Git clients* need to be blocked from accessing some refs.
+
+This method to hide refs is the *fastest* possible and has no performance implications.
+
+### git-refs-filter
+
+The git-refs-filter is mostly used with CI systems to avoid the overloading of advertising and
+downloading a significant number of refs that would slowdown both Gerrit server and the Git client.
+
+Is is more flexible than Git's hideRefs because allows to define a limited group of users for hiding
+refs; it also allows to filter Gerrit NoteDb's `/meta` refs which would otherwise require a complex
+set of ACLs or plugins.
+
+git-refs-filter is slightly slower than using Git's hideRefs and it does require the configuration
+of the change_notes cache in `gerrit.config` to avoid potentially high overhead.
+
+### Gerrit ACLs
+
+Use the Gerrit ACLs when you need to hide some of the refs on a per-project basis or when
+it is needed a very sophisticated pattern-matching of refs to be excluded.
+
+This is the slowest way to hide refs and needs to be used only when a per-project ACLs policy
+is required.
+
 ## How to build
 
 Build this module as it was a Gerrit plugin:
