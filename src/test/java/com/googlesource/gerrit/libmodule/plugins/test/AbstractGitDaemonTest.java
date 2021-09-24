@@ -65,6 +65,11 @@ abstract class AbstractGitDaemonTest extends AbstractDaemonTest {
 
   protected TestRepository<InMemoryRepository> cloneProjectChangesRefs(TestAccount testAccount)
       throws Exception {
+    return cloneProjectRefs(testAccount, REFS_CHANGES);
+  }
+
+  protected TestRepository<InMemoryRepository> cloneProjectRefs(
+      TestAccount testAccount, String refsSpec) throws Exception {
     DfsRepositoryDescription desc = new DfsRepositoryDescription("clone of " + project.get());
 
     FS fs = FS.detect();
@@ -83,7 +88,7 @@ abstract class AbstractGitDaemonTest extends AbstractDaemonTest {
     Config cfg = dest.getConfig();
     String uri = registerRepoConnection(project, testAccount);
     cfg.setString("remote", "origin", "url", uri);
-    cfg.setString("remote", "origin", "fetch", REFS_CHANGES);
+    cfg.setString("remote", "origin", "fetch", refsSpec);
     TestRepository<InMemoryRepository> testRepo = GitUtil.newTestRepository(dest);
     FetchResult result = testRepo.git().fetch().setRemote("origin").call();
     String originMaster = "refs/remotes/origin/master";

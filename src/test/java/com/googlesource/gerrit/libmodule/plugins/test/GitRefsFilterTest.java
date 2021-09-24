@@ -16,13 +16,17 @@ package com.googlesource.gerrit.libmodule.plugins.test;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.inject.Module;
 import com.googlesource.gerrit.modules.gitrefsfilter.RefsFilterModule;
+import java.io.IOException;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
@@ -83,6 +87,32 @@ public class GitRefsFilterTest extends AbstractGitDaemonTest {
     assertThat(getRefs(cloneProjectChangesRefs(admin))).hasSize(1);
   }
 
+  @Test
+  @GerritConfig(name = "git-refs-filter.hideRefs", value = "refs/heads/sandbox/")
+  public void testUserWithHideRefsShouldNotSeeSandboxBranches() throws Exception {
+    String sandboxPrefix = "refs/heads/sandbox/";
+    setApiUser(admin);
+    createBranch(new Branch.NameKey(project, "sandbox/foo"));
+
+    assertThat(getRefs(cloneProjectRefs(admin, "+refs/heads/*:refs/heads/*"), sandboxPrefix))
+        .isNotEmpty();
+    assertThat(getRefs(cloneProjectRefs(user, "+refs/heads/*:refs/heads/*"), sandboxPrefix))
+        .isEmpty();
+  }
+
+  @Test
+  @GerritConfig(
+      name = "git-refs-filter.hideRefs",
+      values = {"refs/heads/sandbox/", "!refs/heads/sandbox/mine"})
+  public void testUserWithHideRefsShouldSeeItsOwnSandboxBranch() throws Exception {
+    String sandboxPrefix = "refs/heads/sandbox/";
+    setApiUser(admin);
+    createBranch(new Branch.NameKey(project, "sandbox/mine"));
+
+    assertThat(getRefs(cloneProjectRefs(user, "+refs/heads/*:refs/heads/*"), sandboxPrefix))
+        .isNotEmpty();
+  }
+
   protected Stream<String> fetchAllRefs(TestAccount testAccount) throws Exception {
     DfsRepositoryDescription desc = new DfsRepositoryDescription("clone of " + project.get());
 
@@ -98,5 +128,10 @@ public class GitRefsFilterTest extends AbstractGitDaemonTest {
     TestRepository<InMemoryRepository> testRepo = GitUtil.newTestRepository(dest);
     FetchResult result = testRepo.git().fetch().setRemote("origin").call();
     return result.getAdvertisedRefs().stream().map(Ref::getName);
+  }
+
+  protected List<Ref> getRefs(TestRepository<InMemoryRepository> repo, String prefix)
+      throws IOException {
+    return repo.getRepository().getRefDatabase().getRefsByPrefix(prefix);
   }
 }

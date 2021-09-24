@@ -45,6 +45,7 @@ public class ForProjectWrapper extends ForProject {
   private final NameKey project;
   private final ChangeNotes.Factory changeNotesFactory;
   private final Provider<ReviewDb> dbProvider;
+  private final FilterRefsConfig config;
 
   public interface Factory {
     ForProjectWrapper get(ForProject defaultForProject, Project.NameKey project);
@@ -54,12 +55,14 @@ public class ForProjectWrapper extends ForProject {
   public ForProjectWrapper(
       ChangeNotes.Factory changeNotesFactory,
       Provider<ReviewDb> dbProvider,
+      FilterRefsConfig config,
       @Assisted ForProject defaultForProject,
       @Assisted Project.NameKey project) {
     this.defaultForProject = defaultForProject;
     this.project = project;
     this.changeNotesFactory = changeNotesFactory;
     this.dbProvider = dbProvider;
+    this.config = config;
   }
 
   @Override
@@ -86,9 +89,11 @@ public class ForProjectWrapper extends ForProject {
         defaultForProject.filter(refs, repo, opts); // FIXME: can we filter the closed refs here?
 
     for (String changeKey : defaultFilteredRefs.keySet()) {
-      String refName = defaultFilteredRefs.get(changeKey).getName();
+      Ref ref = defaultFilteredRefs.get(changeKey);
+      String refName = ref.getName();
       if (refName.startsWith(RefNames.REFS_USERS)
-          || refName.startsWith(RefNames.REFS_CACHE_AUTOMERGE)) {
+          || refName.startsWith(RefNames.REFS_CACHE_AUTOMERGE)
+          || !config.isRefToShow(ref)) {
         continue;
       }
       if (!isChangeRef(changeKey) || (isOpen(repo, refName) && !isChangeMetaRef(changeKey))) {
