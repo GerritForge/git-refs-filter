@@ -16,6 +16,24 @@
       "message": "As a general approach I was thinking it would be worth allowing to configure which refs have to be ignored (perhaps on top of some default ones).\n\nFor some gerrit installation (or specific repos) one might want to ignore a specific pattern (refs/backups, refs/builds, etc).\n\nWDYT?",
       "revId": "47145d86482aa41eeda67c7033a1092c5dfe6c85",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "56c45fd2_4b50c65b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-09-24T19:49:28Z",
+      "side": 1,
+      "message": "True, let me address that as a separate change.",
+      "parentUuid": "e91271c3_fa425536",
+      "revId": "47145d86482aa41eeda67c7033a1092c5dfe6c85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
