@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "938635ec_333ac71b",
+        "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/FilterRefsConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-09-27T16:24:35Z",
+      "side": 1,
+      "message": "I am not sure about the splitting of the filtering logic.\nSome of it is in the ForProjectWrapper and some of it is in this FilterRefsConfig.\n\nIf this method is supposed to just honour the configuration, perhaps it should not have these base refs, which are always excluded by default (as opposed to by configuration).\n\nAlternatively I believe _all_ logic should be centralized and this method should also exclude meta refs.\n\nWDYT?",
+      "range": {
+        "startLine": 58,
+        "startChar": 0,
+        "endLine": 61,
+        "endChar": 5
+      },
+      "revId": "8cafedb1438a05bd5cb367e15a8067dd7301e623",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
