@@ -30,8 +30,10 @@ import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.util.Collection;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 
@@ -79,6 +81,10 @@ public class ForProjectWrapper extends ForProject {
   @Override
   public Collection<Ref> filter(Collection<Ref> refs, Repository repo, RefFilterOptions opts)
       throws PermissionBackendException {
+    Map<Change.Id, ObjectId> changeRevisions =
+        refs.stream()
+            .filter(ref -> ref.getName().endsWith("/meta"))
+            .collect(Collectors.toMap(ForProjectWrapper::changeIdFromRef, Ref::getObjectId));
     return defaultForProject
         .filter(refs, repo, opts)
         .parallelStream()
@@ -88,10 +94,17 @@ public class ForProjectWrapper extends ForProject {
         .filter(
             (ref) -> {
               String refName = ref.getName();
+              Change.Id changeId = Change.Id.fromRef(refName);
               return (!isChangeRef(refName)
-                  || (!isChangeMetaRef(refName) && isOpen(repo, refName)));
+                  || (!isChangeMetaRef(refName)
+                      && changeId != null
+                      && isOpen(repo, changeId, changeRevisions.get(changeId))));
             })
         .collect(Collectors.toList());
+  }
+
+  private static Change.Id changeIdFromRef(Ref ref) {
+    return Change.Id.fromRef(ref.getName());
   }
 
   private boolean isChangeRef(String changeKey) {
@@ -102,14 +115,13 @@ public class ForProjectWrapper extends ForProject {
     return isChangeRef(changeKey) && changeKey.endsWith("/meta");
   }
 
-  private boolean isOpen(Repository repo, String refName) {
+  private boolean isOpen(Repository repo, Change.Id changeId, ObjectId changeRevision) {
     try {
-      Change.Id changeId = Change.Id.fromRef(refName);
-      ChangeNotes changeNotes = changeNotesFactory.create(repo, project, changeId);
+      ChangeNotes changeNotes = changeNotesFactory.create(repo, project, changeId, changeRevision);
       return changeNotes.getChange().getStatus().isOpen();
     } catch (NoSuchChangeException e) {
       logger.atWarning().withCause(e).log(
-          "Ref %s refers to a non-existent change: hiding from the advertised refs", refName);
+          "Change %d does not exist: hiding from the advertised refs", changeId);
       return false;
     }
   }
