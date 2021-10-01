@@ -36,6 +36,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 
@@ -87,6 +89,10 @@ public class ForProjectWrapper extends ForProject {
     Map<String, Ref> filteredRefs = new HashMap<>();
     Map<String, Ref> defaultFilteredRefs =
         defaultForProject.filter(refs, repo, opts); // FIXME: can we filter the closed refs here?
+    Map<Change.Id, ObjectId> changeRevisions =
+        refs.values().stream()
+            .filter(ref -> ref.getName().endsWith("/meta"))
+            .collect(Collectors.toMap(ForProjectWrapper::changeIdFromRef, Ref::getObjectId));
 
     for (String changeKey : defaultFilteredRefs.keySet()) {
       Ref ref = defaultFilteredRefs.get(changeKey);
@@ -96,12 +102,19 @@ public class ForProjectWrapper extends ForProject {
           || !config.isRefToShow(ref)) {
         continue;
       }
-      if (!isChangeRef(changeKey) || (isOpen(repo, refName) && !isChangeMetaRef(changeKey))) {
+      Change.Id changeId = changeIdFromRef(ref);
+      if (!isChangeRef(changeKey)
+          || (isOpen(repo, changeId, changeRevisions.get(changeId))
+              && !isChangeMetaRef(changeKey))) {
         filteredRefs.put(changeKey, defaultFilteredRefs.get(changeKey));
       }
     }
 
     return filteredRefs;
+  }
+
+  private static Change.Id changeIdFromRef(Ref ref) {
+    return Change.Id.fromRef(ref.getName());
   }
 
   private boolean isChangeRef(String changeKey) {
@@ -112,17 +125,18 @@ public class ForProjectWrapper extends ForProject {
     return isChangeRef(changeKey) && changeKey.endsWith("/meta");
   }
 
-  private boolean isOpen(Repository repo, String refName) {
-    Change.Id changeId = Change.Id.fromRef(refName);
+  private boolean isOpen(Repository repo, Change.Id changeId, ObjectId changeRevision) {
     ChangeNotes changeNotes;
     try {
-      changeNotes = changeNotesFactory.create(dbProvider.get(), repo, project, changeId);
+      changeNotes =
+          changeNotesFactory.createChecked(
+              dbProvider.get(), repo, project, changeId, changeRevision);
+      return changeNotes.getChange().getStatus().isOpen();
     } catch (OrmException e) {
       logger.atSevere().withCause(e).log(
           "Cannot create change notes for change {}, project {}", changeId, project);
       return false;
     }
-    return changeNotes.getChange().getStatus().isOpen();
   }
 
   @Override
