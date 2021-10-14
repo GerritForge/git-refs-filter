@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "65116c7e_5fb059ac",
+        "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/ForProjectWrapper.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-10-14T19:35:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "83bb74c5_93944258",
+      "range": {
+        "startLine": 97,
+        "startChar": 35,
+        "endLine": 97,
+        "endChar": 62
+      },
+      "revId": "9d6869cc9007c103427d1102bcdfe6437751bc3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4abe7ee5_700994c9",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-10-07T10:35:44Z",
       "side": 1,
       "message": "nit: we could get isOpen() to handle this case",
+      "range": {
+        "startLine": 100,
+        "startChar": 22,
+        "endLine": 100,
+        "endChar": 41
+      },
+      "revId": "9d6869cc9007c103427d1102bcdfe6437751bc3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "186f2e40_071928f0",
+        "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/ForProjectWrapper.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-10-14T19:35:37Z",
+      "side": 1,
+      "message": "We could but that would unusual to return an open/close status of a change with null changeId. I would prefer to have this condition explicitly.",
+      "parentUuid": "4abe7ee5_700994c9",
       "range": {
         "startLine": 100,
         "startChar": 22,
