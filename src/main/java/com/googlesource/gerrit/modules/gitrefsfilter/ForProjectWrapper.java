@@ -133,7 +133,7 @@ public class ForProjectWrapper extends ForProject {
               dbProvider.get(), repo, project, changeId, changeRevision);
       return changeNotes.getChange().getStatus().isOpen();
     } catch (OrmException e) {
-      logger.atSevere().withCause(e).log(
+      logger.atFine().withCause(e).log(
           "Cannot create change notes for change {}, project {}", changeId, project);
       return false;
     }
