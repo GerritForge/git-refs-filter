@@ -121,7 +121,7 @@ public class ForProjectWrapper extends ForProject {
           changeNotesFactory.createChecked(repo, project, changeId, changeRevision);
       return changeNotes.getChange().getStatus().isOpen();
     } catch (NoSuchChangeException e) {
-      logger.atWarning().withCause(e).log(
+      logger.atFine().withCause(e).log(
           "Change %d does not exist: hiding from the advertised refs", changeId);
       return false;
     }
