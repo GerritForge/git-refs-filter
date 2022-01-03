@@ -14,24 +14,28 @@
 
 package com.googlesource.gerrit.modules.gitrefsfilter;
 
+import static com.googlesource.gerrit.modules.gitrefsfilter.ChangeOpenCache.OPEN_CHANGES_CACHE;
+
+import com.google.common.cache.LoadingCache;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.access.CoreOrPluginProjectPermission;
 import com.google.gerrit.extensions.conditions.BooleanCondition;
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.PermissionBackend.ForProject;
 import com.google.gerrit.server.permissions.PermissionBackend.ForRef;
 import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.name.Named;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -40,9 +44,9 @@ import org.eclipse.jgit.lib.Repository;
 public class ForProjectWrapper extends ForProject {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  private final LoadingCache<ChangeOpenCache.Key, Boolean> openChangesCache;
   private final ForProject defaultForProject;
   private final Project.NameKey project;
-  private final ChangeNotes.Factory changeNotesFactory;
   private final FilterRefsConfig config;
 
   public interface Factory {
@@ -51,13 +55,13 @@ public class ForProjectWrapper extends ForProject {
 
   @Inject
   public ForProjectWrapper(
-      ChangeNotes.Factory changeNotesFactory,
       FilterRefsConfig config,
+      @Named(OPEN_CHANGES_CACHE) LoadingCache<ChangeOpenCache.Key, Boolean> openChangesCache,
       @Assisted ForProject defaultForProject,
       @Assisted Project.NameKey project) {
+    this.openChangesCache = openChangesCache;
     this.defaultForProject = defaultForProject;
     this.project = project;
-    this.changeNotesFactory = changeNotesFactory;
     this.config = config;
   }
 
@@ -115,15 +119,15 @@ public class ForProjectWrapper extends ForProject {
     return isChangeRef(changeKey) && changeKey.endsWith("/meta");
   }
 
-  private boolean isOpen(Repository repo, Change.Id changeId, ObjectId changeRevision) {
+  private boolean isOpen(Repository repo, Change.Id changeId, @Nullable ObjectId changeRevision) {
     try {
-      ChangeNotes changeNotes =
-          changeNotesFactory.createChecked(repo, project, changeId, changeRevision);
-      return changeNotes.getChange().getStatus().isOpen();
-    } catch (NoSuchChangeException e) {
-      logger.atFine().withCause(e).log(
-          "Change %d does not exist: hiding from the advertised refs", changeId);
-      return false;
+      return openChangesCache.get(
+          ChangeOpenCache.Key.create(repo, changeId, changeRevision, project));
+    } catch (ExecutionException e) {
+      logger.atWarning().withCause(e).log(
+          "Error getting change '%d' from the cache. Do not hide from the advertised refs",
+          changeId);
+      return true;
     }
   }
 
