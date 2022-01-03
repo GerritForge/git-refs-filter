@@ -41,5 +41,7 @@ public class RefsFilterModule extends AbstractModule {
         .annotatedWith(Exports.named(FilterRefsCapability.HIDE_CLOSED_CHANGES_REFS))
         .to(FilterRefsCapability.class)
         .in(Scopes.SINGLETON);
+
+    install(ChangeOpenCache.module());
   }
 }
