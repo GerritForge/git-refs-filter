@@ -15,7 +15,9 @@
 package com.googlesource.gerrit.libmodule.plugins.test;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.googlesource.gerrit.modules.gitrefsfilter.ChangeOpenCache.OPEN_CHANGES_CACHE;
 
+import com.google.common.cache.LoadingCache;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.Sandboxed;
@@ -23,12 +25,17 @@ import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.BranchNameKey;
+import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.RefNames;
 import com.google.inject.Inject;
 import com.google.inject.Module;
+import com.google.inject.name.Named;
+import com.googlesource.gerrit.modules.gitrefsfilter.ChangeOpenCache;
 import com.googlesource.gerrit.modules.gitrefsfilter.RefsFilterModule;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
@@ -36,6 +43,7 @@ import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.FetchResult;
 import org.eclipse.jgit.util.FS;
 import org.junit.Before;
@@ -45,6 +53,9 @@ import org.junit.Test;
 @Sandboxed
 public class GitRefsFilterTest extends AbstractGitDaemonTest {
   @Inject private RequestScopeOperations requestScopeOperations;
+
+  @Inject
+  private @Named(OPEN_CHANGES_CACHE) LoadingCache<ChangeOpenCache.Key, Boolean> changeOpenCache;
 
   @Override
   public Module createModule() {
@@ -116,6 +127,44 @@ public class GitRefsFilterTest extends AbstractGitDaemonTest {
         .isNotEmpty();
   }
 
+  @Test
+  public void testShouldCacheChangeIsClosedWhenAbandoned() throws Exception {
+    Change.Id changeId = Change.id(createChangeAndAbandon());
+    Ref metaRef = getMetaId(changeId);
+
+    assertThat(getRefs(cloneProjectChangesRefs(user))).isEmpty();
+
+    assertThat(changeOpenCache.asMap().size()).isEqualTo(1);
+
+    Map.Entry<ChangeOpenCache.Key, Boolean> cacheEntry =
+        new ArrayList<>(changeOpenCache.asMap().entrySet()).get(0);
+
+    assertThat(cacheEntry.getKey().project()).isEqualTo(project);
+    assertThat(cacheEntry.getKey().changeId()).isEqualTo(changeId);
+    assertThat(cacheEntry.getKey().changeRevision()).isEqualTo(metaRef.getObjectId());
+    assertThat(cacheEntry.getValue()).isFalse();
+  }
+
+  @Test
+  public void testShouldCacheWhenChangeIsOpen() throws Exception {
+    createChange();
+    List<Ref> refs = getRefs(cloneProjectChangesRefs(user));
+
+    assertThat(refs).isNotEmpty();
+
+    Change.Id changeId = Change.id(changeNumOfRef(refs.get(0)));
+
+    assertThat(changeOpenCache.asMap().size()).isEqualTo(1);
+
+    Map.Entry<ChangeOpenCache.Key, Boolean> cacheEntry =
+        new ArrayList<>(changeOpenCache.asMap().entrySet()).get(0);
+
+    assertThat(cacheEntry.getKey().project()).isEqualTo(project);
+    assertThat(cacheEntry.getKey().changeId()).isEqualTo(changeId);
+    assertThat(cacheEntry.getKey().changeRevision()).isEqualTo(getMetaId(changeId).getObjectId());
+    assertThat(cacheEntry.getValue()).isTrue();
+  }
+
   protected Stream<String> fetchAllRefs(TestAccount testAccount) throws Exception {
     DfsRepositoryDescription desc = new DfsRepositoryDescription("clone of " + project.get());
 
@@ -136,5 +185,11 @@ public class GitRefsFilterTest extends AbstractGitDaemonTest {
   protected List<Ref> getRefs(TestRepository<InMemoryRepository> repo, String prefix)
       throws IOException {
     return repo.getRepository().getRefDatabase().getRefsByPrefix(prefix);
+  }
+
+  private Ref getMetaId(Change.Id changeId) throws Exception {
+    try (Repository r = repoManager.openRepository(project)) {
+      return r.exactRef(RefNames.changeMetaRef(changeId));
+    }
   }
 }

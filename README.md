@@ -27,6 +27,13 @@ set of ACLs or plugins.
 git-refs-filter is slightly slower than using Git's hideRefs and it does require the configuration
 of the change_notes cache in `gerrit.config` to avoid potentially high overhead.
 
+Additionally, this plugin uses an in-memory cache to store previously computed
+open/close change statuses to avoid processing them over and over again.
+
+Explicit invalidation of such cache is not necessary, since the change revision
+is part of the cache key, so that previous entries automatically become obsolete
+once a change status is updated.
+
 ### Gerrit ACLs
 
 Use the Gerrit ACLs when you need to hide some of the refs on a per-project basis or when
