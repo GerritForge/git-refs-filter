@@ -35,11 +35,13 @@ import org.eclipse.jgit.util.FS;
 abstract class AbstractGitDaemonTest extends AbstractDaemonTest {
   private static final String REFS_CHANGES = "+refs/changes/*:refs/remotes/origin/*";
 
-  protected void createChangeAndAbandon() throws Exception, RestApiException {
+  protected int createChangeAndAbandon() throws Exception, RestApiException {
     setApiUser(admin);
+
     createChange();
     int changeNum = changeNumOfRef(getChangesRefsAs(admin).get(0));
     gApi.changes().id(changeNum).abandon();
+    return changeNum;
   }
 
   protected void createFilteredRefsGroup() throws Exception {
