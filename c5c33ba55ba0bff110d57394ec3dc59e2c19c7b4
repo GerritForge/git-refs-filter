@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "63652913_27c6b564",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-01-04T11:14:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc29165d_06d4275f",
+      "revId": "c5c33ba55ba0bff110d57394ec3dc59e2c19c7b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4d596a31_42ef5173",
@@ -31,6 +49,30 @@
       "writtenOn": "2022-01-04T02:19:27Z",
       "side": 1,
       "message": "open_changes?",
+      "range": {
+        "startLine": 32,
+        "startChar": 50,
+        "endLine": 32,
+        "endChar": 67
+      },
+      "revId": "c5c33ba55ba0bff110d57394ec3dc59e2c19c7b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc3fa65d_043332a7",
+        "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/ChangeOpenCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-01-04T11:14:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4d596a31_42ef5173",
       "range": {
         "startLine": 32,
         "startChar": 50,
@@ -64,6 +106,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc7d40f9_8f5ec5e9",
+        "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/ChangeOpenCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-01-04T11:14:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9fbc5516_fc91fd45",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 46
+      },
+      "revId": "c5c33ba55ba0bff110d57394ec3dc59e2c19c7b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bc7da9cb_d10e06ca",
@@ -87,6 +153,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cba3b0c6_1fded3b6",
+        "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/ForProjectWrapper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-01-04T11:14:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc7da9cb_d10e06ca",
+      "range": {
+        "startLine": 58,
+        "startChar": 75,
+        "endLine": 58,
+        "endChar": 90
+      },
+      "revId": "c5c33ba55ba0bff110d57394ec3dc59e2c19c7b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6c86a1dc_f30c730a",
@@ -100,6 +190,30 @@
       "writtenOn": "2022-01-04T02:19:27Z",
       "side": 1,
       "message": "Why not keeping the atFile() as it was before?",
+      "range": {
+        "startLine": 126,
+        "startChar": 13,
+        "endLine": 126,
+        "endChar": 24
+      },
+      "revId": "c5c33ba55ba0bff110d57394ec3dc59e2c19c7b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ef34698_63189232",
+        "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/ForProjectWrapper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-01-04T11:14:09Z",
+      "side": 1,
+      "message": "The logline we had before was to do with NoSuchChangeException.\nThis has now moved to the cache loader [1] and it is still logged at fine level.\n\nThe intent of this _new_ logging line is different, it\u0027s to do with an ExecutionException in _getting_ the change from the cache.\n\nThis should never happen and if it does, I believe it should be highlighted in the log as anomalous behaviour.\n\nWDYT? \n\n\n[1]https://gerrit.googlesource.com/modules/git-refs-filter/+/refs/changes/80/327280/1/src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/ChangeOpenCache.java#77",
+      "parentUuid": "6c86a1dc_f30c730a",
       "range": {
         "startLine": 126,
         "startChar": 13,
