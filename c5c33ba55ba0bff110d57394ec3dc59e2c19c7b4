@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc29165d_06d4275f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-01-04T02:19:27Z",
+      "side": 1,
+      "message": "Thanks, Tony, for the fix. Should also the documentation be updated accordingly?",
+      "revId": "c5c33ba55ba0bff110d57394ec3dc59e2c19c7b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d596a31_42ef5173",
+        "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/ChangeOpenCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-01-04T02:19:27Z",
+      "side": 1,
+      "message": "open_changes?",
+      "range": {
+        "startLine": 32,
+        "startChar": 50,
+        "endLine": 32,
+        "endChar": 67
+      },
+      "revId": "c5c33ba55ba0bff110d57394ec3dc59e2c19c7b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9fbc5516_fc91fd45",
+        "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/ChangeOpenCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-01-04T02:19:27Z",
+      "side": 1,
+      "message": "Some of the fields are redundant here (e.g. repo() and changeId()), however I see why you need them because of the loader function. Can you add a comment to describe the issue?",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 46
+      },
+      "revId": "c5c33ba55ba0bff110d57394ec3dc59e2c19c7b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc7da9cb_d10e06ca",
+        "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/ForProjectWrapper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-01-04T02:19:27Z",
+      "side": 1,
+      "message": "openChangesCache?",
+      "range": {
+        "startLine": 58,
+        "startChar": 75,
+        "endLine": 58,
+        "endChar": 90
+      },
+      "revId": "c5c33ba55ba0bff110d57394ec3dc59e2c19c7b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c86a1dc_f30c730a",
+        "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/ForProjectWrapper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-01-04T02:19:27Z",
+      "side": 1,
+      "message": "Why not keeping the atFile() as it was before?",
+      "range": {
+        "startLine": 126,
+        "startChar": 13,
+        "endLine": 126,
+        "endChar": 24
+      },
+      "revId": "c5c33ba55ba0bff110d57394ec3dc59e2c19c7b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
