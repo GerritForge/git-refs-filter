@@ -42,6 +42,6 @@ public class RefsFilterModule extends AbstractModule {
         .to(FilterRefsCapability.class)
         .in(Scopes.SINGLETON);
 
-    install(ChangeOpenCache.module());
+    install(OpenChangesCache.module());
   }
 }
