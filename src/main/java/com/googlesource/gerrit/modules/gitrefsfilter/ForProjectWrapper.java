@@ -14,7 +14,7 @@
 
 package com.googlesource.gerrit.modules.gitrefsfilter;
 
-import static com.googlesource.gerrit.modules.gitrefsfilter.ChangeOpenCache.OPEN_CHANGES_CACHE;
+import static com.googlesource.gerrit.modules.gitrefsfilter.OpenChangesCache.OPEN_CHANGES_CACHE;
 
 import com.google.common.cache.LoadingCache;
 import com.google.common.flogger.FluentLogger;
@@ -52,9 +52,7 @@ public class ForProjectWrapper extends ForProject {
   private final NameKey project;
   private final ChangeNotes.Factory changeNotesFactory;
   private final Provider<ReviewDb> dbProvider;
-
-  private final LoadingCache<ChangeOpenCache.Key, Boolean> openChangesCache;
-
+  private final LoadingCache<OpenChangesCache.Key, Boolean> openChangesCache;
   private final FilterRefsConfig config;
 
   public interface Factory {
@@ -66,7 +64,7 @@ public class ForProjectWrapper extends ForProject {
       ChangeNotes.Factory changeNotesFactory,
       Provider<ReviewDb> dbProvider,
       FilterRefsConfig config,
-      @Named(OPEN_CHANGES_CACHE) LoadingCache<ChangeOpenCache.Key, Boolean> openChangesCache,
+      @Named(OPEN_CHANGES_CACHE) LoadingCache<OpenChangesCache.Key, Boolean> openChangesCache,
       @Assisted ForProject defaultForProject,
       @Assisted Project.NameKey project) {
     this.openChangesCache = openChangesCache;
@@ -138,7 +136,7 @@ public class ForProjectWrapper extends ForProject {
   private boolean isOpen(Repository repo, Change.Id changeId, @Nullable ObjectId changeRevision) {
     try {
       return openChangesCache.get(
-          ChangeOpenCache.Key.create(dbProvider, repo, changeId, changeRevision, project));
+          OpenChangesCache.Key.create(dbProvider, repo, changeId, changeRevision, project));
     } catch (ExecutionException e) {
       logger.atWarning().withCause(e).log(
           "Error getting change '%d' from the cache. Do not hide from the advertised refs",

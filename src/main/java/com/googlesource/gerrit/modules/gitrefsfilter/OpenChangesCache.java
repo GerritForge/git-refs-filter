@@ -31,7 +31,7 @@ import com.google.inject.TypeLiteral;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 
-public class ChangeOpenCache {
+public class OpenChangesCache {
   public static final String OPEN_CHANGES_CACHE = "open_changes";
 
   public static Module module() {
@@ -64,7 +64,8 @@ public class ChangeOpenCache {
         Change.Id changeId,
         @Nullable ObjectId changeRevision,
         Project.NameKey project) {
-      return new AutoValue_ChangeOpenCache_Key(dbProvider, repo, changeId, changeRevision, project);
+      return new AutoValue_OpenChangesCache_Key(
+          dbProvider, repo, changeId, changeRevision, project);
     }
   }
 
