@@ -31,13 +31,13 @@ import com.google.inject.TypeLiteral;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 
-public class ChangeOpenCache {
+public class OpenChangesCache {
   public static final String OPEN_CHANGES_CACHE = "open_changes";
 
   private final Provider<ReviewDb> dbProvider;
 
   @Inject
-  public ChangeOpenCache(Provider<ReviewDb> dbProvider) {
+  public OpenChangesCache(Provider<ReviewDb> dbProvider) {
     this.dbProvider = dbProvider;
   }
 
@@ -69,7 +69,7 @@ public class ChangeOpenCache {
         Change.Id changeId,
         @Nullable ObjectId changeRevision,
         Project.NameKey project) {
-      return new AutoValue_ChangeOpenCache_Key(repo, changeId, changeRevision, project);
+      return new AutoValue_OpenChangesCache_Key(repo, changeId, changeRevision, project);
     }
   }
 
@@ -77,12 +77,12 @@ public class ChangeOpenCache {
   static class Loader extends CacheLoader<Key, Boolean> {
     private static final FluentLogger logger = FluentLogger.forEnclosingClass();
     private final ChangeNotes.Factory changeNotesFactory;
-    private final ChangeOpenCache changeOpenCache;
+    private final OpenChangesCache openChangesCache;
 
     @Inject
-    Loader(ChangeNotes.Factory changeNotesFactory, ChangeOpenCache changeOpenCache) {
+    Loader(ChangeNotes.Factory changeNotesFactory, OpenChangesCache openChangesCache) {
       this.changeNotesFactory = changeNotesFactory;
-      this.changeOpenCache = changeOpenCache;
+      this.openChangesCache = openChangesCache;
     }
 
     @Override
@@ -90,7 +90,7 @@ public class ChangeOpenCache {
       try {
         ChangeNotes changeNotes =
             changeNotesFactory.createChecked(
-                changeOpenCache.dbProvider.get(),
+                openChangesCache.dbProvider.get(),
                 key.repo(),
                 key.project(),
                 key.changeId(),

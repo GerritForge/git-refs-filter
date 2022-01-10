@@ -16,7 +16,7 @@ package com.googlesource.gerrit.libmodule.plugins.test;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.testing.NoteDbMode.ON;
-import static com.googlesource.gerrit.modules.gitrefsfilter.ChangeOpenCache.OPEN_CHANGES_CACHE;
+import static com.googlesource.gerrit.modules.gitrefsfilter.OpenChangesCache.OPEN_CHANGES_CACHE;
 
 import com.google.common.cache.LoadingCache;
 import com.google.gerrit.acceptance.GerritConfig;
@@ -31,7 +31,7 @@ import com.google.gerrit.testing.NoteDbMode;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.name.Named;
-import com.googlesource.gerrit.modules.gitrefsfilter.ChangeOpenCache;
+import com.googlesource.gerrit.modules.gitrefsfilter.OpenChangesCache;
 import com.googlesource.gerrit.modules.gitrefsfilter.RefsFilterModule;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -55,7 +55,7 @@ import org.junit.Test;
 public class GitRefsFilterTest extends AbstractGitDaemonTest {
 
   @Inject
-  private @Named(OPEN_CHANGES_CACHE) LoadingCache<ChangeOpenCache.Key, Boolean> changeOpenCache;
+  private @Named(OPEN_CHANGES_CACHE) LoadingCache<OpenChangesCache.Key, Boolean> changeOpenCache;
 
   @Override
   public Module createModule() {
@@ -136,7 +136,7 @@ public class GitRefsFilterTest extends AbstractGitDaemonTest {
 
       assertThat(changeOpenCache.asMap().size()).isEqualTo(1);
 
-      Map.Entry<ChangeOpenCache.Key, Boolean> cacheEntry =
+      Map.Entry<OpenChangesCache.Key, Boolean> cacheEntry =
           new ArrayList<>(changeOpenCache.asMap().entrySet()).get(0);
 
       assertThat(cacheEntry.getKey().project()).isEqualTo(project);
@@ -158,7 +158,7 @@ public class GitRefsFilterTest extends AbstractGitDaemonTest {
 
       assertThat(changeOpenCache.asMap().size()).isEqualTo(1);
 
-      Map.Entry<ChangeOpenCache.Key, Boolean> cacheEntry =
+      Map.Entry<OpenChangesCache.Key, Boolean> cacheEntry =
           new ArrayList<>(changeOpenCache.asMap().entrySet()).get(0);
 
       assertThat(cacheEntry.getKey().project()).isEqualTo(project);
