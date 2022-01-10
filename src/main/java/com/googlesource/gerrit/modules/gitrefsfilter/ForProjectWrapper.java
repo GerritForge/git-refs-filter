@@ -14,7 +14,7 @@
 
 package com.googlesource.gerrit.modules.gitrefsfilter;
 
-import static com.googlesource.gerrit.modules.gitrefsfilter.ChangeOpenCache.OPEN_CHANGES_CACHE;
+import static com.googlesource.gerrit.modules.gitrefsfilter.OpenChangesCache.OPEN_CHANGES_CACHE;
 
 import com.google.common.cache.LoadingCache;
 import com.google.common.flogger.FluentLogger;
@@ -44,7 +44,7 @@ import org.eclipse.jgit.lib.Repository;
 public class ForProjectWrapper extends ForProject {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  private final LoadingCache<ChangeOpenCache.Key, Boolean> openChangesCache;
+  private final LoadingCache<OpenChangesCache.Key, Boolean> openChangesCache;
   private final ForProject defaultForProject;
   private final Project.NameKey project;
   private final FilterRefsConfig config;
@@ -56,7 +56,7 @@ public class ForProjectWrapper extends ForProject {
   @Inject
   public ForProjectWrapper(
       FilterRefsConfig config,
-      @Named(OPEN_CHANGES_CACHE) LoadingCache<ChangeOpenCache.Key, Boolean> openChangesCache,
+      @Named(OPEN_CHANGES_CACHE) LoadingCache<OpenChangesCache.Key, Boolean> openChangesCache,
       @Assisted ForProject defaultForProject,
       @Assisted Project.NameKey project) {
     this.openChangesCache = openChangesCache;
@@ -122,7 +122,7 @@ public class ForProjectWrapper extends ForProject {
   private boolean isOpen(Repository repo, Change.Id changeId, @Nullable ObjectId changeRevision) {
     try {
       return openChangesCache.get(
-          ChangeOpenCache.Key.create(repo, changeId, changeRevision, project));
+          OpenChangesCache.Key.create(repo, changeId, changeRevision, project));
     } catch (ExecutionException e) {
       logger.atWarning().withCause(e).log(
           "Error getting change '%d' from the cache. Do not hide from the advertised refs",
