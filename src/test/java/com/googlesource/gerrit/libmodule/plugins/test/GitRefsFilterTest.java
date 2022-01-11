@@ -15,6 +15,7 @@
 package com.googlesource.gerrit.libmodule.plugins.test;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.NoteDbMode.ON;
 import static com.googlesource.gerrit.modules.gitrefsfilter.ChangesTsCache.CHANGES_CACHE_TS;
 import static com.googlesource.gerrit.modules.gitrefsfilter.OpenChangesCache.OPEN_CHANGES_CACHE;
@@ -25,11 +26,16 @@ import com.google.common.cache.LoadingCache;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.NoHttpd;
+import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.config.PluginConfigFactory;
+import com.google.gerrit.server.project.ProjectConfig;
+import com.google.gerrit.server.project.testing.Util;
 import com.google.gerrit.testing.NoteDbMode;
 import com.google.inject.Inject;
 import com.google.inject.Module;
@@ -62,7 +68,8 @@ import org.junit.Test;
 @NoHttpd
 @Sandboxed
 public class GitRefsFilterTest extends AbstractGitDaemonTest {
-  @Inject private FilterRefsConfig filterConfig;
+
+  @Inject private PluginConfigFactory cfgFactory;
 
   @Inject
   private @Named(OPEN_CHANGES_CACHE) LoadingCache<ChangeCacheKey, Boolean> changeOpenCache;
@@ -85,7 +92,42 @@ public class GitRefsFilterTest extends AbstractGitDaemonTest {
   @Before
   public void setup() throws Exception {
     createFilteredRefsGroup();
-    filterConfig.setClosedChangeGraceTimeSec(CLOSED_CHANGES_GRACE_TIME_SEC);
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      ProjectConfig cfg = u.getConfig();
+      Util.allow(cfg, Permission.READ, REGISTERED_USERS, RefNames.REFS_CONFIG);
+      Util.allow(cfg, Permission.PUSH, REGISTERED_USERS, RefNames.REFS_CONFIG);
+      u.save();
+    }
+
+    String currentConfig =
+        gApi.projects()
+            .name(project.get())
+            .branch(RefNames.REFS_CONFIG)
+            .file(ProjectConfig.PROJECT_CONFIG)
+            .asString();
+
+    Config cfg = new Config();
+    cfg.fromText(currentConfig);
+    cfg.setLong(
+        "plugin",
+        "gerrit",
+        FilterRefsConfig.PROJECT_CONFIG_CLOSED_CHANGES_GRACE_TIME_SEC,
+        CLOSED_CHANGES_GRACE_TIME_SEC);
+    String newConfig = cfg.toText();
+
+    // Fetch permission ref
+    GitUtil.fetch(testRepo, "refs/meta/config:cfg");
+    testRepo.reset("cfg");
+
+    PushOneCommit push =
+        pushFactory.create(
+            db, admin.getIdent(), testRepo, "Subject", ProjectConfig.PROJECT_CONFIG, newConfig);
+    PushOneCommit.Result result = push.to(RefNames.REFS_CONFIG);
+    result.assertOkStatus();
+    projectCache.evict(project);
+
+    GitUtil.fetch(testRepo, "refs/*:refs/*");
+    testRepo.reset("refs/heads/master");
   }
 
   @Test
