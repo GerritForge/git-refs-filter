@@ -30,7 +30,7 @@ import com.google.gerrit.entities.RefNames;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.name.Named;
-import com.googlesource.gerrit.modules.gitrefsfilter.OpenChangesCache;
+import com.googlesource.gerrit.modules.gitrefsfilter.ChangeCacheKey;
 import com.googlesource.gerrit.modules.gitrefsfilter.RefsFilterModule;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -55,7 +55,7 @@ public class GitRefsFilterTest extends AbstractGitDaemonTest {
   @Inject private RequestScopeOperations requestScopeOperations;
 
   @Inject
-  private @Named(OPEN_CHANGES_CACHE) LoadingCache<OpenChangesCache.Key, Boolean> changeOpenCache;
+  private @Named(OPEN_CHANGES_CACHE) LoadingCache<ChangeCacheKey, Boolean> changeOpenCache;
 
   @Override
   public Module createModule() {
@@ -136,7 +136,7 @@ public class GitRefsFilterTest extends AbstractGitDaemonTest {
 
     assertThat(changeOpenCache.asMap().size()).isEqualTo(1);
 
-    Map.Entry<OpenChangesCache.Key, Boolean> cacheEntry =
+    Map.Entry<ChangeCacheKey, Boolean> cacheEntry =
         new ArrayList<>(changeOpenCache.asMap().entrySet()).get(0);
 
     assertThat(cacheEntry.getKey().project()).isEqualTo(project);
@@ -156,7 +156,7 @@ public class GitRefsFilterTest extends AbstractGitDaemonTest {
 
     assertThat(changeOpenCache.asMap().size()).isEqualTo(1);
 
-    Map.Entry<OpenChangesCache.Key, Boolean> cacheEntry =
+    Map.Entry<ChangeCacheKey, Boolean> cacheEntry =
         new ArrayList<>(changeOpenCache.asMap().entrySet()).get(0);
 
     assertThat(cacheEntry.getKey().project()).isEqualTo(project);
