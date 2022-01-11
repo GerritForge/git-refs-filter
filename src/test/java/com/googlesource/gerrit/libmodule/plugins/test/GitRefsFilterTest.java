@@ -29,6 +29,8 @@ import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.server.git.meta.MetaDataUpdate;
+import com.google.gerrit.server.project.ProjectConfig;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.name.Named;
@@ -83,7 +85,18 @@ public class GitRefsFilterTest extends AbstractGitDaemonTest {
   @Before
   public void setup() throws Exception {
     createFilteredRefsGroup();
-    filterConfig.setClosedChangeGraceTimeSec(CLOSED_CHANGES_GRACE_TIME_SEC);
+    try (MetaDataUpdate md = metaDataUpdateFactory.create(project)) {
+      ProjectConfig projectConfig = projectConfigFactory.create(project);
+      projectConfig.load(md);
+      projectConfig.updatePluginConfig(
+          "gerrit",
+          cfg ->
+              cfg.setLong(
+                  FilterRefsConfig.PROJECT_CONFIG_CLOSED_CHANGE_GRACE_TIME_MSEC,
+                  CLOSED_CHANGES_GRACE_TIME_SEC));
+      projectConfig.commit(md);
+      projectCache.evict(project);
+    }
   }
 
   @Test

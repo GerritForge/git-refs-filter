@@ -30,6 +30,7 @@ import com.google.gerrit.server.permissions.PermissionBackend.ForProject;
 import com.google.gerrit.server.permissions.PermissionBackend.ForRef;
 import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.name.Named;
@@ -144,7 +145,7 @@ public class ForProjectWrapper extends ForProject {
           Timestamp.from(
               Instant.now()
                   .truncatedTo(ChronoUnit.SECONDS)
-                  .minusSeconds(config.getClosedChangeGraceTimeSec()));
+                  .minusSeconds(config.getClosedChangeGraceTimeSec(project)));
       return changesTsCache
               .get(ChangeCacheKey.create(repo, changeId, changeRevision, project))
               .longValue()
@@ -155,6 +156,11 @@ public class ForProjectWrapper extends ForProject {
           "Error getting change '%d' from the cache. Do not hide from the advertised refs",
           changeId);
       return true;
+    } catch (NoSuchProjectException e) {
+      logger.atWarning().withCause(e).log(
+          "Error getting change '%d' from the cache. Project '%s' does not exist",
+          changeId, project);
+      return false;
     }
   }
 
