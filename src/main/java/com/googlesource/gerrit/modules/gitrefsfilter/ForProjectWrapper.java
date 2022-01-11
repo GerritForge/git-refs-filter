@@ -14,6 +14,7 @@
 
 package com.googlesource.gerrit.modules.gitrefsfilter;
 
+import static com.googlesource.gerrit.modules.gitrefsfilter.ChangesTsCache.CHANGES_CACHE_TS;
 import static com.googlesource.gerrit.modules.gitrefsfilter.OpenChangesCache.OPEN_CHANGES_CACHE;
 
 import com.google.common.cache.LoadingCache;
@@ -45,6 +46,7 @@ public class ForProjectWrapper extends ForProject {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final LoadingCache<ChangeCacheKey, Boolean> openChangesCache;
+  private final LoadingCache<ChangeCacheKey, Long> changesTsCache;
   private final ForProject defaultForProject;
   private final Project.NameKey project;
   private final FilterRefsConfig config;
@@ -57,9 +59,11 @@ public class ForProjectWrapper extends ForProject {
   public ForProjectWrapper(
       FilterRefsConfig config,
       @Named(OPEN_CHANGES_CACHE) LoadingCache<ChangeCacheKey, Boolean> openChangesCache,
+      @Named(CHANGES_CACHE_TS) LoadingCache<ChangeCacheKey, Long> changesTsCache,
       @Assisted ForProject defaultForProject,
       @Assisted Project.NameKey project) {
     this.openChangesCache = openChangesCache;
+    this.changesTsCache = changesTsCache;
     this.defaultForProject = defaultForProject;
     this.project = project;
     this.config = config;
@@ -102,7 +106,8 @@ public class ForProjectWrapper extends ForProject {
               return (!isChangeRef(refName)
                   || (!isChangeMetaRef(refName)
                       && changeId != null
-                      && isOpen(repo, changeId, changeRevisions.get(changeId))));
+                      && (isOpen(repo, changeId, changeRevisions.get(changeId))
+                          || isRecent(repo, changeId, changeRevisions.get(changeId)))));
             })
         .collect(Collectors.toList());
   }
@@ -127,6 +132,22 @@ public class ForProjectWrapper extends ForProject {
           "Error getting change '%d' from the cache. Do not hide from the advertised refs",
           changeId);
       return true;
+    }
+  }
+
+  private boolean isRecent(Repository repo, Change.Id changeId, @Nullable ObjectId changeRevision) {
+    try {
+      Long cutOffTs = System.currentTimeMillis() - config.getClosedChangeGraceTimeMsec();
+      return changesTsCache
+              .get(ChangeCacheKey.create(repo, changeId, changeRevision, project))
+              .longValue()
+          > cutOffTs;
+
+    } catch (ExecutionException e) {
+      logger.atWarning().withCause(e).log(
+          "Error getting change '%d' from the cache. Do not hide from the advertised refs",
+          changeId);
+      return false;
     }
   }
 
