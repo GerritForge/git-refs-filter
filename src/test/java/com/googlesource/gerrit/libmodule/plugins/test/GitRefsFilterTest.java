@@ -30,6 +30,10 @@ import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.config.PluginConfig;
+import com.google.gerrit.server.config.PluginConfigFactory;
+import com.google.gerrit.server.git.meta.MetaDataUpdate;
+import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.testing.NoteDbMode;
 import com.google.inject.Inject;
 import com.google.inject.Module;
@@ -62,7 +66,8 @@ import org.junit.Test;
 @NoHttpd
 @Sandboxed
 public class GitRefsFilterTest extends AbstractGitDaemonTest {
-  @Inject private FilterRefsConfig filterConfig;
+
+  @Inject private PluginConfigFactory cfgFactory;
 
   @Inject
   private @Named(OPEN_CHANGES_CACHE) LoadingCache<ChangeCacheKey, Boolean> changeOpenCache;
@@ -85,7 +90,19 @@ public class GitRefsFilterTest extends AbstractGitDaemonTest {
   @Before
   public void setup() throws Exception {
     createFilteredRefsGroup();
-    filterConfig.setClosedChangeGraceTimeSec(CLOSED_CHANGES_GRACE_TIME_SEC);
+    try (MetaDataUpdate md = metaDataUpdateFactory.create(project)) {
+      ProjectConfig projectConfig = projectCache.checkedGet(project).getConfig();
+      projectConfig.load(md);
+
+      PluginConfig pluginConfig = cfgFactory.getFromProjectConfigWithInheritance(project, "gerrit");
+
+      pluginConfig.setLong(
+          FilterRefsConfig.PROJECT_CONFIG_CLOSED_CHANGES_GRACE_TIME_SEC,
+          CLOSED_CHANGES_GRACE_TIME_SEC);
+
+      projectConfig.commit(md);
+      projectCache.evict(project);
+    }
   }
 
   @Test
