@@ -33,6 +33,7 @@ import com.google.gerrit.server.permissions.PermissionBackend.ForRef;
 import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
+import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
@@ -59,6 +60,7 @@ public class ForProjectWrapper extends ForProject {
   private final ChangeNotes.Factory changeNotesFactory;
   private final Provider<ReviewDb> dbProvider;
   private final FilterRefsConfig config;
+  private long closedChangesGraceTime;
 
   public interface Factory {
     ForProjectWrapper get(ForProject defaultForProject, Project.NameKey project);
@@ -72,7 +74,8 @@ public class ForProjectWrapper extends ForProject {
       @Named(OPEN_CHANGES_CACHE) LoadingCache<ChangeCacheKey, Boolean> openChangesCache,
       @Named(CHANGES_CACHE_TS) LoadingCache<ChangeCacheKey, Long> changesTsCache,
       @Assisted ForProject defaultForProject,
-      @Assisted Project.NameKey project) {
+      @Assisted Project.NameKey project)
+      throws NoSuchProjectException {
     this.openChangesCache = openChangesCache;
     this.changesTsCache = changesTsCache;
     this.defaultForProject = defaultForProject;
@@ -80,6 +83,7 @@ public class ForProjectWrapper extends ForProject {
     this.changeNotesFactory = changeNotesFactory;
     this.dbProvider = dbProvider;
     this.config = config;
+    this.closedChangesGraceTime = config.getClosedChangeGraceTimeSec(project);
   }
 
   @Override
@@ -157,9 +161,7 @@ public class ForProjectWrapper extends ForProject {
     try {
       Timestamp cutOffTs =
           Timestamp.from(
-              Instant.now()
-                  .truncatedTo(ChronoUnit.SECONDS)
-                  .minusSeconds(config.getClosedChangeGraceTimeSec()));
+              Instant.now().truncatedTo(ChronoUnit.SECONDS).minusSeconds(closedChangesGraceTime));
       return changesTsCache
               .get(ChangeCacheKey.create(repo, changeId, changeRevision, project))
               .longValue()
