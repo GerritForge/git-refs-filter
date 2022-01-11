@@ -25,6 +25,8 @@ public class RefsFilterModule extends AbstractModule {
 
   @Override
   protected void configure() {
+    bind(FilterRefsConfig.class).in(Scopes.SINGLETON);
+
     install(
         new FactoryModuleBuilder()
             .implement(WithUserWrapper.class, WithUserWrapper.class)
@@ -43,5 +45,6 @@ public class RefsFilterModule extends AbstractModule {
         .in(Scopes.SINGLETON);
 
     install(OpenChangesCache.module());
+    install(ChangesTsCache.module());
   }
 }
