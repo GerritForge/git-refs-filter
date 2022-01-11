@@ -46,6 +46,30 @@
       },
       "revId": "415b5331b301974084ab3f266a4c78385bf467f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9f51960_80e5a74c",
+        "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/ForProjectWrapper.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-01-11T22:26:15Z",
+      "side": 1,
+      "message": "Ok I understand but if we have some issue with the cache we will expose a lot of refs(in the worst case scenario all refs) and this will impact the client performance and put extra system load",
+      "parentUuid": "9435ee1f_92b7b2e3",
+      "range": {
+        "startLine": 150,
+        "startChar": 13,
+        "endLine": 150,
+        "endChar": 18
+      },
+      "revId": "415b5331b301974084ab3f266a4c78385bf467f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
