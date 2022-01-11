@@ -70,6 +70,30 @@
       },
       "revId": "415b5331b301974084ab3f266a4c78385bf467f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7468c4f7_5067c0c0",
+        "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/ForProjectWrapper.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-01-11T23:52:12Z",
+      "side": 1,
+      "message": "It\u0027s best to show *more* refs rather than making builds fail because we don\u0027t return the refs we should, isn\u0027t it?",
+      "parentUuid": "b9f51960_80e5a74c",
+      "range": {
+        "startLine": 150,
+        "startChar": 13,
+        "endLine": 150,
+        "endChar": 18
+      },
+      "revId": "415b5331b301974084ab3f266a4c78385bf467f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
