@@ -14,6 +14,7 @@
 
 package com.googlesource.gerrit.modules.gitrefsfilter;
 
+import static com.googlesource.gerrit.modules.gitrefsfilter.ChangesTsCache.CHANGES_CACHE_TS;
 import static com.googlesource.gerrit.modules.gitrefsfilter.OpenChangesCache.OPEN_CHANGES_CACHE;
 
 import com.google.common.cache.LoadingCache;
@@ -32,6 +33,7 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.name.Named;
+import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
@@ -45,6 +47,7 @@ public class ForProjectWrapper extends ForProject {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final LoadingCache<ChangeCacheKey, Boolean> openChangesCache;
+  private final LoadingCache<ChangeCacheKey, Timestamp> changesTsCache;
   private final ForProject defaultForProject;
   private final Project.NameKey project;
   private final FilterRefsConfig config;
@@ -57,9 +60,11 @@ public class ForProjectWrapper extends ForProject {
   public ForProjectWrapper(
       FilterRefsConfig config,
       @Named(OPEN_CHANGES_CACHE) LoadingCache<ChangeCacheKey, Boolean> openChangesCache,
+      @Named(CHANGES_CACHE_TS) LoadingCache<ChangeCacheKey, Timestamp> changesTsCache,
       @Assisted ForProject defaultForProject,
       @Assisted Project.NameKey project) {
     this.openChangesCache = openChangesCache;
+    this.changesTsCache = changesTsCache;
     this.defaultForProject = defaultForProject;
     this.project = project;
     this.config = config;
@@ -102,7 +107,8 @@ public class ForProjectWrapper extends ForProject {
               return (!isChangeRef(refName)
                   || (!isChangeMetaRef(refName)
                       && changeId != null
-                      && isOpen(repo, changeId, changeRevisions.get(changeId))));
+                      && (isOpen(repo, changeId, changeRevisions.get(changeId))
+                          || isNotOutdated(repo, changeId, changeRevisions.get(changeId)))));
             })
         .collect(Collectors.toList());
   }
@@ -122,6 +128,22 @@ public class ForProjectWrapper extends ForProject {
   private boolean isOpen(Repository repo, Change.Id changeId, @Nullable ObjectId changeRevision) {
     try {
       return openChangesCache.get(ChangeCacheKey.create(repo, changeId, changeRevision, project));
+    } catch (ExecutionException e) {
+      logger.atWarning().withCause(e).log(
+          "Error getting change '%d' from the cache. Do not hide from the advertised refs",
+          changeId);
+      return true;
+    }
+  }
+
+  private boolean isNotOutdated(
+      Repository repo, Change.Id changeId, @Nullable ObjectId changeRevision) {
+    try {
+      Timestamp cutOffDate =
+          new Timestamp(System.currentTimeMillis() - config.getClosedChangeGraceTimeMsec());
+      return changesTsCache
+          .get(ChangeCacheKey.create(repo, changeId, changeRevision, project))
+          .after(cutOffDate);
     } catch (ExecutionException e) {
       logger.atWarning().withCause(e).log(
           "Error getting change '%d' from the cache. Do not hide from the advertised refs",
