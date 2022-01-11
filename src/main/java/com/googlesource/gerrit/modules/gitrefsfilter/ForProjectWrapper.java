@@ -30,6 +30,7 @@ import com.google.gerrit.server.permissions.PermissionBackend.ForProject;
 import com.google.gerrit.server.permissions.PermissionBackend.ForRef;
 import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.name.Named;
@@ -96,23 +97,35 @@ public class ForProjectWrapper extends ForProject {
         refs.stream()
             .filter(ref -> ref.getName().endsWith("/meta"))
             .collect(Collectors.toMap(ForProjectWrapper::changeIdFromRef, Ref::getObjectId));
-    return defaultForProject
-        .filter(refs, repo, opts)
-        .parallelStream()
-        .filter(ref -> !ref.getName().startsWith(RefNames.REFS_USERS))
-        .filter(ref -> !ref.getName().startsWith(RefNames.REFS_CACHE_AUTOMERGE))
-        .filter(config::isRefToShow)
-        .filter(
-            (ref) -> {
-              Change.Id changeId = changeIdFromRef(ref);
-              String refName = ref.getName();
-              return (!isChangeRef(refName)
-                  || (!isChangeMetaRef(refName)
-                      && changeId != null
-                      && (isOpen(repo, changeId, changeRevisions.get(changeId))
-                          || isRecent(repo, changeId, changeRevisions.get(changeId)))));
-            })
-        .collect(Collectors.toList());
+    try {
+      long closedChangesGraceTime = config.getClosedChangeGraceTimeSec(project);
+
+      return defaultForProject
+          .filter(refs, repo, opts)
+          .parallelStream()
+          .filter(ref -> !ref.getName().startsWith(RefNames.REFS_USERS))
+          .filter(ref -> !ref.getName().startsWith(RefNames.REFS_CACHE_AUTOMERGE))
+          .filter(config::isRefToShow)
+          .filter(
+              (ref) -> {
+                Change.Id changeId = changeIdFromRef(ref);
+                String refName = ref.getName();
+                return (!isChangeRef(refName)
+                    || (!isChangeMetaRef(refName)
+                        && changeId != null
+                        && (isOpen(repo, changeId, changeRevisions.get(changeId))
+                            || isRecent(
+                                repo,
+                                changeId,
+                                changeRevisions.get(changeId),
+                                closedChangesGraceTime))));
+              })
+          .collect(Collectors.toList());
+    } catch (NoSuchProjectException e) {
+      throw new PermissionBackendException(
+          String.format(
+              "Error getting closed changes grace time. Project '%s' does not exist", project));
+    }
   }
 
   private static Change.Id changeIdFromRef(Ref ref) {
@@ -138,13 +151,15 @@ public class ForProjectWrapper extends ForProject {
     }
   }
 
-  private boolean isRecent(Repository repo, Change.Id changeId, @Nullable ObjectId changeRevision) {
+  private boolean isRecent(
+      Repository repo,
+      Change.Id changeId,
+      @Nullable ObjectId changeRevision,
+      long closedChangesGraceTime) {
     try {
       Timestamp cutOffTs =
           Timestamp.from(
-              Instant.now()
-                  .truncatedTo(ChronoUnit.SECONDS)
-                  .minusSeconds(config.getClosedChangeGraceTimeSec()));
+              Instant.now().truncatedTo(ChronoUnit.SECONDS).minusSeconds(closedChangesGraceTime));
       return changesTsCache
               .get(ChangeCacheKey.create(repo, changeId, changeRevision, project))
               .longValue()
