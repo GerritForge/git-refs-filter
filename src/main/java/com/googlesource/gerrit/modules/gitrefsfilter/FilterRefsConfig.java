@@ -19,6 +19,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Ref;
@@ -26,6 +27,11 @@ import org.eclipse.jgit.lib.Ref;
 public class FilterRefsConfig {
   public static final String SECTION_GIT_REFS_FILTER = "git-refs-filter";
   public static final String KEY_HIDE_REFS = "hideRefs";
+
+  private static final long CLOSED_CHANGE_GRACE_TIME_MSEC_DEFAULT =
+      TimeUnit.MILLISECONDS.convert(24, TimeUnit.HOURS);
+
+  private long closedChangeGraceTimeMsec = CLOSED_CHANGE_GRACE_TIME_MSEC_DEFAULT;
 
   private final List<String> hideRefs;
   private final List<String> showRefs;
@@ -67,5 +73,13 @@ public class FilterRefsConfig {
     }
 
     return true;
+  }
+
+  public long getClosedChangeGraceTimeMsec() {
+    return closedChangeGraceTimeMsec;
+  }
+
+  public void setClosedChangeGraceTimeMsec(long graceTimeMs) {
+    this.closedChangeGraceTimeMsec = graceTimeMs;
   }
 }
