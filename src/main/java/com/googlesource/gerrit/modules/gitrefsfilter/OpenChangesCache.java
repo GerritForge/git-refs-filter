@@ -13,12 +13,8 @@
 // limitations under the License.
 package com.googlesource.gerrit.modules.gitrefsfilter;
 
-import com.google.auto.value.AutoValue;
 import com.google.common.cache.CacheLoader;
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.common.Nullable;
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -28,8 +24,6 @@ import com.google.inject.Module;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
-import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.Repository;
 
 public class OpenChangesCache {
   public static final String OPEN_CHANGES_CACHE = "open_changes";
@@ -45,36 +39,14 @@ public class OpenChangesCache {
     return new CacheModule() {
       @Override
       protected void configure() {
-        cache(OPEN_CHANGES_CACHE, Key.class, new TypeLiteral<Boolean>() {}).loader(Loader.class);
+        cache(OPEN_CHANGES_CACHE, ChangeCacheKey.class, new TypeLiteral<Boolean>() {})
+            .loader(Loader.class);
       }
     };
   }
 
-  @AutoValue
-  public abstract static class Key {
-    /* Note: `repo` and `changeId` need to be part of the cache key because the
-    Loader requires them in order to compute the relevant changeNote to extract
-    the change openness status from. */
-    public abstract Repository repo();
-
-    public abstract Change.Id changeId();
-
-    @Nullable
-    public abstract ObjectId changeRevision();
-
-    public abstract Project.NameKey project();
-
-    static Key create(
-        Repository repo,
-        Change.Id changeId,
-        @Nullable ObjectId changeRevision,
-        Project.NameKey project) {
-      return new AutoValue_OpenChangesCache_Key(repo, changeId, changeRevision, project);
-    }
-  }
-
   @Singleton
-  static class Loader extends CacheLoader<Key, Boolean> {
+  static class Loader extends CacheLoader<ChangeCacheKey, Boolean> {
     private static final FluentLogger logger = FluentLogger.forEnclosingClass();
     private final ChangeNotes.Factory changeNotesFactory;
     private final OpenChangesCache openChangesCache;
@@ -86,7 +58,7 @@ public class OpenChangesCache {
     }
 
     @Override
-    public Boolean load(Key key) throws Exception {
+    public Boolean load(ChangeCacheKey key) throws Exception {
       try {
         ChangeNotes changeNotes =
             changeNotesFactory.createChecked(
