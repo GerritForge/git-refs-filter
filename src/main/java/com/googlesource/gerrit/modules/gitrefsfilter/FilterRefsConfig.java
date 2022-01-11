@@ -15,7 +15,10 @@
 package com.googlesource.gerrit.modules.gitrefsfilter;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.config.PluginConfigFactory;
+import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.inject.Inject;
 import java.util.Arrays;
 import java.util.List;
@@ -27,18 +30,20 @@ import org.eclipse.jgit.lib.Ref;
 public class FilterRefsConfig {
   public static final String SECTION_GIT_REFS_FILTER = "git-refs-filter";
   public static final String KEY_HIDE_REFS = "hideRefs";
+  public static final String PROJECT_CONFIG_CLOSED_CHANGE_GRACE_TIME_MSEC =
+      "gitRefFilterClosedChangeGraceTimeMsec";
 
-  private static final long CLOSED_CHANGE_GRACE_TIME_MSEC_DEFAULT =
+  public static final long DEFAULT_CLOSED_CHANGE_GRACE_TIME_MSEC =
       TimeUnit.MILLISECONDS.convert(24, TimeUnit.HOURS);
-
-  private long closedChangeGraceTimeMsec = CLOSED_CHANGE_GRACE_TIME_MSEC_DEFAULT;
 
   private final List<String> hideRefs;
   private final List<String> showRefs;
+  private PluginConfigFactory cfgFactory;
 
   @Inject
-  public FilterRefsConfig(@GerritServerConfig Config gerritConfig) {
+  public FilterRefsConfig(@GerritServerConfig Config gerritConfig, PluginConfigFactory cfgFactory) {
 
+    this.cfgFactory = cfgFactory;
     List<String> hideRefsConfig =
         Arrays.asList(gerritConfig.getStringList(SECTION_GIT_REFS_FILTER, null, KEY_HIDE_REFS));
 
@@ -75,11 +80,11 @@ public class FilterRefsConfig {
     return true;
   }
 
-  public long getClosedChangeGraceTimeMsec() {
-    return closedChangeGraceTimeMsec;
-  }
-
-  public void setClosedChangeGraceTimeMsec(long graceTimeMs) {
-    this.closedChangeGraceTimeMsec = graceTimeMs;
+  public long getClosedChangeGraceTimeMsec(Project.NameKey projectKey)
+      throws NoSuchProjectException {
+    return cfgFactory
+        .getFromProjectConfigWithInheritance(projectKey, "gerrit")
+        .getLong(
+            PROJECT_CONFIG_CLOSED_CHANGE_GRACE_TIME_MSEC, DEFAULT_CLOSED_CHANGE_GRACE_TIME_MSEC);
   }
 }
