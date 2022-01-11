@@ -44,7 +44,7 @@ import org.eclipse.jgit.lib.Repository;
 public class ForProjectWrapper extends ForProject {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  private final LoadingCache<OpenChangesCache.Key, Boolean> openChangesCache;
+  private final LoadingCache<ChangeCacheKey, Boolean> openChangesCache;
   private final ForProject defaultForProject;
   private final Project.NameKey project;
   private final FilterRefsConfig config;
@@ -56,7 +56,7 @@ public class ForProjectWrapper extends ForProject {
   @Inject
   public ForProjectWrapper(
       FilterRefsConfig config,
-      @Named(OPEN_CHANGES_CACHE) LoadingCache<OpenChangesCache.Key, Boolean> openChangesCache,
+      @Named(OPEN_CHANGES_CACHE) LoadingCache<ChangeCacheKey, Boolean> openChangesCache,
       @Assisted ForProject defaultForProject,
       @Assisted Project.NameKey project) {
     this.openChangesCache = openChangesCache;
@@ -121,8 +121,7 @@ public class ForProjectWrapper extends ForProject {
 
   private boolean isOpen(Repository repo, Change.Id changeId, @Nullable ObjectId changeRevision) {
     try {
-      return openChangesCache.get(
-          OpenChangesCache.Key.create(repo, changeId, changeRevision, project));
+      return openChangesCache.get(ChangeCacheKey.create(repo, changeId, changeRevision, project));
     } catch (ExecutionException e) {
       logger.atWarning().withCause(e).log(
           "Error getting change '%d' from the cache. Do not hide from the advertised refs",
