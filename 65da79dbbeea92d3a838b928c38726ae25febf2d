@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d113ec4_9867bf17",
+        "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/FilterRefsConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-01-12T00:02:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ee7e8c4_45569d43",
+      "range": {
+        "startLine": 31,
+        "startChar": 52,
+        "endLine": 31,
+        "endChar": 58
+      },
+      "revId": "65da79dbbeea92d3a838b928c38726ae25febf2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c16cdcdd_8eddd523",
@@ -61,6 +85,30 @@
       "side": 1,
       "message": "True, I should also test that the wait *was not less* than the grace time, isn\u0027t it?",
       "parentUuid": "c16cdcdd_8eddd523",
+      "range": {
+        "startLine": 87,
+        "startChar": 54,
+        "endLine": 87,
+        "endChar": 82
+      },
+      "revId": "65da79dbbeea92d3a838b928c38726ae25febf2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "57f64e62_be8d195b",
+        "filename": "src/test/java/com/googlesource/gerrit/libmodule/plugins/test/GitRefsFilterTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-01-12T00:02:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84e854b6_c4dd8849",
       "range": {
         "startLine": 87,
         "startChar": 54,
