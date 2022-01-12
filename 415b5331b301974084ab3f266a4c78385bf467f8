@@ -94,6 +94,30 @@
       },
       "revId": "415b5331b301974084ab3f266a4c78385bf467f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ac40a23_8e5d781d",
+        "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/ForProjectWrapper.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-01-12T20:08:45Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "7468c4f7_5067c0c0",
+      "range": {
+        "startLine": 150,
+        "startChar": 13,
+        "endLine": 150,
+        "endChar": 18
+      },
+      "revId": "415b5331b301974084ab3f266a4c78385bf467f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
