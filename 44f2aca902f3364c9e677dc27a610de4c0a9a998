@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c83988a1_2fb98a32",
+        "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/ForProjectWrapper.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-01-12T21:52:19Z",
+      "side": 1,
+      "message": "This isn\u0027t changing across call: just it in the constructor and store as a field.",
+      "revId": "44f2aca902f3364c9e677dc27a610de4c0a9a998",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e28bfc6e_f56c34cf",
+        "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/ForProjectWrapper.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-01-12T21:52:19Z",
+      "side": 1,
+      "message": "This isn\u0027t needed: it can be used as a field of the object.",
+      "range": {
+        "startLine": 158,
+        "startChar": 6,
+        "endLine": 158,
+        "endChar": 33
+      },
+      "revId": "44f2aca902f3364c9e677dc27a610de4c0a9a998",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
