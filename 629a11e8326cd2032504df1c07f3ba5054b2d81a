@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b65450b4_197624c9",
+        "filename": "README.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-01-12T21:49:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6963abf5_606e515e",
+      "range": {
+        "startLine": 105,
+        "startChar": 80,
+        "endLine": 105,
+        "endChar": 108
+      },
+      "revId": "629a11e8326cd2032504df1c07f3ba5054b2d81a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0e6c27ab_f22232e0",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a03fa579_e43711c0",
+        "filename": "README.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-01-12T21:49:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0e6c27ab_f22232e0",
+      "range": {
+        "startLine": 106,
+        "startChar": 80,
+        "endLine": 106,
+        "endChar": 222
+      },
+      "revId": "629a11e8326cd2032504df1c07f3ba5054b2d81a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "daca9102_f47648a2",
@@ -60,6 +108,24 @@
       "writtenOn": "2022-01-12T21:27:57Z",
       "side": 1,
       "message": "You need to specify what is the name of the parameter in the project.config and that needs to be set in the [plugin \"gerrit\"] section.",
+      "revId": "629a11e8326cd2032504df1c07f3ba5054b2d81a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eeb12f16_a4c164df",
+        "filename": "README.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-01-12T21:49:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "daca9102_f47648a2",
       "revId": "629a11e8326cd2032504df1c07f3ba5054b2d81a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -100,6 +166,54 @@
       "writtenOn": "2022-01-12T21:27:57Z",
       "side": 1,
       "message": "SEC",
+      "range": {
+        "startLine": 33,
+        "startChar": 69,
+        "endLine": 33,
+        "endChar": 73
+      },
+      "revId": "629a11e8326cd2032504df1c07f3ba5054b2d81a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e992273d_840aaf1f",
+        "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/FilterRefsConfig.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-01-12T21:49:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "641be3b3_6a833b83",
+      "range": {
+        "startLine": 33,
+        "startChar": 51,
+        "endLine": 33,
+        "endChar": 57
+      },
+      "revId": "629a11e8326cd2032504df1c07f3ba5054b2d81a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a1ee38e_65463e46",
+        "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/FilterRefsConfig.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-01-12T21:49:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc0ff6b5_816d7cbd",
       "range": {
         "startLine": 33,
         "startChar": 69,
@@ -156,6 +270,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b3f8829_7763450d",
+        "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/FilterRefsConfig.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-01-12T21:49:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e98f8613_134f1959",
+      "range": {
+        "startLine": 34,
+        "startChar": 25,
+        "endLine": 34,
+        "endChar": 31
+      },
+      "revId": "629a11e8326cd2032504df1c07f3ba5054b2d81a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b609445d_ed631ff8",
+        "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/FilterRefsConfig.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-01-12T21:49:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f52c3d7b_84d4107b",
+      "range": {
+        "startLine": 34,
+        "startChar": 40,
+        "endLine": 34,
+        "endChar": 44
+      },
+      "revId": "629a11e8326cd2032504df1c07f3ba5054b2d81a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "73c924fa_b754c1bf",
@@ -179,6 +341,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9ad193d_1c8ff613",
+        "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/FilterRefsConfig.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-01-12T21:49:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "73c924fa_b754c1bf",
+      "range": {
+        "startLine": 85,
+        "startChar": 0,
+        "endLine": 88,
+        "endChar": 96
+      },
+      "revId": "629a11e8326cd2032504df1c07f3ba5054b2d81a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9d91667c_88258c7c",
@@ -192,6 +378,30 @@
       "writtenOn": "2022-01-12T21:27:57Z",
       "side": 1,
       "message": "This is expensive: needs to be called on the filter method",
+      "range": {
+        "startLine": 148,
+        "startChar": 33,
+        "endLine": 148,
+        "endChar": 75
+      },
+      "revId": "629a11e8326cd2032504df1c07f3ba5054b2d81a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "83ec4621_51717540",
+        "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/ForProjectWrapper.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-01-12T21:49:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d91667c_88258c7c",
       "range": {
         "startLine": 148,
         "startChar": 33,
