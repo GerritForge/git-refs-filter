@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "563dab73_5c0235a7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-02-08T20:58:08Z",
+      "side": 1,
+      "message": "//plugins/git-refs-filter:git_refs_filter_tests                          PASSED in 27.0s",
+      "revId": "11373a8b0a989c86230892af464a64870f0fb59f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
