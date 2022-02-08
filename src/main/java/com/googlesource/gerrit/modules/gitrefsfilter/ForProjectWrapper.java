@@ -14,24 +14,33 @@
 
 package com.googlesource.gerrit.modules.gitrefsfilter;
 
+import static com.googlesource.gerrit.modules.gitrefsfilter.ChangesTsCache.CHANGES_CACHE_TS;
+import static com.googlesource.gerrit.modules.gitrefsfilter.OpenChangesCache.OPEN_CHANGES_CACHE;
+
+import com.google.common.cache.LoadingCache;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.access.CoreOrPluginProjectPermission;
 import com.google.gerrit.extensions.conditions.BooleanCondition;
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.PermissionBackend.ForProject;
 import com.google.gerrit.server.permissions.PermissionBackend.ForRef;
 import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.name.Named;
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -40,10 +49,12 @@ import org.eclipse.jgit.lib.Repository;
 public class ForProjectWrapper extends ForProject {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  private final LoadingCache<ChangeCacheKey, Boolean> openChangesCache;
+  private final LoadingCache<ChangeCacheKey, Long> changesTsCache;
   private final ForProject defaultForProject;
   private final Project.NameKey project;
-  private final ChangeNotes.Factory changeNotesFactory;
   private final FilterRefsConfig config;
+  private long closedChangesGraceTime;
 
   public interface Factory {
     ForProjectWrapper get(ForProject defaultForProject, Project.NameKey project);
@@ -51,14 +62,18 @@ public class ForProjectWrapper extends ForProject {
 
   @Inject
   public ForProjectWrapper(
-      ChangeNotes.Factory changeNotesFactory,
       FilterRefsConfig config,
+      @Named(OPEN_CHANGES_CACHE) LoadingCache<ChangeCacheKey, Boolean> openChangesCache,
+      @Named(CHANGES_CACHE_TS) LoadingCache<ChangeCacheKey, Long> changesTsCache,
       @Assisted ForProject defaultForProject,
-      @Assisted Project.NameKey project) {
+      @Assisted Project.NameKey project)
+      throws NoSuchProjectException {
+    this.openChangesCache = openChangesCache;
+    this.changesTsCache = changesTsCache;
     this.defaultForProject = defaultForProject;
     this.project = project;
-    this.changeNotesFactory = changeNotesFactory;
     this.config = config;
+    this.closedChangesGraceTime = config.getClosedChangeGraceTimeSec(project);
   }
 
   @Override
@@ -98,7 +113,8 @@ public class ForProjectWrapper extends ForProject {
               return (!isChangeRef(refName)
                   || (!isChangeMetaRef(refName)
                       && changeId != null
-                      && isOpen(repo, changeId, changeRevisions.get(changeId))));
+                      && (isOpen(repo, changeId, changeRevisions.get(changeId))
+                          || isRecent(repo, changeId, changeRevisions.get(changeId)))));
             })
         .collect(Collectors.toList());
   }
@@ -115,15 +131,32 @@ public class ForProjectWrapper extends ForProject {
     return isChangeRef(changeKey) && changeKey.endsWith("/meta");
   }
 
-  private boolean isOpen(Repository repo, Change.Id changeId, ObjectId changeRevision) {
+  private boolean isOpen(Repository repo, Change.Id changeId, @Nullable ObjectId changeRevision) {
     try {
-      ChangeNotes changeNotes =
-          changeNotesFactory.createChecked(repo, project, changeId, changeRevision);
-      return changeNotes.getChange().getStatus().isOpen();
-    } catch (NoSuchChangeException e) {
+      return openChangesCache.get(ChangeCacheKey.create(repo, changeId, changeRevision, project));
+    } catch (ExecutionException e) {
       logger.atWarning().withCause(e).log(
-          "Change %d does not exist: hiding from the advertised refs", changeId);
-      return false;
+          "Error getting change '%d' from the cache. Do not hide from the advertised refs",
+          changeId);
+      return true;
+    }
+  }
+
+  private boolean isRecent(Repository repo, Change.Id changeId, @Nullable ObjectId changeRevision) {
+    try {
+      Timestamp cutOffTs =
+          Timestamp.from(
+              Instant.now().truncatedTo(ChronoUnit.SECONDS).minusSeconds(closedChangesGraceTime));
+      return changesTsCache
+              .get(ChangeCacheKey.create(repo, changeId, changeRevision, project))
+              .longValue()
+          >= cutOffTs.getTime();
+
+    } catch (ExecutionException e) {
+      logger.atWarning().withCause(e).log(
+          "Error getting change '%d' from the cache. Do not hide from the advertised refs",
+          changeId);
+      return true;
     }
   }
 

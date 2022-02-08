@@ -27,6 +27,13 @@ set of ACLs or plugins.
 git-refs-filter is slightly slower than using Git's hideRefs and it does require the configuration
 of the change_notes cache in `gerrit.config` to avoid potentially high overhead.
 
+Additionally, this plugin uses an in-memory cache to store previously computed
+open/close change statuses to avoid processing them over and over again.
+
+Explicit invalidation of such cache is not necessary, since the change revision
+is part of the cache key, so that previous entries automatically become obsolete
+once a change status is updated.
+
 ### Gerrit ACLs
 
 Use the Gerrit ACLs when you need to hide some of the refs on a per-project basis or when
@@ -63,9 +70,9 @@ By default the capability isn't assigned to any user or group, thus the module i
 has no side effects.
 
 Filtering a closed change refs has the following meaning:
-- Merged changes and all their patch-sets
-- Abandoned changes and all their patch-sets
-- Corrupted changes and all their patch-sets
+- Merged changes and all their patch-sets older than the [grace time](#grace-time-for-closed-changes)
+- Abandoned changes and all their patch-sets older than the [grace time](#grace-time-for-closed-changes)
+- Corrupted changes and all their patch-sets older than the [grace time](#grace-time-for-closed-changes)
 - All '/meta' refs of all changes
 - All non-published edits of any changes
 
@@ -93,3 +100,18 @@ To enable a group of users of getting a "filtered list" of refs (e.g. CI jobs):
 a READ rule to refs/*). To enable the closed changes filtering you need to disable any global read rule
 for the group that needs refs filtering.
 
+### Grace time for closed changes
+
+The refsfilter allows to define `git-refs-filter: grace time [sec] for closed changes`
+project configuration parameter. This parameter controls the size of the grace
+time window in seconds. All closed changes newer than the grace time will not
+be filtered out. Value can be defined per project or can be inherited from its parents.
+
+Default value: 86400
+
+Example of setting the grace time parameter in `project.config`:
+
+```
+[plugin "gerrit"]
+  gitRefFilterClosedChangesGraceTimeSec = 3600
+```

@@ -15,10 +15,14 @@
 package com.googlesource.gerrit.modules.gitrefsfilter;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.config.PluginConfigFactory;
+import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.inject.Inject;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Ref;
@@ -26,13 +30,20 @@ import org.eclipse.jgit.lib.Ref;
 public class FilterRefsConfig {
   public static final String SECTION_GIT_REFS_FILTER = "git-refs-filter";
   public static final String KEY_HIDE_REFS = "hideRefs";
+  public static final String PROJECT_CONFIG_CLOSED_CHANGES_GRACE_TIME_SEC =
+      "gitRefFilterClosedChangesGraceTimeSec";
+
+  static final long CLOSED_CHANGES_GRACE_TIME_SEC_DEFAULT =
+      TimeUnit.SECONDS.convert(24, TimeUnit.HOURS);
 
   private final List<String> hideRefs;
   private final List<String> showRefs;
+  private PluginConfigFactory cfgFactory;
 
   @Inject
-  public FilterRefsConfig(@GerritServerConfig Config gerritConfig) {
+  public FilterRefsConfig(@GerritServerConfig Config gerritConfig, PluginConfigFactory cfgFactory) {
 
+    this.cfgFactory = cfgFactory;
     List<String> hideRefsConfig =
         Arrays.asList(gerritConfig.getStringList(SECTION_GIT_REFS_FILTER, null, KEY_HIDE_REFS));
 
@@ -67,5 +78,14 @@ public class FilterRefsConfig {
     }
 
     return true;
+  }
+
+  /** performance warning: this call can be expensive, please reuse the value */
+  public long getClosedChangeGraceTimeSec(Project.NameKey projectKey)
+      throws NoSuchProjectException {
+    return cfgFactory
+        .getFromProjectConfigWithInheritance(projectKey, "gerrit")
+        .getLong(
+            PROJECT_CONFIG_CLOSED_CHANGES_GRACE_TIME_SEC, CLOSED_CHANGES_GRACE_TIME_SEC_DEFAULT);
   }
 }

@@ -16,6 +16,7 @@ package com.googlesource.gerrit.modules.gitrefsfilter;
 
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.config.CapabilityDefinition;
+import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.inject.AbstractModule;
 import com.google.inject.Scopes;
@@ -25,6 +26,8 @@ public class RefsFilterModule extends AbstractModule {
 
   @Override
   protected void configure() {
+    bind(FilterRefsConfig.class).in(Scopes.SINGLETON);
+
     install(
         new FactoryModuleBuilder()
             .implement(WithUserWrapper.class, WithUserWrapper.class)
@@ -41,5 +44,17 @@ public class RefsFilterModule extends AbstractModule {
         .annotatedWith(Exports.named(FilterRefsCapability.HIDE_CLOSED_CHANGES_REFS))
         .to(FilterRefsCapability.class)
         .in(Scopes.SINGLETON);
+
+    bind(ProjectConfigEntry.class)
+        .annotatedWith(Exports.named(FilterRefsConfig.PROJECT_CONFIG_CLOSED_CHANGES_GRACE_TIME_SEC))
+        .toInstance(
+            new ProjectConfigEntry(
+                "git-refs-filter: grace time [sec] for closed changes",
+                FilterRefsConfig.CLOSED_CHANGES_GRACE_TIME_SEC_DEFAULT,
+                true,
+                "Grace time for keeping closed changes from filtering by the git-refs-filter"));
+
+    install(OpenChangesCache.module());
+    install(ChangesTsCache.module());
   }
 }
