@@ -70,7 +70,7 @@ public class OpenChangesCache {
         return changeNotes.getChange().getStatus().isOpen();
       } catch (NoSuchChangeException e) {
         logger.atFine().withCause(e).log(
-            "Change %d does not exist: hiding from the advertised refs", key.changeId());
+            "Change %d does not exist: hiding from the advertised refs", key.changeId().get());
         return false;
       }
     }
