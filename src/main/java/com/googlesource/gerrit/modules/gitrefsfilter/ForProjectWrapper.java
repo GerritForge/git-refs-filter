@@ -137,7 +137,7 @@ public class ForProjectWrapper extends ForProject {
     } catch (ExecutionException e) {
       logger.atWarning().withCause(e).log(
           "Error getting change '%d' from the cache. Do not hide from the advertised refs",
-          changeId);
+          changeId.get());
       return true;
     }
   }
@@ -155,7 +155,7 @@ public class ForProjectWrapper extends ForProject {
     } catch (ExecutionException e) {
       logger.atWarning().withCause(e).log(
           "Error getting change '%d' from the cache. Do not hide from the advertised refs",
-          changeId);
+          changeId.get());
       return true;
     }
   }

@@ -56,7 +56,7 @@ public class ChangesTsCache {
             .getTime();
       } catch (NoSuchChangeException e) {
         logger.atFine().withCause(e).log(
-            "Change %d does not exist: returning zero epoch", key.changeId());
+            "Change %d does not exist: returning zero epoch", key.changeId().get());
         return 0L;
       }
     }
