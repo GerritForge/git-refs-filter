@@ -53,7 +53,7 @@ public class ChangesTsCache {
             .createChecked(key.repo(), key.project(), key.changeId(), key.changeRevision())
             .getChange()
             .getLastUpdatedOn()
-            .getTime();
+            .toEpochMilli();
       } catch (NoSuchChangeException e) {
         logger.atFine().withCause(e).log(
             "Change %d does not exist: returning zero epoch", key.changeId());
