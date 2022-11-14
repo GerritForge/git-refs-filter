@@ -50,8 +50,7 @@ public class OpenChangesCache {
     public Boolean load(ChangeCacheKey key) throws Exception {
       try {
         ChangeNotes changeNotes =
-            changeNotesFactory.createChecked(
-                key.repo(), key.project(), key.changeId(), key.changeRevision());
+            changeNotesFactory.createChecked(key.project(), key.changeId(), key.changeRevision());
         return changeNotes.getChange().getStatus().isOpen();
       } catch (NoSuchChangeException e) {
         logger.atFine().withCause(e).log(
