@@ -18,6 +18,7 @@ import com.google.auto.value.AutoValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
+import java.util.concurrent.atomic.AtomicReference;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 
@@ -25,7 +26,11 @@ import org.eclipse.jgit.lib.Repository;
 public abstract class ChangeCacheKey {
   /* `repo` and `changeId` need to be part of the cache key because the
   Loader requires them in order to fetch the relevant changeNote. */
-  public abstract Repository repo();
+  final AtomicReference<Repository> repo = new AtomicReference<>();
+
+  public final Repository repo() {
+    return repo.get();
+  }
 
   public abstract Change.Id changeId();
 
@@ -39,6 +44,9 @@ public abstract class ChangeCacheKey {
       Change.Id changeId,
       @Nullable ObjectId changeRevision,
       Project.NameKey project) {
-    return new AutoValue_ChangeCacheKey(repo, changeId, changeRevision, project);
+    AutoValue_ChangeCacheKey cacheKey =
+        new AutoValue_ChangeCacheKey(changeId, changeRevision, project);
+    cacheKey.repo.set(repo);
+    return cacheKey;
   }
 }
