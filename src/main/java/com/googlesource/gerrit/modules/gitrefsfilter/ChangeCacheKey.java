@@ -20,15 +20,21 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.inject.Provider;
+import java.util.concurrent.atomic.AtomicReference;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 
 @AutoValue
 public abstract class ChangeCacheKey {
+  @Nullable
   public abstract Provider<ReviewDb> dbProvider();
   /* `repo` and `changeId` need to be part of the cache key because the
   Loader requires them in order to fetch the relevant changeNote. */
-  public abstract Repository repo();
+  private final AtomicReference<Repository> repo = new AtomicReference<>();
+
+  public final Repository repo() {
+    return repo.get();
+  }
 
   public abstract Change.Id changeId();
 
@@ -43,6 +49,9 @@ public abstract class ChangeCacheKey {
       Change.Id changeId,
       @Nullable ObjectId changeRevision,
       Project.NameKey project) {
-    return new AutoValue_ChangeCacheKey(dbProvider, repo, changeId, changeRevision, project);
+    ChangeCacheKey cacheKey =
+        new AutoValue_ChangeCacheKey(dbProvider, changeId, changeRevision, project);
+    cacheKey.repo.set(repo);
+    return cacheKey;
   }
 }
