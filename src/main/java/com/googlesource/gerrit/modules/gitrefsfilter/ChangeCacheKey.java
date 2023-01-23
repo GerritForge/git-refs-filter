@@ -41,4 +41,32 @@ public abstract class ChangeCacheKey {
       Project.NameKey project) {
     return new AutoValue_ChangeCacheKey(repo, changeId, changeRevision, project);
   }
+
+  @Override
+  public final boolean equals(Object o) {
+    if (o == this) {
+      return true;
+    }
+    if (o instanceof ChangeCacheKey) {
+      ChangeCacheKey that = (ChangeCacheKey) o;
+      return this.changeId().equals(that.changeId())
+          && (this.changeRevision() == null
+              ? that.changeRevision() == null
+              : this.changeRevision().equals(that.changeRevision()))
+          && this.project().equals(that.project());
+    }
+    return false;
+  }
+
+  @Override
+  public final int hashCode() {
+    int h$ = 1;
+    h$ *= 1000003;
+    h$ ^= changeId().hashCode();
+    h$ *= 1000003;
+    h$ ^= (changeRevision() == null) ? 0 : changeRevision().hashCode();
+    h$ *= 1000003;
+    h$ ^= project().hashCode();
+    return h$;
+  }
 }
