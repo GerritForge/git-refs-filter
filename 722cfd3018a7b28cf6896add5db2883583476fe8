@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc8fe08c_5ac7533b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-01-23T22:41:52Z",
+      "side": 1,
+      "message": "Change is created based on the recommendation from Autovalue documentation:\nhttps://github.com/google/auto/blob/main/value/userguide/howto.md#-ignore-certain-properties-in-equals-etc",
+      "revId": "722cfd3018a7b28cf6896add5db2883583476fe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
