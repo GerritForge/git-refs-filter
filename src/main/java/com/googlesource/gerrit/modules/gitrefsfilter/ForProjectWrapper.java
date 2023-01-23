@@ -163,7 +163,7 @@ public class ForProjectWrapper extends ForProject {
           Timestamp.from(
               Instant.now().truncatedTo(ChronoUnit.SECONDS).minusSeconds(closedChangesGraceTime));
       return changesTsCache
-              .get(ChangeCacheKey.create(dbProvider, repo, changeId, changeRevision, project))
+              .get(ChangeCacheKey.create(repo, changeId, changeRevision, project))
               .longValue()
           >= cutOffTs.getTime();
 

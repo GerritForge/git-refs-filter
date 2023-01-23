@@ -15,16 +15,25 @@ package com.googlesource.gerrit.modules.gitrefsfilter;
 
 import com.google.common.cache.CacheLoader;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.inject.Inject;
 import com.google.inject.Module;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 
 public class ChangesTsCache {
   public static final String CHANGES_CACHE_TS = "changes_ts";
+
+  private final Provider<ReviewDb> dbProvider;
+
+  @Inject
+  public ChangesTsCache(Provider<ReviewDb> dbProvider) {
+    this.dbProvider = dbProvider;
+  }
 
   public static Module module() {
     return new CacheModule() {
@@ -40,10 +49,12 @@ public class ChangesTsCache {
   static class Loader extends CacheLoader<ChangeCacheKey, Long> {
     private static final FluentLogger logger = FluentLogger.forEnclosingClass();
     private final ChangeNotes.Factory changeNotesFactory;
+    private final ChangesTsCache changesTsCache;
 
     @Inject
-    Loader(ChangeNotes.Factory changeNotesFactory) {
+    Loader(ChangeNotes.Factory changeNotesFactory, ChangesTsCache changesTsCache) {
       this.changeNotesFactory = changeNotesFactory;
+      this.changesTsCache = changesTsCache;
     }
 
     @Override
@@ -52,7 +63,7 @@ public class ChangesTsCache {
         Long res =
             changeNotesFactory
                 .createChecked(
-                    key.dbProvider().get(),
+                    changesTsCache.dbProvider.get(),
                     key.repo(),
                     key.project(),
                     key.changeId(),
