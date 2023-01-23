@@ -195,6 +195,19 @@ public class GitRefsFilterTest extends AbstractGitDaemonTest {
   }
 
   @Test
+  public void testShouldCacheChangeKeyContainRepoAfterDeserializing() throws Exception {
+    Change.Id changeId = Change.id(createChangeAndAbandon());
+    getRefs(cloneProjectChangesRefs(user));
+
+    assertThat(changeOpenCache.asMap().size()).isEqualTo(1);
+
+    Map.Entry<ChangeCacheKey, Boolean> cacheEntry =
+        new ArrayList<>(changeOpenCache.asMap().entrySet()).get(0);
+
+    assertThat(cacheEntry.getKey().repo()).isNotNull();
+  }
+
+  @Test
   public void testShouldCacheWhenChangeIsOpen() throws Exception {
     createChange();
     List<Ref> refs = getRefs(cloneProjectChangesRefs(user));
