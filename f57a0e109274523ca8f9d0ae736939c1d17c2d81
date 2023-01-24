@@ -22,6 +22,30 @@
       },
       "revId": "f57a0e109274523ca8f9d0ae736939c1d17c2d81",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba29d0ae_49fd49d9",
+        "filename": "src/test/java/com/googlesource/gerrit/modules/gitrefsfilter/ChangeCacheKeyTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-01-24T11:04:53Z",
+      "side": 1,
+      "message": "This is a special case though, because we *want* to keep them open anyway.",
+      "parentUuid": "5d9a73cf_6be7720c",
+      "range": {
+        "startLine": 53,
+        "startChar": 2,
+        "endLine": 57,
+        "endChar": 3
+      },
+      "revId": "f57a0e109274523ca8f9d0ae736939c1d17c2d81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
