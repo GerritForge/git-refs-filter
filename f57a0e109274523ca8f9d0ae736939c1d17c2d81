@@ -46,6 +46,30 @@
       },
       "revId": "f57a0e109274523ca8f9d0ae736939c1d17c2d81",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b84b5c1c_43586c4a",
+        "filename": "src/test/java/com/googlesource/gerrit/modules/gitrefsfilter/ChangeCacheKeyTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-01-24T11:58:30Z",
+      "side": 1,
+      "message": "We want them open in the context of particular test, right? How about doing that in test e.g.\n```\n  @Test\n  public void shouldExcludeRepoFieldDuringHashCodeCalculation() throws IOException {\n    try(Repository repo1 \u003d new Repository();\n        Repository repo2 \u003d new Repository()) {\n      ChangeCacheKey cacheKey1 \u003d\n          ChangeCacheKey.create(repo1, ID, CHANGE_REVISION, TEST_REPO);\n      ChangeCacheKey cacheKey2 \u003d\n          ChangeCacheKey.create(repo2, ID, CHANGE_REVISION, TEST_REPO);\n      assertThat(cacheKey1.hashCode()).isEqualTo(cacheKey2.hashCode());\n    }\n  }\n```\n\nIn this case resources are properly handled even if test fails ;)",
+      "parentUuid": "ba29d0ae_49fd49d9",
+      "range": {
+        "startLine": 53,
+        "startChar": 2,
+        "endLine": 57,
+        "endChar": 3
+      },
+      "revId": "f57a0e109274523ca8f9d0ae736939c1d17c2d81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
