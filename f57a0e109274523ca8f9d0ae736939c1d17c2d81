@@ -94,6 +94,30 @@
       },
       "revId": "f57a0e109274523ca8f9d0ae736939c1d17c2d81",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f327cfe3_56a6dc16",
+        "filename": "src/test/java/com/googlesource/gerrit/modules/gitrefsfilter/ChangeCacheKeyTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-01-24T17:56:17Z",
+      "side": 1,
+      "message": "I have the same opinion as Luca. This is just dummy repository so we do not care about the proper handling but it a small change so I did the refactoring",
+      "parentUuid": "cfb27da5_222ce506",
+      "range": {
+        "startLine": 53,
+        "startChar": 2,
+        "endLine": 57,
+        "endChar": 3
+      },
+      "revId": "f57a0e109274523ca8f9d0ae736939c1d17c2d81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
