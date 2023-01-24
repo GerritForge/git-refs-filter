@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d9a73cf_6be7720c",
+        "filename": "src/test/java/com/googlesource/gerrit/modules/gitrefsfilter/ChangeCacheKeyTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-01-24T09:40:04Z",
+      "side": 1,
+      "message": "AFAIU `InMemoryRepository` is `AutoCloseable` you should close it with `try`, shouldn\u0027t you?",
+      "range": {
+        "startLine": 53,
+        "startChar": 2,
+        "endLine": 57,
+        "endChar": 3
+      },
+      "revId": "f57a0e109274523ca8f9d0ae736939c1d17c2d81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
