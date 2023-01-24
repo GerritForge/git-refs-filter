@@ -15,13 +15,11 @@
 package com.googlesource.gerrit.modules.gitrefsfilter;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.mockito.Mockito.mock;
 
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.Project.NameKey;
-import java.io.IOException;
-import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
-import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.junit.Test;
@@ -33,27 +31,20 @@ public class ChangeCacheKeyTest {
   private static final NameKey TEST_REPO = Project.nameKey(REPO_NAME);
 
   @Test
-  public void shouldExcludeRepoFieldDuringEqualsCalculation() throws IOException {
+  public void shouldExcludeRepoFieldDuringEqualsCalculation() {
     ChangeCacheKey cacheKey1 =
-        ChangeCacheKey.create(newRepository(), ID, CHANGE_REVISION, TEST_REPO);
+        ChangeCacheKey.create(mock(Repository.class), ID, CHANGE_REVISION, TEST_REPO);
     ChangeCacheKey cacheKey2 =
-        ChangeCacheKey.create(newRepository(), ID, CHANGE_REVISION, TEST_REPO);
+        ChangeCacheKey.create(mock(Repository.class), ID, CHANGE_REVISION, TEST_REPO);
     assertThat(cacheKey1).isEqualTo(cacheKey2);
   }
 
   @Test
-  public void shouldExcludeRepoFieldDuringHashCodeCalculation() throws IOException {
-    try (Repository repo1 = newRepository();
-        Repository repo2 = newRepository()) {
-      ChangeCacheKey cacheKey1 = ChangeCacheKey.create(repo1, ID, CHANGE_REVISION, TEST_REPO);
-      ChangeCacheKey cacheKey2 = ChangeCacheKey.create(repo2, ID, CHANGE_REVISION, TEST_REPO);
-      assertThat(cacheKey1.hashCode()).isEqualTo(cacheKey2.hashCode());
-    }
-  }
-
-  private Repository newRepository() throws IOException {
-    return new InMemoryRepository.Builder()
-        .setRepositoryDescription(new DfsRepositoryDescription(REPO_NAME))
-        .build();
+  public void shouldExcludeRepoFieldDuringHashCodeCalculation() {
+    ChangeCacheKey cacheKey1 =
+        ChangeCacheKey.create(mock(Repository.class), ID, CHANGE_REVISION, TEST_REPO);
+    ChangeCacheKey cacheKey2 =
+        ChangeCacheKey.create(mock(Repository.class), ID, CHANGE_REVISION, TEST_REPO);
+    assertThat(cacheKey1.hashCode()).isEqualTo(cacheKey2.hashCode());
   }
 }
