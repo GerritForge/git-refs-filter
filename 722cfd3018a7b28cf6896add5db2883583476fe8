@@ -90,6 +90,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "37ea3854_ed253b20",
+        "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/ChangeCacheKey.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-01-24T06:28:02Z",
+      "side": 1,
+      "message": "Documentation is right 😮 in line #47 change `AutoValue_ChangeCacheKey cacheKey \u003d` to `ChangeCacheKey cacheKey \u003d` and it will work. The reason is that auto-generated class has no access to the private members but the original class has 😊",
+      "parentUuid": "14760501_f1ee2f94",
+      "revId": "722cfd3018a7b28cf6896add5db2883583476fe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "708bc0a0_19139528",
         "filename": "src/test/java/com/googlesource/gerrit/libmodule/plugins/test/GitRefsFilterTest.java",
         "patchSetId": 6
