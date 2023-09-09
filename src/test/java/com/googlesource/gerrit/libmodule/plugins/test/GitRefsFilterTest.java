@@ -30,17 +30,11 @@ import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.config.PluginConfigFactory;
-import com.google.gerrit.server.git.meta.MetaDataUpdate;
-import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.testing.NoteDbMode;
 import com.google.inject.Inject;
-import com.google.inject.Module;
 import com.google.inject.name.Named;
 import com.googlesource.gerrit.modules.gitrefsfilter.ChangeCacheKey;
-import com.googlesource.gerrit.modules.gitrefsfilter.FilterRefsConfig;
-import com.googlesource.gerrit.modules.gitrefsfilter.RefsFilterModule;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.Duration;
@@ -82,27 +76,10 @@ public class GitRefsFilterTest extends AbstractGitDaemonTest {
 
   private volatile Exception getRefsException = null;
 
-  @Override
-  public Module createModule() {
-    return new RefsFilterModule();
-  }
-
   @Before
   public void setup() throws Exception {
     createFilteredRefsGroup();
-    try (MetaDataUpdate md = metaDataUpdateFactory.create(project)) {
-      ProjectConfig projectConfig = projectCache.checkedGet(project).getConfig();
-      projectConfig.load(md);
-
-      PluginConfig pluginConfig = cfgFactory.getFromProjectConfigWithInheritance(project, "gerrit");
-
-      pluginConfig.setLong(
-          FilterRefsConfig.PROJECT_CONFIG_CLOSED_CHANGES_GRACE_TIME_SEC,
-          CLOSED_CHANGES_GRACE_TIME_SEC);
-
-      projectConfig.commit(md);
-      projectCache.evict(project);
-    }
+    setProjectClosedChangesGraceTime(project, Duration.ofSeconds(CLOSED_CHANGES_GRACE_TIME_SEC));
   }
 
   @Test
