@@ -22,13 +22,22 @@ import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.AccountGroup;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.groups.GroupApi;
 import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.git.meta.MetaDataUpdate;
+import com.google.gerrit.server.project.ProjectConfig;
 import com.google.inject.Inject;
+import com.google.inject.Module;
 import com.googlesource.gerrit.modules.gitrefsfilter.FilterRefsCapability;
+import com.googlesource.gerrit.modules.gitrefsfilter.FilterRefsConfig;
+import com.googlesource.gerrit.modules.gitrefsfilter.RefsFilterModule;
 import java.io.IOException;
+import java.time.Duration;
 import java.util.List;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
@@ -42,6 +51,11 @@ abstract class AbstractGitDaemonTest extends AbstractDaemonTest {
 
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private ProjectOperations projectOperations;
+
+  @Override
+  public Module createModule() {
+    return new RefsFilterModule();
+  }
 
   protected int createChangeAndAbandon() throws Exception, RestApiException {
     requestScopeOperations.setApiUser(admin.id());
@@ -63,6 +77,10 @@ abstract class AbstractGitDaemonTest extends AbstractDaemonTest {
     groupApi.removeMembers(admin.username());
     String groupId = groupApi.detail().id;
 
+    setHideClosedChangesRefs(groupId);
+  }
+
+  protected void setHideClosedChangesRefs(String groupId) {
     projectOperations
         .allProjectsForUpdate()
         .add(
@@ -119,5 +137,21 @@ abstract class AbstractGitDaemonTest extends AbstractDaemonTest {
      * refName is refs/remotes/origin/<NN>/<change-num>
      */
     return Integer.parseInt(ref.getName().split("/")[4]);
+  }
+
+  protected void setProjectClosedChangesGraceTime(Project.NameKey project, Duration graceTime)
+      throws IOException, ConfigInvalidException, RepositoryNotFoundException {
+    try (MetaDataUpdate md = metaDataUpdateFactory.create(project)) {
+      ProjectConfig projectConfig = projectConfigFactory.create(project);
+      projectConfig.load(md);
+      projectConfig.updatePluginConfig(
+          "gerrit",
+          cfg ->
+              cfg.setLong(
+                  FilterRefsConfig.PROJECT_CONFIG_CLOSED_CHANGES_GRACE_TIME_SEC,
+                  graceTime.toSeconds()));
+      projectConfig.commit(md);
+      projectCache.evict(project);
+    }
   }
 }
