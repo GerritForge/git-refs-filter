@@ -14,11 +14,9 @@
 package com.googlesource.gerrit.modules.gitrefsfilter;
 
 import com.google.common.cache.CacheLoader;
-import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Provider;
@@ -47,7 +45,6 @@ public class OpenChangesCache {
 
   @Singleton
   static class Loader extends CacheLoader<ChangeCacheKey, Boolean> {
-    private static final FluentLogger logger = FluentLogger.forEnclosingClass();
     private final ChangeNotes.Factory changeNotesFactory;
     private final OpenChangesCache openChangesCache;
 
@@ -59,20 +56,14 @@ public class OpenChangesCache {
 
     @Override
     public Boolean load(ChangeCacheKey key) throws Exception {
-      try {
-        ChangeNotes changeNotes =
-            changeNotesFactory.createChecked(
-                openChangesCache.dbProvider.get(),
-                key.repo(),
-                key.project(),
-                key.changeId(),
-                key.changeRevision());
-        return changeNotes.getChange().getStatus().isOpen();
-      } catch (NoSuchChangeException e) {
-        logger.atFine().withCause(e).log(
-            "Change %d does not exist: hiding from the advertised refs", key.changeId().get());
-        return false;
-      }
+      ChangeNotes changeNotes =
+          changeNotesFactory.createChecked(
+              openChangesCache.dbProvider.get(),
+              key.repo(),
+              key.project(),
+              key.changeId(),
+              key.changeRevision());
+      return changeNotes.getChange().getStatus().isOpen();
     }
   }
 }
