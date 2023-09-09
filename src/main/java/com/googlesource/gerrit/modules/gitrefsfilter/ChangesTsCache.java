@@ -14,11 +14,9 @@
 package com.googlesource.gerrit.modules.gitrefsfilter;
 
 import com.google.common.cache.CacheLoader;
-import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Provider;
@@ -47,7 +45,6 @@ public class ChangesTsCache {
 
   @Singleton
   static class Loader extends CacheLoader<ChangeCacheKey, Long> {
-    private static final FluentLogger logger = FluentLogger.forEnclosingClass();
     private final ChangeNotes.Factory changeNotesFactory;
     private final ChangesTsCache changesTsCache;
 
@@ -59,24 +56,16 @@ public class ChangesTsCache {
 
     @Override
     public Long load(ChangeCacheKey key) throws Exception {
-      try {
-        Long res =
-            changeNotesFactory
-                .createChecked(
-                    changesTsCache.dbProvider.get(),
-                    key.repo(),
-                    key.project(),
-                    key.changeId(),
-                    key.changeRevision())
-                .getChange()
-                .getLastUpdatedOn()
-                .getTime();
-        return res;
-      } catch (NoSuchChangeException e) {
-        logger.atFine().withCause(e).log(
-            "Change %d does not exist: returning zero epoch", key.changeId().get());
-        return 0L;
-      }
+      return changeNotesFactory
+          .createChecked(
+              changesTsCache.dbProvider.get(),
+              key.repo(),
+              key.project(),
+              key.changeId(),
+              key.changeRevision())
+          .getChange()
+          .getLastUpdatedOn()
+          .getTime();
     }
   }
 }
