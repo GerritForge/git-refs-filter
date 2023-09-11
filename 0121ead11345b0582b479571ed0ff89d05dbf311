@@ -16,6 +16,24 @@
       "message": "Now, even with multiple runs, the tests are stable for me. @dariusz.luksza@gmail.com can you retry on your side?",
       "revId": "0121ead11345b0582b479571ed0ff89d05dbf311",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b34354a8_384b7b0c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-09-11T19:56:14Z",
+      "side": 1,
+      "message": "Now it\u0027s working fine, and also fails when prod-code changes are reverted 👍",
+      "parentUuid": "8a68502e_0acc1d06",
+      "revId": "0121ead11345b0582b479571ed0ff89d05dbf311",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
