@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b378b79c_203695a5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-11T12:47:31Z",
+      "side": 1,
+      "message": "Thanks @geminica.programs@gmail.com for the review, all good points and addressed. Can you please recheck? 🙏",
+      "revId": "aa36897db31f3e93b7164b2b9cdb379df744f470",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
