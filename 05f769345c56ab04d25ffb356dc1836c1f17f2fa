@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8bcba384_472ee15e",
+        "filename": "src/test/java/com/googlesource/gerrit/libmodule/plugins/test/GitRefsFilterProtocolV2IT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-09-11T15:31:15Z",
+      "side": 1,
+      "message": "How to run this test? Also will bazel pick up that file right now? I don\u0027t see anything that would match `src/test/java/**/*IT.java` in `BUILD` file.",
+      "revId": "05f769345c56ab04d25ffb356dc1836c1f17f2fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
