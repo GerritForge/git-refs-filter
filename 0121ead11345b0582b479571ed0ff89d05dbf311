@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a68502e_0acc1d06",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-11T19:10:23Z",
+      "side": 1,
+      "message": "Now, even with multiple runs, the tests are stable for me. @dariusz.luksza@gmail.com can you retry on your side?",
+      "revId": "0121ead11345b0582b479571ed0ff89d05dbf311",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
