@@ -71,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "33c63034_f905cfc0",
+        "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/ForProjectWrapper.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-11T12:47:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "08a0c65a_216f1308",
+      "range": {
+        "startLine": 107,
+        "startChar": 4,
+        "endLine": 107,
+        "endChar": 10
+      },
+      "revId": "93364d1fa10c52a99ba89e3c63cf1e4a9a936165",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2836c327_53b8552b",
@@ -84,6 +108,30 @@
       "writtenOn": "2023-09-11T07:01:59Z",
       "side": 1,
       "message": "Consider the following - if we don\u0027t compute the the `changeRevisionsFromRefDb` upfront we could fill it in when needed (IOW when `changeRevision` has no revision for a change). The benefits:\n1. code is a bit simpler as we operate more often on `Change.Id` rather than on `Optional\u003cChange.Id\u003e`\n2. calling `changeIdFromRef` and ceremony around is reduced to `2` (from `3`)\n\nHere is the final code:\n```java\n  @Override\n  public Collection\u003cRef\u003e filter(Collection\u003cRef\u003e refs, Repository repo, RefFilterOptions opts)\n      throws PermissionBackendException {\n    Map\u003cOptional\u003cId\u003e, ObjectId\u003e changeRevisions \u003d\n        refs.stream()\n            .filter(ref -\u003e ref.getName().endsWith(\"/meta\"))\n            .collect(Collectors.toMap(ForProjectWrapper::changeIdFromRef, Ref::getObjectId));\n    RefDatabase refDb \u003d repo.getRefDatabase();\n    Map\u003cChange.Id, Optional\u003cObjectId\u003e\u003e changeRevisionsFromRefDb \u003d new ConcurrentHashMap\u003c\u003e();\n    return defaultForProject\n        .filter(refs, repo, opts)\n        .parallelStream()\n        .filter(ref -\u003e !ref.getName().startsWith(RefNames.REFS_USERS))\n        .filter(ref -\u003e !ref.getName().startsWith(RefNames.REFS_CACHE_AUTOMERGE))\n        .filter(config::isRefToShow)\n        .filter(\n            (ref) -\u003e {\n              Optional\u003cId\u003e changeId \u003d changeIdFromRef(ref);\n              Optional\u003cObjectId\u003e changeRevision \u003d\n                  changeId.flatMap(cid -\u003e Optional.ofNullable(changeRevisions.get(changeId)));\n              if (!changeRevision.isPresent()) {\n                changeRevision \u003d\n                    changeId.flatMap(\n                        cid -\u003e\n                            changeRevisionsFromRefDb.computeIfAbsent(\n                                cid, id -\u003e changeRevisionFromRefDb(refDb, id)));\n              }\n              String refName \u003d ref.getName();\n              return !changeId.isPresent()\n                  || !changeRevision.isPresent()\n                  || (!RefNames.isNoteDbMetaRef(refName)\n                      \u0026\u0026 (isOpen(repo, changeId.get(), changeRevision.get())\n                          || isRecent(repo, changeId.get(), changeRevision.get())));\n            })\n        .collect(Collectors.toList());\n  }\n\n  private static Optional\u003cObjectId\u003e changeRevisionFromRefDb(RefDatabase refDb, Change.Id changeId) {\n    return exactRefUnchecked(refDb, changeId).map(Ref::getObjectId);\n  }\n```\n\nThe drawback is that if we use `parallelStream` we have to to use `ConcurrentHashMap` but IMHO `parallelStream` without a dedicated pool of threads may less effective then expected when system is loaded... WDYT?",
+      "range": {
+        "startLine": 108,
+        "startChar": 4,
+        "endLine": 142,
+        "endChar": 3
+      },
+      "revId": "93364d1fa10c52a99ba89e3c63cf1e4a9a936165",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "739c46c2_1169d802",
+        "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/ForProjectWrapper.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-11T12:47:01Z",
+      "side": 1,
+      "message": "True, that removes a lot of code and an unneeded in-memory HashMap. Done",
+      "parentUuid": "2836c327_53b8552b",
       "range": {
         "startLine": 108,
         "startChar": 4,
