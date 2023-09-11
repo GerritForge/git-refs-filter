@@ -16,6 +16,24 @@
       "message": "Unfortunatley `testGitWireProtocolV2HidesAbandonedChange` is constantly failing for me with a message: `java.lang.AssertionError: expected java.io.IOException but no exception was thrown`\n\nI\u0027m running it from `gerrit/` directory on `stable-3.4` branch using `bazel test --cache_test_results\u003dNO plugins/git-refs-filter:git_refs_filter_tests` command.",
       "revId": "39d1023a02ad2fb3f67999060a6ed580361b4f72",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1770f45_c0714efc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-11T17:43:02Z",
+      "side": 1,
+      "message": "I believe I know: possibly your Git client doesn\u0027t support protocol v2? That would mean I am missing an assume statement.",
+      "parentUuid": "bbd13fee_52014bf9",
+      "revId": "39d1023a02ad2fb3f67999060a6ed580361b4f72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
