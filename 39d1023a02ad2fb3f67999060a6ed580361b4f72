@@ -88,6 +88,24 @@
       "parentUuid": "7079f0de_8d272f6d",
       "revId": "39d1023a02ad2fb3f67999060a6ed580361b4f72",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c63313f_b7d4a61c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-11T18:51:48Z",
+      "side": 1,
+      "message": "It works for me with git 2.42.0.\n\nI\u0027ve tried to remove the throw of the exception (maybe your Git client doesn\u0027t return an error in that case?) and just asserting the results.",
+      "parentUuid": "31688fae_0a7bea21",
+      "revId": "39d1023a02ad2fb3f67999060a6ed580361b4f72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
