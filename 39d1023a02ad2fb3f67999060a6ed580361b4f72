@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bbd13fee_52014bf9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-09-11T17:20:12Z",
+      "side": 1,
+      "message": "Unfortunatley `testGitWireProtocolV2HidesAbandonedChange` is constantly failing for me with a message: `java.lang.AssertionError: expected java.io.IOException but no exception was thrown`\n\nI\u0027m running it from `gerrit/` directory on `stable-3.4` branch using `bazel test --cache_test_results\u003dNO plugins/git-refs-filter:git_refs_filter_tests` command.",
+      "revId": "39d1023a02ad2fb3f67999060a6ed580361b4f72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
