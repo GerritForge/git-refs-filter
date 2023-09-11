@@ -52,6 +52,24 @@
       "parentUuid": "c1770f45_c0714efc",
       "revId": "39d1023a02ad2fb3f67999060a6ed580361b4f72",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7079f0de_8d272f6d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-09-11T18:13:07Z",
+      "side": 1,
+      "message": "It it\u0027s using the host git client, I\u0027m on a 2.42.0",
+      "parentUuid": "7ebbb68e_93475d60",
+      "revId": "39d1023a02ad2fb3f67999060a6ed580361b4f72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
