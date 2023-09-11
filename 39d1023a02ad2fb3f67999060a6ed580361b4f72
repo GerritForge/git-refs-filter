@@ -34,6 +34,24 @@
       "parentUuid": "bbd13fee_52014bf9",
       "revId": "39d1023a02ad2fb3f67999060a6ed580361b4f72",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ebbb68e_93475d60",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-11T18:04:15Z",
+      "side": 1,
+      "message": "\u003e expected java.io.IOException but no exception was thrown\n\nThat means the ref wasn\u0027t filtered as expected.",
+      "parentUuid": "c1770f45_c0714efc",
+      "revId": "39d1023a02ad2fb3f67999060a6ed580361b4f72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
