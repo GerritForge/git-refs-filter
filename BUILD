@@ -15,7 +15,10 @@ gerrit_plugin(
 junit_tests(
     name = "git_refs_filter_tests",
     srcs = glob(
-        ["src/test/java/**/*Test.java"],
+        [
+            "src/test/java/**/*Test.java",
+            "src/test/java/**/*IT.java",
+        ],
         exclude = ["src/test/java/**/Abstract*.java"],
     ),
     visibility = ["//visibility:public"],

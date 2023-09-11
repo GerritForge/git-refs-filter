@@ -19,8 +19,8 @@ import static com.googlesource.gerrit.modules.gitrefsfilter.OpenChangesCache.OPE
 
 import com.google.common.cache.LoadingCache;
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Change.Id;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.access.CoreOrPluginProjectPermission;
@@ -34,16 +34,19 @@ import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.name.Named;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Collection;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 
 public class ForProjectWrapper extends ForProject {
@@ -96,10 +99,11 @@ public class ForProjectWrapper extends ForProject {
   @Override
   public Collection<Ref> filter(Collection<Ref> refs, Repository repo, RefFilterOptions opts)
       throws PermissionBackendException {
-    Map<Change.Id, ObjectId> changeRevisions =
+    Map<Optional<Id>, ObjectId> changeRevisions =
         refs.stream()
             .filter(ref -> ref.getName().endsWith("/meta"))
             .collect(Collectors.toMap(ForProjectWrapper::changeIdFromRef, Ref::getObjectId));
+    RefDatabase refDb = repo.getRefDatabase();
     return defaultForProject
         .filter(refs, repo, opts)
         .parallelStream()
@@ -108,30 +112,42 @@ public class ForProjectWrapper extends ForProject {
         .filter(config::isRefToShow)
         .filter(
             (ref) -> {
-              Change.Id changeId = changeIdFromRef(ref);
+              Optional<Id> changeId = changeIdFromRef(ref);
+              Optional<ObjectId> changeRevision =
+                  changeId.flatMap(cid -> Optional.ofNullable(changeRevisions.get(changeId)));
+              if (!changeRevision.isPresent()) {
+                changeRevision = changeRevisionFromRefDb(refDb, changeId);
+              }
               String refName = ref.getName();
-              return (!isChangeRef(refName)
-                  || (!isChangeMetaRef(refName)
-                      && changeId != null
-                      && (isOpen(repo, changeId, changeRevisions.get(changeId))
-                          || isRecent(repo, changeId, changeRevisions.get(changeId)))));
+              return (!changeId.isPresent()
+                  || !changeRevision.isPresent()
+                  || (!RefNames.isNoteDbMetaRef(refName)
+                      && (isOpen(repo, changeId.get(), changeRevision.get())
+                          || isRecent(repo, changeId.get(), changeRevision.get()))));
             })
         .collect(Collectors.toList());
   }
 
-  private static Change.Id changeIdFromRef(Ref ref) {
-    return Change.Id.fromRef(ref.getName());
+  private static Optional<ObjectId> changeRevisionFromRefDb(
+      RefDatabase refDb, Optional<Change.Id> changeId) {
+    return changeId.flatMap(cid -> exactRefUnchecked(refDb, cid)).map(Ref::getObjectId);
   }
 
-  private boolean isChangeRef(String changeKey) {
-    return changeKey.startsWith("refs/changes");
+  private static Optional<Ref> exactRefUnchecked(RefDatabase refDb, Change.Id changeId) {
+    try {
+      return Optional.ofNullable(refDb.exactRef(RefNames.changeMetaRef(changeId)));
+    } catch (IOException e) {
+      logger.atWarning().withCause(e).log(
+          "Error looking up change '%d' meta-ref from refs db.", changeId.get());
+      return Optional.empty();
+    }
   }
 
-  private boolean isChangeMetaRef(String changeKey) {
-    return isChangeRef(changeKey) && changeKey.endsWith("/meta");
+  private static Optional<Change.Id> changeIdFromRef(Ref ref) {
+    return Optional.ofNullable(Change.Id.fromRef(ref.getName()));
   }
 
-  private boolean isOpen(Repository repo, Change.Id changeId, @Nullable ObjectId changeRevision) {
+  private boolean isOpen(Repository repo, Change.Id changeId, ObjectId changeRevision) {
     try {
       return openChangesCache.get(ChangeCacheKey.create(repo, changeId, changeRevision, project));
     } catch (ExecutionException e) {
@@ -142,7 +158,7 @@ public class ForProjectWrapper extends ForProject {
     }
   }
 
-  private boolean isRecent(Repository repo, Change.Id changeId, @Nullable ObjectId changeRevision) {
+  private boolean isRecent(Repository repo, Change.Id changeId, ObjectId changeRevision) {
     try {
       Timestamp cutOffTs =
           Timestamp.from(
