@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa47b0ac_c29f7bb8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-09-11T13:35:31Z",
+      "side": 1,
+      "message": "Makes sense, as the exceptions thrown from `CacheLoader.load()` will be wrapped in `ExecutionException` and forwared. Then any loading exception for `changes_ts` cache is handled in `ForProjectWrapper.isRecent(Repo, Change.Id, ObjectId)` which will return `true`.",
+      "revId": "28f3e8b7bab9126b0ac5a30176fa7fc9ead1aa8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
