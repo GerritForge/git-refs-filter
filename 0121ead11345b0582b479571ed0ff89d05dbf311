@@ -34,6 +34,29 @@
       "parentUuid": "8a68502e_0acc1d06",
       "revId": "0121ead11345b0582b479571ed0ff89d05dbf311",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a750cc7_a3e33c21",
+        "filename": "src/test/java/com/googlesource/gerrit/libmodule/plugins/test/GitRefsFilterProtocolV2IT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-09-11T20:18:47Z",
+      "side": 1,
+      "message": "How about:\n```suggestion\n    try {\n      p.waitFor();\n```\n?",
+      "range": {
+        "startLine": 173,
+        "startChar": 4,
+        "endLine": 176,
+        "endChar": 27
+      },
+      "revId": "0121ead11345b0582b479571ed0ff89d05dbf311",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
