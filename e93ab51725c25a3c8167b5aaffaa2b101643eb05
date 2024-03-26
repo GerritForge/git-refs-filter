@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c4f6da40_e7e9128b",
+        "filename": "src/main/java/com/googlesource/gerrit/modules/gitrefsfilter/ChangeCacheKey.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-03-26T18:37:42Z",
+      "side": 1,
+      "message": "This should be `Nullable` since the beginning.",
+      "revId": "e93ab51725c25a3c8167b5aaffaa2b101643eb05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
