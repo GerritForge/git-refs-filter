@@ -16,9 +16,6 @@ package com.google.gerrit.acceptance;
 
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowCapability;
 
-import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.GitUtil;
-import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.AccountGroup;
@@ -140,22 +137,23 @@ public abstract class AbstractGitDaemonTest extends AbstractDaemonTest {
   }
 
   protected void setProjectClosedChangesGraceTime(Project.NameKey project, Duration graceTime)
-          throws IOException, ConfigInvalidException, RepositoryNotFoundException {
+      throws IOException, ConfigInvalidException, RepositoryNotFoundException {
     try (MetaDataUpdate md = metaDataUpdateFactory.create(project)) {
       ProjectConfig projectConfig = projectConfigFactory.create(project);
       projectConfig.load(md);
       projectConfig.updatePluginConfig(
-              "gerrit",
-              cfg ->
-                      cfg.setLong(
-                              FilterRefsConfig.PROJECT_CONFIG_CLOSED_CHANGES_GRACE_TIME_SEC,
-                              graceTime.toSeconds()));
+          "gerrit",
+          cfg ->
+              cfg.setLong(
+                  FilterRefsConfig.PROJECT_CONFIG_CLOSED_CHANGES_GRACE_TIME_SEC,
+                  graceTime.toSeconds()));
       projectConfig.commit(md);
       projectCache.evict(project);
     }
   }
 
-  protected String registerAndGetRepoConnection(Project.NameKey p, TestAccount testAccount) throws Exception {
+  protected String registerAndGetRepoConnection(Project.NameKey p, TestAccount testAccount)
+      throws Exception {
     return registerRepoConnection(p, testAccount);
   }
 }
