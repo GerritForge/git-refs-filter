@@ -152,7 +152,8 @@ public abstract class AbstractGitDaemonTest extends AbstractDaemonTest {
     }
   }
 
-  protected String registerAndGetRepoConnection(Project.NameKey p, TestAccount testAccount) throws Exception {
+  protected String registerAndGetRepoConnection(Project.NameKey p, TestAccount testAccount)
+      throws Exception {
     return registerRepoConnection(p, testAccount);
   }
 }
