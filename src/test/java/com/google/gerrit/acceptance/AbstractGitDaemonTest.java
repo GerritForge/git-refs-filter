@@ -16,9 +16,6 @@ package com.google.gerrit.acceptance;
 
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowCapability;
 
-import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.GitUtil;
-import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.AccountGroup;
@@ -46,7 +43,7 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.transport.FetchResult;
 import org.eclipse.jgit.util.FS;
 
-abstract class AbstractGitDaemonTest extends AbstractDaemonTest {
+public abstract class AbstractGitDaemonTest extends AbstractDaemonTest {
   private static final String REFS_CHANGES = "+refs/changes/*:refs/remotes/origin/*";
 
   @Inject private RequestScopeOperations requestScopeOperations;
@@ -116,7 +113,7 @@ abstract class AbstractGitDaemonTest extends AbstractDaemonTest {
             .setFS(fs)
             .build();
     Config cfg = dest.getConfig();
-    String uri = registerRepoConnection(project, testAccount);
+    String uri = registerAndGetRepoConnection(project, testAccount);
     cfg.setString("remote", "origin", "url", uri);
     cfg.setString("remote", "origin", "fetch", refsSpec);
     TestRepository<InMemoryRepository> testRepo = GitUtil.newTestRepository(dest);
@@ -153,5 +150,9 @@ abstract class AbstractGitDaemonTest extends AbstractDaemonTest {
       projectConfig.commit(md);
       projectCache.evict(project);
     }
+  }
+
+  protected String registerAndGetRepoConnection(Project.NameKey p, TestAccount testAccount) throws Exception {
+    return registerRepoConnection(p, testAccount);
   }
 }
