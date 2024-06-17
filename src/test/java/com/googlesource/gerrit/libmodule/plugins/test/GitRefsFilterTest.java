@@ -20,6 +20,7 @@ import static com.googlesource.gerrit.modules.gitrefsfilter.ChangesTsCache.CHANG
 import static com.googlesource.gerrit.modules.gitrefsfilter.OpenChangesCache.OPEN_CHANGES_CACHE;
 
 import com.google.common.cache.LoadingCache;
+import com.google.gerrit.acceptance.AbstractGitDaemonTest;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.Sandboxed;
@@ -250,7 +251,7 @@ public class GitRefsFilterTest extends AbstractGitDaemonTest {
     InMemoryRepository dest =
         new InMemoryRepository.Builder().setRepositoryDescription(desc).setFS(fs).build();
     Config cfg = dest.getConfig();
-    String uri = registerRepoConnection(project, testAccount);
+    String uri = registerAndGetRepoConnection(project, testAccount);
     cfg.setString("remote", "origin", "url", uri);
     cfg.setString("remote", "origin", "fetch", "+refs/*:refs/remotes/origin/*");
     TestRepository<InMemoryRepository> testRepo = GitUtil.newTestRepository(dest);
