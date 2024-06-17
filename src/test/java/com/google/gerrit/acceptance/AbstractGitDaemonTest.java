@@ -46,7 +46,7 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.transport.FetchResult;
 import org.eclipse.jgit.util.FS;
 
-abstract class AbstractGitDaemonTest extends AbstractDaemonTest {
+public abstract class AbstractGitDaemonTest extends AbstractDaemonTest {
   private static final String REFS_CHANGES = "+refs/changes/*:refs/remotes/origin/*";
 
   @Inject private RequestScopeOperations requestScopeOperations;
@@ -116,7 +116,7 @@ abstract class AbstractGitDaemonTest extends AbstractDaemonTest {
             .setFS(fs)
             .build();
     Config cfg = dest.getConfig();
-    String uri = registerRepoConnection(project, testAccount);
+    String uri = registerAndGetRepoConnection(project, testAccount);
     cfg.setString("remote", "origin", "url", uri);
     cfg.setString("remote", "origin", "fetch", refsSpec);
     TestRepository<InMemoryRepository> testRepo = GitUtil.newTestRepository(dest);
@@ -140,18 +140,22 @@ abstract class AbstractGitDaemonTest extends AbstractDaemonTest {
   }
 
   protected void setProjectClosedChangesGraceTime(Project.NameKey project, Duration graceTime)
-      throws IOException, ConfigInvalidException, RepositoryNotFoundException {
+          throws IOException, ConfigInvalidException, RepositoryNotFoundException {
     try (MetaDataUpdate md = metaDataUpdateFactory.create(project)) {
       ProjectConfig projectConfig = projectConfigFactory.create(project);
       projectConfig.load(md);
       projectConfig.updatePluginConfig(
-          "gerrit",
-          cfg ->
-              cfg.setLong(
-                  FilterRefsConfig.PROJECT_CONFIG_CLOSED_CHANGES_GRACE_TIME_SEC,
-                  graceTime.toSeconds()));
+              "gerrit",
+              cfg ->
+                      cfg.setLong(
+                              FilterRefsConfig.PROJECT_CONFIG_CLOSED_CHANGES_GRACE_TIME_SEC,
+                              graceTime.toSeconds()));
       projectConfig.commit(md);
       projectCache.evict(project);
     }
+  }
+
+  protected String registerAndGetRepoConnection(Project.NameKey p, TestAccount testAccount) throws Exception {
+    return registerRepoConnection(p, testAccount);
   }
 }
