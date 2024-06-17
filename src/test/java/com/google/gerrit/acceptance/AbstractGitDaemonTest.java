@@ -16,9 +16,6 @@ package com.google.gerrit.acceptance;
 
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowCapability;
 
-import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.GitUtil;
-import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.AccountGroup;
@@ -155,7 +152,8 @@ public abstract class AbstractGitDaemonTest extends AbstractDaemonTest {
     }
   }
 
-  protected String registerAndGetRepoConnection(Project.NameKey p, TestAccount testAccount) throws Exception {
+  protected String registerAndGetRepoConnection(Project.NameKey p, TestAccount testAccount)
+      throws Exception {
     return registerRepoConnection(p, testAccount);
   }
 }
