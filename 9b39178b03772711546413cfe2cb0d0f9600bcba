@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f94749ed_b9f556f7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-06-18T06:13:50Z",
+      "side": 1,
+      "message": "The method was introduced in the parent change. IMHO this should be squashed there. WDYT?",
+      "revId": "9b39178b03772711546413cfe2cb0d0f9600bcba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
