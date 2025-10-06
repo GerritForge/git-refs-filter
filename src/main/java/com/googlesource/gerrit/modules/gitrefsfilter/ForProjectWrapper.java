@@ -104,9 +104,7 @@ public class ForProjectWrapper extends ForProject {
             .filter(ref -> ref.getName().endsWith("/meta"))
             .collect(Collectors.toMap(ForProjectWrapper::changeIdFromRef, Ref::getObjectId));
     RefDatabase refDb = repo.getRefDatabase();
-    return defaultForProject
-        .filter(refs, repo, opts)
-        .parallelStream()
+    return defaultForProject.filter(refs, repo, opts).parallelStream()
         .filter(ref -> !ref.getName().startsWith(RefNames.REFS_USERS))
         .filter(ref -> !ref.getName().startsWith(RefNames.REFS_CACHE_AUTOMERGE))
         .filter(config::isRefToShow)
