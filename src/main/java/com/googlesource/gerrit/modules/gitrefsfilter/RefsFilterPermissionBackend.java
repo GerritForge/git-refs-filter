@@ -17,6 +17,7 @@ package com.googlesource.gerrit.modules.gitrefsfilter;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.permissions.DefaultPermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendCondition;
@@ -42,6 +43,17 @@ public class RefsFilterPermissionBackend extends PermissionBackend {
   @Override
   public WithUser user(CurrentUser user) {
     return filteredRefsUserFactory.get(defaultBackend.user(user));
+  }
+
+  @Override
+  public WithUser user(
+      CurrentUser user, IdentifiedUser.ImpersonationPermissionMode permissionMode) {
+    return defaultBackend.user(user, permissionMode);
+  }
+
+  @Override
+  public WithUser exactUser(CurrentUser user) {
+    return defaultBackend.exactUser(user);
   }
 
   @Override
