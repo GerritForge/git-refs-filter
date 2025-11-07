@@ -1,10 +1,7 @@
-// Copyright (C) 2018 The Android Open Source Project
+// Copyright (C) 2025 GerritForge, Inc.
 //
-// Licensed under the Apache License, Version 2.0 (the "License");
+// Licensed under the BSL 1.1 (the "License");
 // you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-// http://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,8 +13,8 @@ package com.googlesource.gerrit.libmodule.plugins.test;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.WaitUtil.waitUntil;
-import static com.googlesource.gerrit.modules.gitrefsfilter.ChangesTsCache.CHANGES_CACHE_TS;
-import static com.googlesource.gerrit.modules.gitrefsfilter.OpenChangesCache.OPEN_CHANGES_CACHE;
+import static com.gerritforge.gerrit.modules.gitrefsfilter.ChangesTsCache.CHANGES_CACHE_TS;
+import static com.gerritforge.gerrit.modules.gitrefsfilter.OpenChangesCache.OPEN_CHANGES_CACHE;
 
 import com.google.common.cache.LoadingCache;
 import com.google.gerrit.acceptance.AbstractGitDaemonTest;
@@ -32,7 +29,7 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.RefNames;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
-import com.googlesource.gerrit.modules.gitrefsfilter.ChangeCacheKey;
+import com.gerritforge.gerrit.modules.gitrefsfilter.ChangeCacheKey;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.Duration;

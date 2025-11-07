@@ -60,7 +60,7 @@ one extra settings to ```gerrit.config```:
 
 ```
 [gerrit]
-  installModule = com.googlesource.gerrit.modules.gitrefsfilter.RefsFilterModule
+  installModule = com.gerritforge.gerrit.modules.gitrefsfilter.RefsFilterModule
 ```
 
 ## How to configure filtering

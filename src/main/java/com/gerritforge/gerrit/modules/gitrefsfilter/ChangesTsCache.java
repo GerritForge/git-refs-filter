@@ -1,17 +1,14 @@
-// Copyright (C) 2022 The Android Open Source Project
+// Copyright (C) 2025 GerritForge, Inc.
 //
-// Licensed under the Apache License, Version 2.0 (the "License");
+// Licensed under the BSL 1.1 (the "License");
 // you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-// http://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-package com.googlesource.gerrit.modules.gitrefsfilter;
+package com.gerritforge.gerrit.modules.gitrefsfilter;
 
 import com.google.common.cache.CacheLoader;
 import com.google.gerrit.server.cache.CacheModule;
@@ -21,21 +18,21 @@ import com.google.inject.Module;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 
-public class OpenChangesCache {
-  public static final String OPEN_CHANGES_CACHE = "open_changes";
+public class ChangesTsCache {
+  public static final String CHANGES_CACHE_TS = "changes_ts";
 
   public static Module module() {
     return new CacheModule() {
       @Override
       protected void configure() {
-        cache(OPEN_CHANGES_CACHE, ChangeCacheKey.class, new TypeLiteral<Boolean>() {})
+        cache(CHANGES_CACHE_TS, ChangeCacheKey.class, new TypeLiteral<Long>() {})
             .loader(Loader.class);
       }
     };
   }
 
   @Singleton
-  static class Loader extends CacheLoader<ChangeCacheKey, Boolean> {
+  static class Loader extends CacheLoader<ChangeCacheKey, Long> {
     private final ChangeNotes.Factory changeNotesFactory;
 
     @Inject
@@ -44,11 +41,12 @@ public class OpenChangesCache {
     }
 
     @Override
-    public Boolean load(ChangeCacheKey key) throws Exception {
-      ChangeNotes changeNotes =
-          changeNotesFactory.createChecked(
-              key.repo(), key.project(), key.changeId(), key.changeRevision());
-      return changeNotes.getChange().getStatus().isOpen();
+    public Long load(ChangeCacheKey key) throws Exception {
+      return changeNotesFactory
+          .createChecked(key.repo(), key.project(), key.changeId(), key.changeRevision())
+          .getChange()
+          .getLastUpdatedOn()
+          .toEpochMilli();
     }
   }
 }

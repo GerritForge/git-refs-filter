@@ -1,10 +1,7 @@
-// Copyright (C) 2018 The Android Open Source Project
+// Copyright (C) 2025 GerritForge, Inc.
 //
-// Licensed under the Apache License, Version 2.0 (the "License");
+// Licensed under the BSL 1.1 (the "License");
 // you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-// http://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -27,9 +24,9 @@ import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.inject.Inject;
 import com.google.inject.Module;
-import com.googlesource.gerrit.modules.gitrefsfilter.FilterRefsCapability;
-import com.googlesource.gerrit.modules.gitrefsfilter.FilterRefsConfig;
-import com.googlesource.gerrit.modules.gitrefsfilter.RefsFilterModule;
+import com.gerritforge.gerrit.modules.gitrefsfilter.FilterRefsCapability;
+import com.gerritforge.gerrit.modules.gitrefsfilter.FilterRefsConfig;
+import com.gerritforge.gerrit.modules.gitrefsfilter.RefsFilterModule;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.List;
