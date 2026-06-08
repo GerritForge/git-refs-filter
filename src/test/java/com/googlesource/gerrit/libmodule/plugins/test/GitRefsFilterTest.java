@@ -158,7 +158,7 @@ public class GitRefsFilterTest extends AbstractGitDaemonTest {
     Change.Id changeId = Change.id(createChangeAndAbandon());
     Ref metaRef = getMetaId(changeId);
 
-    getRefs(cloneProjectChangesRefs(user));
+    assertThat(getRefs(cloneProjectChangesRefs(user))).isNotEmpty();
 
     assertThat(changeOpenCache.asMap().size()).isEqualTo(1);
 
@@ -175,7 +175,7 @@ public class GitRefsFilterTest extends AbstractGitDaemonTest {
   @Test
   public void testShouldCacheChangeKeyContainRepoAfterDeserializing() throws Exception {
     Change.Id changeId = Change.id(createChangeAndAbandon());
-    getRefs(cloneProjectChangesRefs(user));
+    assertThat(getRefs(cloneProjectChangesRefs(user))).isNotEmpty();
 
     assertThat(changeOpenCache.asMap().size()).isEqualTo(1);
 
@@ -210,7 +210,7 @@ public class GitRefsFilterTest extends AbstractGitDaemonTest {
     Change.Id changeId = Change.id(createChangeAndAbandon());
     Ref metaRef = getMetaId(changeId);
 
-    getRefs(cloneProjectChangesRefs(user));
+    assertThat(getRefs(cloneProjectChangesRefs(user))).isNotEmpty();
 
     assertThat(changesTsCache.asMap().size()).isEqualTo(1);
 

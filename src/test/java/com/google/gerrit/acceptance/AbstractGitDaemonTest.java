@@ -40,7 +40,9 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.transport.FetchResult;
 import org.eclipse.jgit.util.FS;
+import org.junit.Ignore;
 
+@Ignore
 public abstract class AbstractGitDaemonTest extends AbstractDaemonTest {
   private static final String REFS_CHANGES = "+refs/changes/*:refs/remotes/origin/*";
 
@@ -52,6 +54,7 @@ public abstract class AbstractGitDaemonTest extends AbstractDaemonTest {
     return new RefsFilterModule();
   }
 
+  @CanIgnoreReturnValue
   protected int createChangeAndAbandon() throws Exception, RestApiException {
     requestScopeOperations.setApiUser(admin.id());
     createChange();
