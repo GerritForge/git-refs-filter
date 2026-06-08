@@ -11,11 +11,12 @@
 
 package com.googlesource.gerrit.libmodule.plugins.test;
 
-import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.acceptance.WaitUtil.waitUntil;
 import static com.gerritforge.gerrit.modules.gitrefsfilter.ChangesTsCache.CHANGES_CACHE_TS;
 import static com.gerritforge.gerrit.modules.gitrefsfilter.OpenChangesCache.OPEN_CHANGES_CACHE;
+import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.WaitUtil.waitUntil;
 
+import com.gerritforge.gerrit.modules.gitrefsfilter.ChangeCacheKey;
 import com.google.common.cache.LoadingCache;
 import com.google.gerrit.acceptance.AbstractGitDaemonTest;
 import com.google.gerrit.acceptance.GitUtil;
@@ -29,7 +30,6 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.RefNames;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
-import com.gerritforge.gerrit.modules.gitrefsfilter.ChangeCacheKey;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.Duration;
