@@ -16,8 +16,6 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
 import java.util.concurrent.atomic.AtomicReference;
-
-import com.gerritforge.gerrit.modules.gitrefsfilter.AutoValue_ChangeCacheKey;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 
