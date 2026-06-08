@@ -13,6 +13,10 @@ package com.google.gerrit.acceptance;
 
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowCapability;
 
+import com.gerritforge.gerrit.modules.gitrefsfilter.FilterRefsCapability;
+import com.gerritforge.gerrit.modules.gitrefsfilter.FilterRefsConfig;
+import com.gerritforge.gerrit.modules.gitrefsfilter.RefsFilterModule;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.AccountGroup;
@@ -24,9 +28,6 @@ import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.inject.Inject;
 import com.google.inject.Module;
-import com.gerritforge.gerrit.modules.gitrefsfilter.FilterRefsCapability;
-import com.gerritforge.gerrit.modules.gitrefsfilter.FilterRefsConfig;
-import com.gerritforge.gerrit.modules.gitrefsfilter.RefsFilterModule;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.List;
@@ -39,7 +40,9 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.transport.FetchResult;
 import org.eclipse.jgit.util.FS;
+import org.junit.Ignore;
 
+@Ignore
 public abstract class AbstractGitDaemonTest extends AbstractDaemonTest {
   private static final String REFS_CHANGES = "+refs/changes/*:refs/remotes/origin/*";
 
@@ -51,6 +54,7 @@ public abstract class AbstractGitDaemonTest extends AbstractDaemonTest {
     return new RefsFilterModule();
   }
 
+  @CanIgnoreReturnValue
   protected int createChangeAndAbandon() throws Exception, RestApiException {
     requestScopeOperations.setApiUser(admin.id());
     createChange();
