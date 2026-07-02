@@ -9,7 +9,11 @@ load(
 gerrit_plugin(
     name = "git-refs-filter",
     srcs = glob(["src/main/java/**/*.java"]),
+    manifest_entries = [
+        "Gerrit-HttpModule: com.gerritforge.gerrit.plugins.bsl.HttpModule",
+    ],
     resources = glob(["src/main/resources/**/*"]),
+    deps = ["//plugins/gerrit-bsl-license"],
 )
 
 junit_tests(
