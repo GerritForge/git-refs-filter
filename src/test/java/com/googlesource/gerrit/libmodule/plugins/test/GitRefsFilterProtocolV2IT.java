@@ -16,6 +16,7 @@ import static com.google.gerrit.acceptance.WaitUtil.waitUntil;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.common.base.CharMatcher;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -112,7 +113,7 @@ public class GitRefsFilterProtocolV2IT extends AbstractGitDaemonTest {
         execute(
             ImmutableList.<String>builder()
                 .add(GIT_FETCH)
-                .add(url.get(null) + "/" + project.get())
+                .add(CharMatcher.is('/').trimTrailingFrom(url.get(null)) + "/" + project.get())
                 .add(refs)
                 .build(),
             ImmutableMap.of("GIT_TRACE_PACKET", "1"));
