@@ -39,6 +39,30 @@
       },
       "revId": "828ef851fa3ee7e4a510f0b2b9fc29c442300740",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c436d3a0_179e6c37",
+        "filename": "src/test/java/com/googlesource/gerrit/libmodule/plugins/test/GitRefsFilterProtocolV2IT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1019121
+      },
+      "writtenOn": "2026-07-06T20:02:21Z",
+      "side": 1,
+      "message": "Good call 👍. Done",
+      "parentUuid": "19db6250_03978216",
+      "range": {
+        "startLine": 116,
+        "startChar": 21,
+        "endLine": 116,
+        "endChar": 78
+      },
+      "revId": "828ef851fa3ee7e4a510f0b2b9fc29c442300740",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
