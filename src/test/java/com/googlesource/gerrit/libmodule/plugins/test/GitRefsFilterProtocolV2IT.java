@@ -112,7 +112,7 @@ public class GitRefsFilterProtocolV2IT extends AbstractGitDaemonTest {
         execute(
             ImmutableList.<String>builder()
                 .add(GIT_FETCH)
-                .add(url.get(null) + "/" + project.get())
+                .add(url.get(null) + project.get())
                 .add(refs)
                 .build(),
             ImmutableMap.of("GIT_TRACE_PACKET", "1"));
